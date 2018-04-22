@@ -20,4 +20,14 @@ public class MembersServiceImpl implements MembersService {
     {
         return repository.findAll();
     }
+
+    @Override
+    public Members addMembers(Members members) {
+        return repository.save(members);
+    }
+
+    @Override
+    public Members getUserByEmail(String email) {
+        return repository.findMembersByEmail(email);
+    }
 }
