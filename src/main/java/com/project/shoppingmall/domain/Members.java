@@ -22,4 +22,9 @@ public class Members implements Serializable{
     private String phone;
     private String address;
 
+    @ManyToMany()
+    @JoinTable(name="members_roles")
+    
+
+
 }
