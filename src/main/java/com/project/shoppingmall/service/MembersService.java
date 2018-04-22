@@ -5,5 +5,8 @@ import com.project.shoppingmall.domain.Members;
 import java.util.List;
 
 public interface MembersService {
-    public List<Members> getMembers();
+    List<Members> getMembers();
+    Members addMembers(Members members);
+    Members getUserByEmail(String email);
+
 }

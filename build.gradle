@@ -92,7 +92,7 @@ dependencies {
 	compile("com.querydsl:querydsl-sql-spatial:${querydslVersion}")
 	compile("com.querydsl:querydsl-jpa:${querydslVersion}")
 	compile group: 'org.webjars', name: 'webjars-locator', version: '0.34'
-	compile group: 'org.webjars', name: 'bootstrap', version: '4.1.0'
+	compile group: 'org.webjars', name: 'bootstrap', version: '3.3.7-1'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	//testCompile('org.springframework.security:spring-security-test')
 }
