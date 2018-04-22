@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="members")
@@ -22,9 +23,10 @@ public class Members implements Serializable{
     private String phone;
     private String address;
 
-    @ManyToMany()
-    @JoinTable(name="members_roles")
-    
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name="members_roles",joinColumns = @JoinColumn(name="members_id"),inverseJoinColumns = @JoinColumn(name="roles_id"))
+    private List<Roles> rolesList;
+
 
 
 }
