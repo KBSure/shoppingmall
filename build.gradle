@@ -91,6 +91,6 @@ dependencies {
 	runtime('mysql:mysql-connector-java')
 	compile("com.querydsl:querydsl-sql-spatial:${querydslVersion}")
 	compile("com.querydsl:querydsl-jpa:${querydslVersion}")
-	//testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 	//testCompile('org.springframework.security:spring-security-test')
 }
