@@ -87,7 +87,6 @@ dependencies {
 	compile("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('org.springframework.boot:spring-boot-devtools')
-	runtime('mysql:mysql-connector-java')
 	compile('org.projectlombok:lombok')
 	runtime('mysql:mysql-connector-java')
 	compile("com.querydsl:querydsl-sql-spatial:${querydslVersion}")
