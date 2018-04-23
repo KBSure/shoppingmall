@@ -1,12 +1,12 @@
 package com.project.shoppingmall.service;
 
-import com.project.shoppingmall.domain.Members;
+import com.project.shoppingmall.domain.Member;
 
 import java.util.List;
 
 public interface MembersService {
-    List<Members> getMembers();
-    Members addMembers(Members members);
-    Members getUserByEmail(String email);
+    List<Member> getMembers();
+    Member addMembers(Member member);
+    Member getUserByEmail(String email);
 
 }

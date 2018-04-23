@@ -1,6 +1,6 @@
 package com.project.shoppingmall.service.impl;
 
-import com.project.shoppingmall.domain.Members;
+import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.repository.MembersRepository;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +16,18 @@ public class MembersServiceImpl implements MembersService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Members> getMembers()
+    public List<Member> getMembers()
     {
         return repository.findAll();
     }
 
     @Override
-    public Members addMembers(Members members) {
-        return repository.save(members);
+    public Member addMembers(Member member) {
+        return repository.save(member);
     }
 
     @Override
-    public Members getUserByEmail(String email) {
+    public Member getUserByEmail(String email) {
         return repository.findMembersByEmail(email);
     }
 }

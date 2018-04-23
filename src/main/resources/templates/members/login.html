@@ -1,69 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel='stylesheet' href='/webjars/bootstrap/3.3.7-1/css/bootstrap.css'>
-    <title>쇼핑몰</title>
+    <title>회원가입폼</title>
 </head>
-
 <body>
-
-<!--탑 네이게이션 시작-->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/boards"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;쇼핑몰</a>
-        </div>
-
-        <div id="navbar" class="navbar-collapse collapse">
-            <!--/* 로그인 안했을때만 노출 시작 */-->
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user/login"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;로그인</a></li>
-                <li><a href="/user/signup">회원가입</a></li>
-            </ul>
-            <!--/* 로그인 안했을때만 노출 끝 */-->
-
-            <!--/* 로그인 했을때만 노출 시작 */-->
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user/update"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;${sessionScope.user.nickname}</a></li>
-                <li><a href="/user/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;로그아웃</a></li>
-            </ul>
-            <!--/* 로그인 했을때만 노출 끝 */-->
-        </div>
-    </div>
-</nav>
-<!--탑 네비게이션 끝-->
-<br/>
-<br/>
-<br/>
-<div class="container-fluid col-md-offset-4 col-md-4">
-    <h1 class="display-1">로그인 하기</h1>
-    <form action="/user/login" method="post">
-
-        <div class="form-group">
-            <input type="text" class="form-control" id="loginId" name="id" placeholder="ID" onchange="">
-            <small id="loginIdHelp" class="form-text text-muted" style="display: none;color: #D32F2F">존재하지 않는 아이디 입니다.</small>
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" id="loginPwd" name="pwd" placeholder="PassWord">
-        </div>
-        <input type="hidden" name="referer" value="${referer}">
-        <div>
-            Find <a class="nav-link" href="/user/findid">Id</a> or <a class="nav-link" href="/user/findpwd">Password</a>
-        </div>
-        &nbsp;
-        <div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-        </div>
-    </form>
-</div>
-
+<h1>로그인</h1>
+<form method="post" th:action="@{/members/login}"action="#">
+    <p>email: <input type="text" name="email"/></p>
+    <p>password: <input type="password" name="passwd" /></p>
+    <p>Remember Me: <input type="checkbox" name="remember-me" /></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
 </body>
-    <script src="/webjars/jquery/1.11.1/jquery.js"></script>
-    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.js"></script>
 </html>
