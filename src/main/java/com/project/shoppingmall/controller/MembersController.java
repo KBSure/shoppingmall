@@ -8,10 +8,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,26 +24,17 @@ public class MembersController {
 	public String loginForm() {
 		return "members/login";
 	}
-	@GetMapping("/main")
-	public String mainForm() {
-		return "members/main";
-	}
-	@GetMapping("/error")
-	public String errorForm() {
-		return "members/error";
-	}
+
 	@GetMapping("/join")
-    public String joinForm(ModelMap modelMap) {
-		Member member = new Member();
-		modelMap.addAttribute("member", member);//why?
-	    return "members/join";
+    public String joinForm( ) {
+		return "members/join";
     }
 
 	@PostMapping(path = "join")
-	public String join(@ModelAttribute Member member){
+	public String join(@ModelAttribute Member member){ //Thymeleaf이용시 서버로 전달값 ModelAttribute로 받음
 
 		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		member.setPasswd(passwordEncoder.encode(member.getPasswd())); //사용자가 입력한 패스워드를 암호화 해서 저장
+		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
 
 		List<Role> roleList = new ArrayList<>();
 		Role userRole = new Role();
@@ -60,5 +48,58 @@ public class MembersController {
 		System.out.println(saveMember.getEmail());
 		return "redirect:/members/main";
 	}
-    
+
+	@GetMapping(path="/findid")
+	public String findIdForm()
+	{
+		return "members/find_id";
+	}
+
+	@PostMapping(path="/findid")
+	public String findId()
+	{
+		return "redirect:/result";
+	}
+
+	@GetMapping(path="/findpwd")
+	public String findPasswdForm()
+	{
+		return "members/find_passwd";
+	}
+
+	@PostMapping(path="/findpwd")
+	public String findPasswd()
+	{
+		return "redirect:/result";
+	}
+
+	@GetMapping(path="/update/{id}")
+	public String updateAccountForm(@PathVariable("id") long id)
+	{
+		return "members/account";
+	}
+
+	@PutMapping(path="/update/{id}")
+	public String updateAccount(@PathVariable("id") long id)
+	{
+		return "members/account";
+	}
+
+	@DeleteMapping(path="/update/{id}")
+	public String dropOut(@PathVariable("id") long id)
+	{
+		return "main/main";
+	}
+
+	@GetMapping(path="/update/{id}/passwd")
+	public String updatePasswdForm(@PathVariable("id") long id)
+	{
+		return "members/passwd";
+	}
+
+	@PutMapping(path="/update/{id}/passwd")
+	public String updatePasswd(@PathVariable("id") long id)
+	{
+		 return "members/passwd";
+	}
 }
