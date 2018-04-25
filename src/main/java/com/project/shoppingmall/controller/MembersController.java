@@ -49,57 +49,47 @@ public class MembersController {
 		return "redirect:/members/main";
 	}
 
-	@GetMapping(path="/findid")
-	public String findIdForm()
-	{
+	@GetMapping(path="/findid") public String findIdForm() {
 		return "members/find_id";
 	}
 
 	@PostMapping(path="/findid")
-	public String findId()
-	{
+	public String findId() {
 		return "redirect:/result";
 	}
 
 	@GetMapping(path="/findpwd")
-	public String findPasswdForm()
-	{
+	public String findPasswdForm() {
 		return "members/find_passwd";
 	}
 
 	@PostMapping(path="/findpwd")
-	public String findPasswd()
-	{
+	public String findPasswd() {
 		return "redirect:/result";
 	}
 
 	@GetMapping(path="/update/{id}")
-	public String updateAccountForm(@PathVariable("id") long id)
-	{
+	public String updateAccountForm(@PathVariable("id") long id) {
 		return "members/account";
 	}
 
 	@PutMapping(path="/update/{id}")
-	public String updateAccount(@PathVariable("id") long id)
-	{
+	public String updateAccount(@PathVariable("id") long id) {
 		return "members/account";
 	}
 
 	@DeleteMapping(path="/update/{id}")
-	public String dropOut(@PathVariable("id") long id)
-	{
+	public String dropOut(@PathVariable("id") long id) {
 		return "main/main";
 	}
 
 	@GetMapping(path="/update/{id}/passwd")
-	public String updatePasswdForm(@PathVariable("id") long id)
-	{
+	public String updatePasswdForm(@PathVariable("id") long id) {
 		return "members/passwd";
 	}
 
 	@PutMapping(path="/update/{id}/passwd")
-	public String updatePasswd(@PathVariable("id") long id)
-	{
+	public String updatePasswd(@PathVariable("id") long id) {
 		 return "members/passwd";
 	}
 }
