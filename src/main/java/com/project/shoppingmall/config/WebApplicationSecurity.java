@@ -19,6 +19,7 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                 .requestMatchers(new AntPathRequestMatcher("/**.html")).permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/members/**").permitAll()
+                .antMatchers("/products/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .and().formLogin().loginPage("/members/login").usernameParameter("email").passwordParameter("passwd")
                 .failureUrl("/members/error")
