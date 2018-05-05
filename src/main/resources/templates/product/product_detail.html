@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">--><html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
 <th:block layout:fragment="html_head">
     <title>상품페이지</title>
 </th:block>
@@ -33,17 +36,35 @@
                         <div class="col-lg-7">
                             <br>
                             <form>
-                                <div class="form-group row">
-                                    <label for="name" class="col-md-3 col-form-label">&nbsp;상품명</label>
-                                    <div class="col-md-9">
-                                        <input type="text" readonly class="form-control-plaintext" id="name" value="상품이름">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
+                                <h2>상품이름</h2>
+                                <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
                                     <label for="price" class="col-md-3 col-form-label">&nbsp;판매가</label>
                                     <div class="col-md-9">
-                                        <input type="text" readonly class="form-control-plaintext" id="price" value="1000">
+                                        <input type="text" readonly class="form-control-plaintext" id="price" value="1000 원">
                                     </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
+                                    <label for="width" class="col-md-3 col-form-label">&nbsp;사이즈</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="width" value="200&nbsp;X&nbsp;200&nbsp;mm">
+                                    </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: 0; margin-top: 0">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="quantity">&nbsp;상품수량</label>
+                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="0">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="total">총 금액</label>
+                                        <input type="text" class="form-control-plaintext" id="total" name="total" value="1000" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="btn btn-dark col-md-5" type="button" value="장바구니">
+                                    <input class="btn btn-dark col-md-5" type="submit" value="찜하기">
+                                </div>
+                                <div class="form-group">
+                                    <input class="btn btn-success col-md-10" type="button" value="바로구매">
                                 </div>
                             </form>
                         </div>
@@ -77,5 +98,16 @@
         </div>
         <!-- /.container -->
     </main>
+</th:block>
+<th:block layout:fragment="footer_script">
+    <script>
+        $(document).ready(function () {
+            $("#quantity").on("click", function () {
+                if($("#quantity").val() < 0) {
+                    $("#quantity").val(0);
+                }
+            });
+        });
+    </script>
 </th:block>
 </html>
