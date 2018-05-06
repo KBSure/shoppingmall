@@ -13,9 +13,9 @@ public class MembersController {
 	@Autowired
 	private MembersService membersService;
 	
-	@GetMapping("/login")
-	public String loginForm() {
-		return "members/login";
+	@GetMapping("/signin")
+	public String signinForm() {
+		return "members/signin";
 	}
 
 	@GetMapping("/join")
@@ -53,7 +53,7 @@ public class MembersController {
 
 	@GetMapping(path="/findpwd")
 	public String findPasswdForm() {
-		return "find_password";
+		return "members/find_password";
 	}
 
 	@PostMapping(path="/findpwd")

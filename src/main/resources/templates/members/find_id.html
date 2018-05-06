@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+<head th:fragment="mainHead">
+</head>
+<th:block layout:fragment="body_main">
+    <main role="main">
+        <div class="container text-center pt-5 col-md-3">
+            <form class="form-signin" method="post">
+                <h1 class="h3 mb-3 font-weight-normal pt-5">아이디찾기</h1>
+                <label for="name" class="sr-only">이름</label>
+                <input type="text" id="name" class="form-control" required autofocus>
+                <label for="password" class="sr-only">비밀번호</label>
+                <input type="password" id="password" class="form-control"required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">찾기</button>
+                <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+            </form>
+        </div>
+    </main>
+</th:block>
+</html>
