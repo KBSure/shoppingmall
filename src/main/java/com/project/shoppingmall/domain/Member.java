@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name="members")
 @Getter
 @Setter
-public class Member implements Serializable{
+public class Member implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,7 +23,7 @@ public class Member implements Serializable{
     private String phone;
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //lazy
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="members_roles",joinColumns = @JoinColumn(name="members_id"),inverseJoinColumns = @JoinColumn(name="roles_id"))
     private List<Role> roles;
 
