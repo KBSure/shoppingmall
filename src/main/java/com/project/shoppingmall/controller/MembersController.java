@@ -1,17 +1,10 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Role;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/members")
@@ -60,7 +53,7 @@ public class MembersController {
 
 	@GetMapping(path="/findpwd")
 	public String findPasswdForm() {
-		return "members/find_passwd";
+		return "find_password";
 	}
 
 	@PostMapping(path="/findpwd")
@@ -70,7 +63,7 @@ public class MembersController {
 
 	@GetMapping(path="/update/{id}")
 	public String updateAccountForm(@PathVariable("id") long id) {
-		return "members/account";
+		return "members/update_member";
 	}
 
 	@PutMapping(path="/update/{id}")
@@ -85,11 +78,11 @@ public class MembersController {
 
 	@GetMapping(path="/update/{id}/passwd")
 	public String updatePasswdForm(@PathVariable("id") long id) {
-		return "members/passwd";
+		return "password";
 	}
 
 	@PutMapping(path="/update/{id}/passwd")
 	public String updatePasswd(@PathVariable("id") long id) {
-		 return "members/passwd";
+		 return "password";
 	}
 }
