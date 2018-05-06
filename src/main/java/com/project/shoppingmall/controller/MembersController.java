@@ -61,28 +61,34 @@ public class MembersController {
 		return "redirect:/result";
 	}
 
-	@GetMapping(path="/update/{id}")
+	@GetMapping(path="/update/{id}/account")
 	public String updateAccountForm(@PathVariable("id") long id) {
 		return "members/update_member";
 	}
 
-	@PutMapping(path="/update/{id}")
-	public String updateAccount(@PathVariable("id") long id) {
-		return "members/account";
+	@GetMapping(path="/update/{id}")
+	public String contractList(@PathVariable("id") long id) {
+		return "members/contract_list";
 	}
 
-	@DeleteMapping(path="/update/{id}")
+	@GetMapping(path="/update/{id}/dropout")
+	public String dropOutForm(@PathVariable("id") long id) {
+		return "members/dropout";
+	}
+
+	@DeleteMapping(path="/update/{id}/dropout") //메인으로 리다이렉트..
 	public String dropOut(@PathVariable("id") long id) {
-		return "main/main";
+		return "members";
 	}
 
-	@GetMapping(path="/update/{id}/passwd")
+	@GetMapping(path="/update/{id}/password")
 	public String updatePasswdForm(@PathVariable("id") long id) {
-		return "password";
+		return "members/update_password";
 	}
 
-	@PutMapping(path="/update/{id}/passwd")
+	@PutMapping(path="/update/{id}/password")
 	public String updatePasswd(@PathVariable("id") long id) {
 		 return "password";
 	}
+
 }
