@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,5 +37,15 @@ public class Order implements Serializable {
         if(!member.getOrders().contains(this)) {
             member.getOrders().add(this);
         }
+    }
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+    
+    public void addOrderItem(OrderItem orderItem) {
+        if(!this.orderItems.contains(orderItem)) {
+            this.orderItems.add(orderItem);
+        }
+        orderItem.setOrder(this);
     }
 }

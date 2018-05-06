@@ -30,8 +30,8 @@ public class Wishlist implements Serializable {
     
     public void setProduct(Product product) {
         this.product = product;
-        if(!product.getCartList().contains(this)) {
-//            product.getCartList().add(this);
+        if(!member.getWishlists().contains(this)) {
+            member.getWishlists().add(this);
         }
     }
     

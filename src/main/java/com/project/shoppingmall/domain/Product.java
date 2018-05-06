@@ -51,6 +51,24 @@ public class Product implements Serializable {
         wishlist.setProduct(this);
     }
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Image> images = new ArrayList<>();
     
+    public void addImage(Image image) {
+        if(!this.images.contains(image)) {
+            this.images.add(image);
+        }
+        image.setProduct(this);
+    }
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
+    
+    public void addOrderItem(OrderItem orderItem) {
+        if(!this.orderItems.contains(orderItem)) {
+            this.orderItems.add(orderItem);
+        }
+        orderItem.setProduct(this);
+    }
     
 }
