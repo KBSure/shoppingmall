@@ -23,7 +23,7 @@ public class Member implements Serializable{
     private String phone;
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //lazy
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //lazy
     @JoinTable(name="members_roles",joinColumns = @JoinColumn(name="members_id"),inverseJoinColumns = @JoinColumn(name="roles_id"))
     private List<Role> roles;
 

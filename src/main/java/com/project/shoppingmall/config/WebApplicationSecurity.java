@@ -21,7 +21,7 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/members/**").permitAll()
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .and().formLogin().loginPage("/members/login").usernameParameter("email").passwordParameter("passwd")
+                .and().formLogin().loginPage("/members/signin").usernameParameter("email").passwordParameter("passwd")
                 .failureUrl("/members/error")
                 .defaultSuccessUrl("/members/main", true)
                 .and().logout().permitAll();
