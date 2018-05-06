@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "cart")
-public class Cart implements Serializable {
+@Table(name = "wish_list")
+public class Wishlist implements Serializable {
     
     @Id
     @GeneratedValue
@@ -23,16 +23,17 @@ public class Cart implements Serializable {
     
     public void setMember(Member member) {
         this.member = member;
-        if(!member.getCartList().contains(this)) {
-            member.getCartList().add(this);
+        if(!member.getWishlists().contains(this)) {
+            member.getWishlists().add(this);
         }
     }
     
     public void setProduct(Product product) {
         this.product = product;
         if(!product.getCartList().contains(this)) {
-            product.getCartList().add(this);
+//            product.getCartList().add(this);
         }
     }
+    
     
 }
