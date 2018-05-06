@@ -31,21 +31,21 @@ public class MembersController {
     }
 
 	@PostMapping(path = "join")
-	public String join(@ModelAttribute Member member){ //Thymeleaf이용시 서버로 전달값 ModelAttribute로 받음
+	public String join(@ModelAttribute Member member){
 
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
-
-		List<Role> roleList = new ArrayList<>();
-		Role userRole = new Role();
-		userRole.setName("USER");
-		roleList.add(userRole);
-		member.setRoles(roleList);
-
-		System.out.println("encode password : " + member.getPasswd());
-		Member saveMember = membersService.addMembers(member);
-
-		System.out.println(saveMember.getEmail());
+//		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
+//
+//		List<Role> roleList = new ArrayList<>();
+//		Role userRole = new Role();
+//		userRole.setName("USER");
+//		roleList.add(userRole);
+//		member.setRoles(roleList);
+//
+//		System.out.println("encode password : " + member.getPasswd());
+//		Member saveMember = membersService.addMembers(member);
+//
+//		System.out.println(saveMember.getEmail());
 		return "redirect:/members/main";
 	}
 
