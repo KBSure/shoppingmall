@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,14 @@ public class Role implements Serializable {
     private long id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
-    private List<Member> members;
-
+    @ManyToMany(mappedBy = "roles")
+    private List<Member> members = new ArrayList<>();
+    
+    public void addMember(Member member) {
+        members.add(member);
+        if(!member.getRoles().contains(this)) {
+            member.getRoles().add(this);
+        }
+    }
+    
 }
