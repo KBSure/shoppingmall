@@ -1,10 +1,16 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Member;
+import com.project.shoppingmall.domain.Role;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/members")
@@ -23,7 +29,7 @@ public class MembersController {
 		return "members/join";
     }
 
-	@PostMapping(path = "join")
+	@PostMapping("/join")
 	public String join(@ModelAttribute Member member){
 
 //		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -39,7 +45,7 @@ public class MembersController {
 //		Member saveMember = membersService.addMembers(member);
 //
 //		System.out.println(saveMember.getEmail());
-		return "redirect:/members/main";
+		return "redirect:/main/main";
 	}
 
 	@GetMapping(path="/findid") public String findIdForm() {
@@ -48,47 +54,52 @@ public class MembersController {
 
 	@PostMapping(path="/findid")
 	public String findId() {
-		return "redirect:/result";
+		return "members/find_result";
 	}
 
-	@GetMapping(path="/findpwd")
+	@GetMapping(path="/findpassword")
 	public String findPasswdForm() {
 		return "members/find_password";
 	}
 
-	@PostMapping(path="/findpwd")
+	@PostMapping(path="/findpassword")
 	public String findPasswd() {
-		return "redirect:/result";
+		return "members/find_result";
 	}
 
-	@GetMapping(path="/update/{id}/account")
+	@GetMapping(path="/{id}/update")
 	public String updateAccountForm(@PathVariable("id") long id) {
 		return "members/update_member";
 	}
+	@PutMapping(path="/{id}")
+	public String updateAccount()
+	{
+		return "members/update_member";
+	}
 
-	@GetMapping(path="/update/{id}")
+	@GetMapping(path="/{id}")
 	public String contractList(@PathVariable("id") long id) {
 		return "members/contract_list";
 	}
 
-	@GetMapping(path="/update/{id}/dropout")
+	@GetMapping(path="/{id}/dropout")
 	public String dropOutForm(@PathVariable("id") long id) {
 		return "members/dropout";
 	}
 
-	@DeleteMapping(path="/update/{id}/dropout") //메인으로 리다이렉트..
+	@DeleteMapping(path="/{id}") //메인으로 리다이렉트..
 	public String dropOut(@PathVariable("id") long id) {
 		return "members";
 	}
 
-	@GetMapping(path="/update/{id}/password")
+	@GetMapping(path="/{id}/password")
 	public String updatePasswdForm(@PathVariable("id") long id) {
 		return "members/update_password";
 	}
 
-	@PutMapping(path="/update/{id}/password")
+	@PutMapping(path="/{id}/password")
 	public String updatePasswd(@PathVariable("id") long id) {
-		 return "password";
+		 return "members/update_password";
 	}
 
 }
