@@ -1,5 +1,6 @@
 package com.project.shoppingmall.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "iamge")
 public class Image implements Serializable {
@@ -25,9 +27,10 @@ public class Image implements Serializable {
     private Product product;
     
     public void setProduct(Product product) {
-        this.product = product;
-        if(!product.getImages().contains(this)) {
-            product.getImages().add(this);
+        if(this.product != null) {
+            this.product.getImages().remove(this);
         }
+        product.getImages().add(this);
+        this.product = product;
     }
 }

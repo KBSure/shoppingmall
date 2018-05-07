@@ -1,5 +1,6 @@
 package com.project.shoppingmall.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "order")
 public class Order implements Serializable {
@@ -33,10 +35,11 @@ public class Order implements Serializable {
     private Member member;
     
     public void setMember(Member member) {
-        this.member = member;
-        if(!member.getOrders().contains(this)) {
-            member.getOrders().add(this);
+        if(this.member != null) {
+            this.member.getOrders().remove(this);
         }
+        this.member = member;
+        member.getOrders().add(this);
     }
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")

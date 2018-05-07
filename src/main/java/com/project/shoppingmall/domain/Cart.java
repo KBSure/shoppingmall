@@ -1,5 +1,6 @@
 package com.project.shoppingmall.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "cart")
 public class Cart implements Serializable {
@@ -22,17 +24,19 @@ public class Cart implements Serializable {
     private Product product;
     
     public void setMember(Member member) {
-        this.member = member;
-        if(!member.getCartList().contains(this)) {
-            member.getCartList().add(this);
+        if(this.member != null) {
+            this.member.getCartList().remove(this);
         }
+        this.member = member;
+        member.getCartList().add(this);
     }
     
     public void setProduct(Product product) {
-        this.product = product;
-        if(!product.getCartList().contains(this)) {
-            product.getCartList().add(this);
+        if(this.product != null) {
+            this.product.getCartList().remove(this);
         }
+        this.product = product;
+        product.getCartList().add(this);
     }
     
 }

@@ -1,5 +1,6 @@
 package com.project.shoppingmall.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "order_item")
 public class OrderItem implements Serializable {
@@ -30,17 +32,19 @@ public class OrderItem implements Serializable {
     private Product product;
     
     public void setOrder(Order order) {
-        this.order = order;
-        if(!order.getOrderItems().contains(this)) {
-            order.getOrderItems().add(this);
+        if(this.order != null) {
+            this.order.getOrderItems().remove(this);
         }
+        this.order = order;
+        order.getOrderItems().add(this);
     }
     
     public void setProduct(Product product) {
-        this.product = product;
-        if(!product.getOrderItems().contains(this)) {
-            product.getOrderItems().add(this);
+        if(this.product != null) {
+            this.product.getOrderItems().remove(this);
         }
+        this.product = product;
+        product.getOrderItems().add(this);
     }
 
 }
