@@ -24,7 +24,6 @@ public class Member implements Serializable {
     @JsonIgnore
     private String passwd;
     private String name;
-    private String phone;
     @Embedded
     private Address address;
     @Column(name = "reg_date")

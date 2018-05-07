@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "order_item")
+@Table(name = "orders_items")
 public class OrderItem implements Serializable {
     
     @Id
