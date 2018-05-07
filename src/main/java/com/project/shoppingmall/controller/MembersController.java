@@ -1,17 +1,10 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Role;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/members")
@@ -20,9 +13,9 @@ public class MembersController {
 	@Autowired
 	private MembersService membersService;
 	
-	@GetMapping("/login")
-	public String loginForm() {
-		return "members/login";
+	@GetMapping("/signin")
+	public String signinForm() {
+		return "members/signin";
 	}
 
 	@GetMapping("/join")
@@ -31,21 +24,21 @@ public class MembersController {
     }
 
 	@PostMapping(path = "join")
-	public String join(@ModelAttribute Member member){ //Thymeleaf이용시 서버로 전달값 ModelAttribute로 받음
+	public String join(@ModelAttribute Member member){
 
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
-
-		List<Role> roleList = new ArrayList<>();
-		Role userRole = new Role();
-		userRole.setName("USER");
-		roleList.add(userRole);
-		member.setRoles(roleList);
-
-		System.out.println("encode password : " + member.getPasswd());
-		Member saveMember = membersService.addMembers(member);
-
-		System.out.println(saveMember.getEmail());
+//		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
+//
+//		List<Role> roleList = new ArrayList<>();
+//		Role userRole = new Role();
+//		userRole.setName("USER");
+//		roleList.add(userRole);
+//		member.setRoles(roleList);
+//
+//		System.out.println("encode password : " + member.getPasswd());
+//		Member saveMember = membersService.addMembers(member);
+//
+//		System.out.println(saveMember.getEmail());
 		return "redirect:/members/main";
 	}
 
@@ -60,7 +53,7 @@ public class MembersController {
 
 	@GetMapping(path="/findpwd")
 	public String findPasswdForm() {
-		return "members/find_passwd";
+		return "members/find_password";
 	}
 
 	@PostMapping(path="/findpwd")
@@ -68,28 +61,34 @@ public class MembersController {
 		return "redirect:/result";
 	}
 
-	@GetMapping(path="/update/{id}")
+	@GetMapping(path="/update/{id}/account")
 	public String updateAccountForm(@PathVariable("id") long id) {
-		return "members/account";
+		return "members/update_member";
 	}
 
-	@PutMapping(path="/update/{id}")
-	public String updateAccount(@PathVariable("id") long id) {
-		return "members/account";
+	@GetMapping(path="/update/{id}")
+	public String contractList(@PathVariable("id") long id) {
+		return "members/contract_list";
 	}
 
-	@DeleteMapping(path="/update/{id}")
+	@GetMapping(path="/update/{id}/dropout")
+	public String dropOutForm(@PathVariable("id") long id) {
+		return "members/dropout";
+	}
+
+	@DeleteMapping(path="/update/{id}/dropout") //메인으로 리다이렉트..
 	public String dropOut(@PathVariable("id") long id) {
-		return "main/main";
+		return "members";
 	}
 
-	@GetMapping(path="/update/{id}/passwd")
+	@GetMapping(path="/update/{id}/password")
 	public String updatePasswdForm(@PathVariable("id") long id) {
-		return "members/passwd";
+		return "members/update_password";
 	}
 
-	@PutMapping(path="/update/{id}/passwd")
+	@PutMapping(path="/update/{id}/password")
 	public String updatePasswd(@PathVariable("id") long id) {
-		 return "members/passwd";
+		 return "password";
 	}
+
 }

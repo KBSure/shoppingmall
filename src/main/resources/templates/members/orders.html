@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+<th:block layout:fragment="html_head">
+    <link th:href="@{/webjars/jquery-ui/jquery-ui.css}" href="" rel="stylesheet">
+    <title>주문목록</title>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br/>
+    <br/>
+    <main role="main">
+        <!-- Page Content -->
+        <div class="container-fluid col-lg-11">
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <h1 class="my-4">Shop Name</h1>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">Category 1</a>
+                        <a href="#" class="list-group-item">Category 2</a>
+                        <a href="#" class="list-group-item">Category 3</a>
+                    </div>
+                </div>
+                <!-- /.col-lg-3 -->
+
+                <div class="col-lg-9">
+                    <br>
+                    <nav class="navbar navbar-light">
+                        <span class="font-weight-bold" style="font-size: 2rem;">주문목록</span>
+                        <form class="form-group form-inline justify-content-end" style="padding-top: 1rem;">
+                            <input class="form-control form-control-sm col-md-3 text-center" type="text" id="startDate" readonly>
+                            ~
+                            <input class="form-control form-control-sm col-md-3 text-center" type="text" id="endDate" readonly>
+                            &nbsp;
+                            <select class="form-control form-control-sm col-md-3">
+                                <option>주문완료</option>
+                                <option>배송준비중</option>
+                                <option>배송완료</option>
+                            </select>
+                            &nbsp;
+                            <button class="btn btn-primary btn-sm">조회하기</button>
+                        </form>
+                    </nav>
+                    <br>
+
+                    <table class="table table-striped text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">상품명</th>
+                            <th scope="col">주문상태</th>
+                            <th scope="col">가격</th>
+                            <th scope="col">구매날짜</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /.table -->
+                    <br>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">&lt;</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">&gt;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- /.col-lg-9 -->
+
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+    </main>
+</th:block>
+<th:block layout:fragment="footer_script">
+    <script th:src="@{/webjars/jquery-ui/jquery-ui.js}" src=""></script>
+    <script>
+        var dateFormat = "yy/mm/dd";
+        $.datepicker.setDefaults({
+            dateFormat: 'yy-mm',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            changeMonth: true,
+            maxDate: "0",
+            dateFormat: dateFormat
+        });
+
+        $(document).ready(function() {
+            $("#startDate").datepicker({
+                showOn: "button",
+                buttonImage: "/images/calendar_24.png",
+                buttonImageOnly: true,
+                buttonText: "Select date",
+            });
+            $("#endDate").datepicker({
+                showOn: "button",
+                buttonImage: "/images/calendar_24.png",
+                buttonImageOnly: true,
+                buttonText: "Select date",
+            });
+            $("#startDate").on( "change", function() {
+                var selected = $.datepicker.parseDate(dateFormat, $("#startDate").val());
+                $("#endDate").datepicker( "option", "minDate", selected);
+            });
+            $("#endDate").on( "change", function() {
+                var selected = $.datepicker.parseDate(dateFormat, $("#endDate").val());
+                $("#startDate").datepicker( "option", "maxDate", selected);
+            });
+        });
+    </script>
+</th:block>
+</html>
