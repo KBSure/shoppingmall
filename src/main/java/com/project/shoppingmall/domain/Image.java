@@ -18,11 +18,15 @@ public class Image implements Serializable {
     @GeneratedValue
     private Long id;
     private String name;
+    
     @Column(name = "mime_type")
     private String mimeType;
+    
     @Enumerated(EnumType.STRING)
     private ImageType type;
     private int size;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
     

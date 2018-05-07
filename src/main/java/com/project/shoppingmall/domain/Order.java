@@ -20,17 +20,22 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    
     @Column(name = "reg_date")
     private LocalDateTime regDate;
+    
     @Embedded
     private Address address;
+    
     @Embedded
     private BankAccount bankAccount;
+    
     @Column(name = "shipping_charge")
     private int shippingCharge;
     private String receiver;
     private String message;
     
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "members_id")
     private Member member;
     

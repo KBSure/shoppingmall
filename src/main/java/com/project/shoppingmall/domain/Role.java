@@ -16,7 +16,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class Role implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     private String name;
 

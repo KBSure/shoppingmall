@@ -18,17 +18,20 @@ import java.util.List;
 @Table(name="members")
 public class Member implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     private String email;
+    
     @JsonIgnore
     private String passwd;
     private String name;
+    
     @Embedded
     private Address address;
+    
     @Column(name = "reg_date")
     private LocalDateTime regDate;
-
+    
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "members_roles"
             , joinColumns = @JoinColumn(name = "members_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))

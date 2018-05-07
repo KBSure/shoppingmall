@@ -12,13 +12,14 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "orders_items")
+@Table(name = "order_item")
 public class OrderItem implements Serializable {
     
     @Id
     @GeneratedValue
     private Long id;
     private String invoice;
+    
     @Enumerated(EnumType.STRING)
     private DeliveryState state;
     private String company;
@@ -26,8 +27,12 @@ public class OrderItem implements Serializable {
     private LocalDateTime start_date;
     private LocalDateTime end_date;
     private int hit;
-    @JoinColumn(name = "order_id")
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "orders_id")
     private Order order;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
     

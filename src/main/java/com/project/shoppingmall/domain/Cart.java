@@ -18,8 +18,12 @@ public class Cart implements Serializable {
     @GeneratedValue
     private Long id;
     private int quantity;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="members_id")
     private Member member;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
     

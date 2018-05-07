@@ -21,15 +21,18 @@ public class Product implements Serializable {
     @GeneratedValue
     private Long id;
     private String name;
+    
     @Column(name = "shipping_charge")
     private int shippingCharge;
     private int width;
     private int height;
     private int quantity;
     private int price;
+    
     @Lob
     private String content;
     private boolean bestSeller;
+    
     @Column(name = "reg_date")
     private LocalDateTime regDate;
     
