@@ -20,3 +20,9 @@ spring:
     url: jdbc:mysql://localhost:3306/shoppingmall
     username: fastcampus
     password: fastcampus
+
+logging:
+  level:
+    root: info
+    com:
+      project: debug
