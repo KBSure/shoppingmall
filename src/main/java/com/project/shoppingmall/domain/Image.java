@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "iamge")
+@Table(name = "image")
 public class Image implements Serializable {
     
     @Id
