@@ -1,4 +1,6 @@
 package com.project.shoppingmall.repository;
 
-public interface PersistenceLoginsRepository {
+import com.project.shoppingmall.base.JpaQueryDslPredicateRepository;
+
+public interface PersistenceLoginsRepository extends JpaQueryDslPredicateRepository {
 }

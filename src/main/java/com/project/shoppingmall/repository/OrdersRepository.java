@@ -1,4 +1,6 @@
 package com.project.shoppingmall.repository;
 
-public interface OrdersRepository {
+import com.project.shoppingmall.base.JpaQueryDslPredicateRepository;
+
+public interface OrdersRepository extends JpaQueryDslPredicateRepository {
 }
