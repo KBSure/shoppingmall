@@ -31,20 +31,24 @@ public class MembersController {
 
 	@PostMapping("/join")
 	public String join(@ModelAttribute Member member){
+		//유효성 검사
+			//if(유효성 검사에 에러가 있음)
+				//return "members/join"
+			//if(패스워드 != 패스워드)
+				//bindingResult.error
 
-//		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
-//
-//		List<Role> roleList = new ArrayList<>();
-//		Role userRole = new Role();
-//		userRole.setName("USER");
-//		roleList.add(userRole);
-//		member.setRoles(roleList);
-//
-//		System.out.println("encode password : " + member.getPasswd());
-//		Member saveMember = membersService.addMembers(member);
-//
-//		System.out.println(saveMember.getEmail());
+
+		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
+
+		List<Role> roleList = new ArrayList<>();
+		Role userRole = new Role();
+		userRole.setName("USER");
+		roleList.add(userRole);
+		member.setRoles(roleList);
+
+		Member saveMember = membersService.addMembers(member);
+
 		return "redirect:/main/main";
 	}
 

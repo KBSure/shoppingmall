@@ -12,6 +12,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
 
+    //TODO
+    //세션관리작성예정
+        //세션유효시간설정
+        //다중로그인제어
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
