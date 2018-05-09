@@ -27,6 +27,7 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/members/**").permitAll() //일단 DB에 SELECT로 가져와서 권한 검사는 함..
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/order/**").permitAll()
                 .and().formLogin()
                 .loginPage("/members/signin").usernameParameter("email").passwordParameter("password")//이게 없으면 스프링 기본 폼 사용됨
                 .failureUrl("/main/error")

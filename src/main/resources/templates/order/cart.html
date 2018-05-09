@@ -85,15 +85,21 @@
                결제 금액 : 총 23,700원
            </div>
            <div class="row justify-content-end">
-               <button class="btn btn-primary btn-sm">선택 찜하기</button>
+               <form method="POST" action="/api/wishlist">
+                   <input class="btn btn-primary btn-sm" type="submit" value="선택 찜하기"></input>
+               </form>
                &nbsp;&nbsp;&nbsp;
-               <button class="btn btn-secondary btn-sm">선택 삭제</button>
+               <form method="POST" action="/order/cart">
+                   <input name="_method" type="hidden" value="DELETE">
+                   <input class="btn btn-secondary btn-sm" type="submit" value="선택 삭제"></input>
+               </form>
            </div>
            <br>
            <div class="row justify-content-center">
                <button class="btn btn-primary ">구매하기</button>
                &nbsp;&nbsp;&nbsp;&nbsp;
-               <button class="btn btn-secondary ">계속 쇼핑하기</button>
+
+                   <button class="btn btn-secondary" >계속 쇼핑하기</button>
            </div>
        </div>
 
