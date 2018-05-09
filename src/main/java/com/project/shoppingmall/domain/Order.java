@@ -18,7 +18,7 @@ import java.util.List;
 public class Order implements Serializable {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(name = "reg_date")
