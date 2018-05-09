@@ -1,17 +1,33 @@
 package com.project.shoppingmall.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
     //장바구니
     @GetMapping("/cart")
-    public String cart(@RequestParam(name = "prd_cate")String prdCate, @RequestParam(name = "page")int page,
-                       @RequestParam(name = "prd_id")Long prdId, @RequestParam(name = "prd_cnt")int prdCnt){
+    public String cart(){
         return "/order/cart";
+    }
+    
+    @PostMapping("/cart")
+    @ResponseBody
+    public ResponseEntity<Void> registCart() {
+        
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @PostMapping("/wishlist")
+    @ResponseBody
+    public ResponseEntity<String> registWishlist(HttpServletResponse response) {
+    
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //주문페이지
