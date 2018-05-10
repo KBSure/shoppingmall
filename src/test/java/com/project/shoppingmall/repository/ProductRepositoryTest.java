@@ -1,5 +1,6 @@
 package com.project.shoppingmall.repository;
 
+import com.project.shoppingmall.domain.Category;
 import com.project.shoppingmall.domain.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,35 +26,38 @@ import static org.junit.Assert.*;
 public class ProductRepositoryTest {
     
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository productRepository;
     
     @Autowired
     private EntityManager entityManager;
     
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
     @Test
     public void testNotNull() {
-        assertNotNull(repository);
+        assertNotNull(productRepository);
     }
     
     @Test
     public void testFindAll() {
-        List<Product> products = repository.findAll();
+        List<Product> products = productRepository.findAll();
     
         assertFalse(products.isEmpty());
     }
     
     @Test
     public void testSaveProduct() {
-        List<Product> products = repository.findAll();
+        List<Product> products = productRepository.findAll();
         int beforeSize = products.size();
     
-        Product saveProduct = repository.save(createTestProduct());
+        Product saveProduct = productRepository.save(createTestProduct());
         assertNotNull(saveProduct);
         
-        int afterSize = repository.findAll().size();
+        int afterSize = productRepository.findAll().size();
         assertTrue(beforeSize == afterSize - 1);
     
-        Product findProduct = repository.findById(saveProduct.getId()).get();
+        Product findProduct = productRepository.findById(saveProduct.getId()).get();
         assertNotNull(findProduct);
         
         assertTrue(saveProduct == findProduct);
@@ -63,14 +66,14 @@ public class ProductRepositoryTest {
     @Test
     public void testUpdateProductQuantity() {
         Product testProduct = createTestProduct();
-        Product saveProduct = repository.save(testProduct);
-        Product findProduct = repository.findById(saveProduct.getId()).get();
+        Product saveProduct = productRepository.save(testProduct);
+        Product findProduct = productRepository.findById(saveProduct.getId()).get();
     
         int originQuantity = findProduct.getQuantity();
         findProduct.setQuantity(originQuantity + 10);
         entityManager.flush();
     
-        Product updateProduct = repository.findById(findProduct.getId()).get();
+        Product updateProduct = productRepository.findById(findProduct.getId()).get();
         
         assertEquals(updateProduct.getQuantity(), originQuantity + 10);
     }
@@ -78,14 +81,14 @@ public class ProductRepositoryTest {
     @Test
     public void testFindAllWithPagable() {
         List<Product> testProducts = createTestProductList(10);
-        testProducts.forEach(p -> repository.save(p));
+        testProducts.forEach(p -> productRepository.save(p));
         entityManager.flush();
         
         int pageIndex = 0;
         int pageSize = 3;
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         
-        Page<Product> products = repository.findAll(pageable);
+        Page<Product> products = productRepository.findAll(pageable);
         
         assertEquals(pageSize, products.getContent().size());
     }
@@ -93,11 +96,12 @@ public class ProductRepositoryTest {
     @Test
     public void testDescSort() {
         List<Product> testProducts = createTestProductList(10);
-        testProducts.forEach(p -> repository.save(p));
-        entityManager.flush();
+        productRepository.saveAll(testProducts);
+        
+//        entityManager.flush();
         
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        List<Product> products = repository.findAll(sort);
+        List<Product> products = productRepository.findAll(sort);
     
         Product first = products.get(0);
     
@@ -106,6 +110,13 @@ public class ProductRepositoryTest {
         assertTrue(first.getId() > second.getId());
     }
     
+    private Category createTestCategory() {
+        Category category = new Category();
+//        category.setId(1);
+        category.setName("category");
+        
+        return category;
+    }
     
     private Product createTestProduct() {
         Product testProduct = new Product();
@@ -118,6 +129,8 @@ public class ProductRepositoryTest {
         testProduct.setQuantity(80);
         testProduct.setRegDate(LocalDateTime.now());
         testProduct.setShippingCharge(2500);
+        
+        testProduct.setCategory(createTestCategory());
         return testProduct;
     }
     

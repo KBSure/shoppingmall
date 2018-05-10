@@ -1,5 +1,6 @@
 package com.project.shoppingmall.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,10 @@ import java.util.List;
 @Controller
 @RequestMapping("products")
 public class ProductController {
-
+    
+//    @Autowired
+//    private
+    
     // 상품리스트
     @GetMapping
     public String products(@RequestParam(name = "prd_cate", required = false)String prdCate
