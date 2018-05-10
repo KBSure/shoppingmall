@@ -4,6 +4,8 @@ spring:
       ddl-auto: create-drop
   datasource:
     url: jdbc:h2:mem:shoppingmall
+    username: admin
+    password: admin
   h2:
     console:
       enabled: true
