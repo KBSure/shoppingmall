@@ -24,7 +24,6 @@ public class OrderController {
     public String deleteCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
                        @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt){
         // DB에서 해당 데이터 삭제
-        System.out.println("delete_cart");
         return "redirect:/order/cart";
     }
 
