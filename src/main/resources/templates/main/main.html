@@ -6,17 +6,18 @@
             <div class="jumbotron text-center bg-light">
                 <h1 class="jumbotron-heading">Best sellers</h1>
             </div>
-            <div class="container">
-                <!--<div class="row-area" th:each="products: ${products}">-->
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <!--<img th:src="@{}"/>-->
-                        <a href="#"><img  class="card-img-top" src="//99nerds.io/web/product/medium/201712/103_shop1_470881.png"></a>
-                        <div class="card-body d-flex justify-content-between">
-                            <!--<span th:text="${products.name}">-->
-                            <a href="#"><span>Best STICKER</span></a>
-                            <!--<span th:text="${products.price}">-->
-                            <div><span>6,900원</span></div>
+            <div class="container-fluid col-11">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3portfolio-item" th:if="${not #lists.isEmpty(bestSellers)}" th:each="bestSeller : ${bestSellers}">
+                        <div class="card mb-3 box-shadow">
+                            <!--<img th:src="@{}"/>-->
+                            <a href="#"><img th:src="@{'/image/'+${bestSeller.images[0].id}}"  class="card-img-top" src="//99nerds.io/web/product/medium/201712/103_shop1_470881.png"></a>
+                            <div class="card-body d-flex justify-content-between">
+                                <!--<span th:text="${products.name}">-->
+                                <a href="#"><span th:text="${bestSeller.name}"></span></a>
+                                <!--<span th:text="${products.price}">-->
+                                <div><span th:text="${bestSeller.price}+'원'">6,900원</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>

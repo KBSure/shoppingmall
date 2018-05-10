@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,9 +31,6 @@ public class ProductRepositoryTest {
     
     @Autowired
     private EntityManager entityManager;
-    
-    @Autowired
-    private CategoryRepository categoryRepository;
     
     @Test
     public void testNotNull() {
@@ -81,7 +79,7 @@ public class ProductRepositoryTest {
     @Test
     public void testFindAllWithPagable() {
         List<Product> testProducts = createTestProductList(10);
-        testProducts.forEach(p -> productRepository.save(p));
+        productRepository.saveAll(testProducts);
         entityManager.flush();
         
         int pageIndex = 0;
@@ -98,7 +96,7 @@ public class ProductRepositoryTest {
         List<Product> testProducts = createTestProductList(10);
         productRepository.saveAll(testProducts);
         
-//        entityManager.flush();
+        entityManager.flush();
         
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         List<Product> products = productRepository.findAll(sort);
@@ -108,6 +106,26 @@ public class ProductRepositoryTest {
         Product second = products.get(1);
     
         assertTrue(first.getId() > second.getId());
+    }
+    
+    @Test
+    public void testFindAllProducts() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(0, 3, sort);
+        Page<Product> products = productRepository.findAllProducts("css", null, pageable);
+        
+        List<Product> productList = products.getContent();
+        
+        assertFalse(productList.isEmpty());
+    }
+    
+    @Test
+    public void testFindBestSellerProductsByLimit() {
+    
+        List<Product> bestSellsers = productRepository.findBestSellerProductsByLimit();
+        
+        assertEquals(9, bestSellsers.size());
+    
     }
     
     private Category createTestCategory() {
