@@ -32,6 +32,7 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                 .loginPage("/members/signin").usernameParameter("email").passwordParameter("password")//이게 없으면 스프링 기본 폼 사용됨
                 .failureUrl("/main/error")
                 .defaultSuccessUrl("/", true)
-                .and().logout().permitAll();
+                .and().logout().permitAll()
+                .and().csrf().disable();
     }
 }

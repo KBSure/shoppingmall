@@ -4,6 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 @RequestMapping("/order")
 public class OrderController {
@@ -19,14 +24,22 @@ public class OrderController {
     public String deleteCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
                        @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt){
         // DB에서 해당 데이터 삭제
+        System.out.println("delete_cart");
         return "redirect:/order/cart";
     }
 
     //주문페이지
     @GetMapping("/order")
-    public String orderForm(@RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt){
+    public String orderForm(@RequestParam(name = "prd_id", required = false)List<Long> prdIdList, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt
+    ,HttpServletRequest request){
         // 상품ID를 바탕으로 상품 정보를 가져온다.
         // "회원정보와 동일" 라디오를 클릭하면, Ajax로 로그인한 member의 name, 주소, 전화번호, 이메일 등을 가져온다.
+//        System.out.println("size : "+prdIdList.size());
+////        prdIdList.forEach(System.out::println);
+//        System.out.println(request.getParameter("prd_id"));
+//        String[] prd_ids = request.getParameterValues("prd_id");
+//        System.out.println(prd_ids);
+//        System.out.println(Arrays.toString(prd_ids));
         return "order/order";
     }
 
