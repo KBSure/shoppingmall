@@ -31,7 +31,7 @@ public class ProductController {
     
     // 상품리스트
     @GetMapping
-    public String products(@RequestParam(name = "prd_cate", required = false)String prdCate
+    public String products(@RequestParam(name = "prd_cate", required = false) String prdCate
             , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
             , @RequestParam(name="search_str", required = false) String searchStr, Model model) {
         
@@ -55,11 +55,19 @@ public class ProductController {
     
     // 상품 상세페이지
     @GetMapping("/{id}")
-    public String productDetail(@PathVariable("id") Long id, @RequestParam(name = "prd_cate", required = false)String prdCate
-            , @RequestParam(name="page", defaultValue = "1") int page) {
+    public String productDetail(@PathVariable("id") Long id, @RequestParam(name = "prd_cate", required = false) String prdCate
+            , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
+            , @RequestParam(name="search_str", required = false) String searchStr, Model model) {
         
         // id 로 상품 조회하기
+        Product product = productService.getProduct(id);
         // 조회한 상품 모델에 담기
+        model.addAttribute("product", product);
+    
+        model.addAttribute("page", page);
+        model.addAttribute("searchStr", searchStr);
+        model.addAttribute("prdCate", prdCate);
+        model.addAttribute("sortType", sortType);
         
         return "products/product_detail";
     }

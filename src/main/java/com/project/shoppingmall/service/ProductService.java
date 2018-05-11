@@ -11,4 +11,5 @@ public interface ProductService {
     
     Page<Product> getProducts(String searchStr, String prdCate, int page, String sortType);
     
+    Product getProduct(Long id);
 }

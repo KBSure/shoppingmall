@@ -52,7 +52,7 @@
                                 <div class="form-row" style="margin-bottom: 0; margin-top: 0">
                                     <div class="col-md-6 mb-3">
                                         <label for="quantity">&nbsp;상품수량</label>
-                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="0">
+                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="1">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="total">총 금액</label>
@@ -62,6 +62,7 @@
                                 <div class="form-group">
                                     <input id="cartBtn" class="btn btn-dark col-md-5" type="button" value="장바구니">
                                     <input id="wishBtn" class="btn btn-dark col-md-5" type="button" value="찜하기">
+                                    <!-- prdId -->
                                 </div>
                                 <div class="form-group">
                                     <input id="orderBtn" class="btn btn-success col-md-10" type="button" value="바로구매">
@@ -107,10 +108,12 @@
         /*]]>*/
 
         $(document).ready(function () {
-            $("#quantity").on("click", function () {
-                if($("#quantity").val() < 0) {
-                    $("#quantity").val(0);
-                }
+            $("#quantity").on("change", function () {
+                checkQuantityValue();
+            });
+
+            $("#quantity").on("keyup", function () {
+                checkQuantityValue();
             });
 
             $("#cartBtn").on("click", function () {
@@ -125,6 +128,15 @@
                 processAjax(cartUrl, false);
             });
         });
+
+        var checkQuantityValue = function() {
+            if($("#quantity").val() < 1) {
+                $("#quantity").val(1);
+            }
+            else if($("#quantity").val() > 20) {
+                $("#quantity").val(20);
+            }
+        }
 
         var processAjax = function(url, isConfirm, msg) {
             $.ajax({

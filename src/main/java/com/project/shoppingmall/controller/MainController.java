@@ -23,12 +23,7 @@ public class MainController {
 
     @GetMapping
     public String main(Model model) {
-    
         List<Product> bestSellers = productService.getBestSellers();
-        bestSellers.forEach(p -> {
-            List<Image> images = p.getImages();
-            images.forEach(m -> System.out.println(m.getId()));
-        });
     
         model.addAttribute("bestSellers", bestSellers);
         return "main/main";

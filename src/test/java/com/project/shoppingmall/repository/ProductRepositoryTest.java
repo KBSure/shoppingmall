@@ -135,6 +135,15 @@ public class ProductRepositoryTest {
     
     }
     
+    @Test
+    public void testFindProductById() {
+        Product product = productRepository.findById(1L).get();
+    
+        assertNotNull(product);
+        
+        assertEquals(2, product.getImages().size());
+    }
+    
     private Category createTestCategory() {
         Category category = new Category();
 //        category.setId(1);

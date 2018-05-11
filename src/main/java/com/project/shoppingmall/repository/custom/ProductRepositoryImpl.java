@@ -71,5 +71,4 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
         return productJPAQuery.fetchJoin().fetch();
     }
     
-    
 }
