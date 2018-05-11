@@ -24,7 +24,6 @@ public class MainController {
     @GetMapping
     public String main(Model model) {
         List<Product> bestSellers = productService.getBestSellers();
-    // TODO 메인페이지 상품링크, 상품목록 링크
         model.addAttribute("bestSellers", bestSellers);
         return "main/main";
     }
