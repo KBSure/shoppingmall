@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -45,7 +46,7 @@ public class MembersController {
 		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
 
 
-		member.addRole(new Role().setRole("USER"));
+		member.addRole(new Role().makeRole("USER"));
 		Member saveMember = membersService.addMembers(member);
 
 		return "redirect:/main/main";
@@ -84,12 +85,8 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}/update")
-	public String updateAccountForm(@PathVariable("id") long id) {
-		//주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
-		//페이져 초기화
-			//
-		//.attribute(페이지리스트)
-		//.attribute(페이져)
+	public String updateAccountForm(@PathVariable("id") long id,ModelMap modelMap) {
+		modelMap.addAttribute("id",id);
 		return "members/update_member";
 	}
 	@PutMapping(path="/{id}")
@@ -103,12 +100,19 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}")
-	public String contractList(@PathVariable("id") long id) {
+	public String contractList(@PathVariable("id") long id,ModelMap modelMap) {
+		modelMap.addAttribute("id",id);
+		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
+		//페이져 초기화
+		//
+		//.attribute(페이지리스트)
+		//.attribute(페이져)
 		return "members/contract_list";
 	}
 
 	@GetMapping(path="/{id}/dropout")
-	public String dropOutForm(@PathVariable("id") long id) {
+	public String dropOutForm(@PathVariable("id") long id,ModelMap modelMap) {
+		modelMap.addAttribute("id",id);
 		return "members/dropout";
 	}
 
@@ -126,7 +130,8 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}/password")
-	public String updatePasswdForm(@PathVariable("id") long id) {
+	public String updatePasswdForm(@PathVariable("id") long id,ModelMap modelMap) {
+		modelMap.addAttribute("id",id);
 		return "members/update_password";
 	}
 
