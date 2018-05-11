@@ -27,77 +27,89 @@
             <div class="row">
                 <h1 class="my-4 font-weight-bold">주문완료</h1>
             </div>
-            <div class="row">
-                <table class="table table-striped text-center">
+            <form id="success_form">
+                <div class="row">
+                    <table class="table table-striped text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">상품명</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">가격</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <img src="..." alt="img1" class="img-thumbnail">abc
+                            </td>
+                            <td>1</td>
+                            <td>3,000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="..." alt="img2" class="img-thumbnail">efg
+                            </td>
+                            <td>2</td>
+                            <td>6,500</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="..." alt="img3" class="img-thumbnail">hij
+                            </td>
+                            <td>3</td>
+                            <td>7,000</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    결제 완료 금액 : 총 23,700원
+                </div>
+                <br>
+                <div class="row">
+                    <h3 class="my-4 font-weight-normal">배송정보</h3>
+                </div>
+                <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">상품명</th>
-                        <th scope="col">수량</th>
-                        <th scope="col">가격</th>
+                        <th scope="col">받으시는 분</th>
+                        <td scope="col">Kim</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>
-                            <img src="..." alt="img1" class="img-thumbnail">abc
-                        </td>
-                        <td>1</td>
-                        <td>3,000</td>
+                        <th scope="row">주소</th>
+                        <td>서울 도봉구 방학3동 우성아파트</td>
                     </tr>
                     <tr>
-                        <td>
-                            <img src="..." alt="img2" class="img-thumbnail">efg
-                        </td>
-                        <td>2</td>
-                        <td>6,500</td>
+                        <th scope="row">전화번호</th>
+                        <td>010-111-1111</td>
                     </tr>
                     <tr>
-                        <td>
-                            <img src="..." alt="img3" class="img-thumbnail">hij
-                        </td>
-                        <td>3</td>
-                        <td>7,000</td>
+                        <th scope="row">이메일</th>
+                        <td>dev@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">배송메시지</th>
+                        <td>부재중 경비실</td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="row">
-                결제 완료 금액 : 총 23,700원
-            </div>
-            <br>
-            <div class="row">
-                <h3 class="my-4 font-weight-normal">배송정보</h3>
-            </div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">받으시는 분</th>
-                    <td scope="col">Kim</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">주소</th>
-                    <td>서울 도봉구 방학3동 우성아파트</td>
-                </tr>
-                <tr>
-                    <th scope="row">전화번호</th>
-                    <td>010-111-1111</td>
-                </tr>
-                <tr>
-                    <th scope="row">이메일</th>
-                    <td>dev@gmail.com</td>
-                </tr>
-                <tr>
-                    <th scope="row">배송메시지</th>
-                    <td>부재중 경비실</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="row justify-content-center">
-                <button type="submit" class="btn btn-primary">쇼핑 계속하기</button>
-            </div>
+                <div class="row justify-content-center">
+                    <button id="get_product_btn" type="submit" class="btn btn-primary">쇼핑 계속하기</button>
+                </div>
+            </form>
         </div>
     </main>
+</th:block>
+<th:block layout:fragment="footer_script">
+    <script>
+        $(document).ready(function () {
+           $("#get_product_btn").on("click", function () {
+              $("#success_form").attr("action", "/products");
+              $("#success_form").attr("method", "get");
+           });
+        });
+    </script>
 </th:block>
 </html>
