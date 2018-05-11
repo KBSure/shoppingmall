@@ -40,13 +40,14 @@
                            <th scope="col"></th>
                        </tr>
                        </thead>
-                       <tbody>
-                       <tr>
+                       <tbody id="test1">
+                       <tr th:each="i:list">
                            <td>
-                               <img src="..." alt="img1" class="img-thumbnail">abc
+                               <img src="..." alt="img1" class="img-thumbnail">
+                               <span th:text="${productName}"></span>
                            </td>
-                           <td>1</td>
-                           <td>3,000</td>
+                           <td th:text="${quantity}"></td>
+                           <td th:text="${price}"></td>
                            <td>
                                <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
@@ -54,6 +55,7 @@
                                </div>
                            </td>
                        </tr>
+
                        <tr>
                            <td>
                                <img src="..." alt="img2" class="img-thumbnail">efg
@@ -107,6 +109,45 @@
 <th:block layout:fragment="footer_script">
     <script>
         $(document).ready(function () {
+
+        // <tr>
+        //     <td>
+        //     <img src="..." alt="img1" class="img-thumbnail">
+        //         abc
+        //
+        //         </td>
+        //         <td>1</td>
+        //
+        //         <td>3,000</td>
+        //
+        //     <td>
+        //     <div class="form-check">
+        //         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+        //         </label>
+        //         </div>
+        //         </td>
+        //         </tr>
+            var rowNum = 3; //temp
+            var colNum = 4;
+            for(var i = 0; i < rowNum; i++){
+                var row = $('<tr></tr>').appendTo('#test1');
+                for(var j = 0; j < colNum; j++){
+                    $('<td></td>').text("test").appendTo(row);
+                }
+            }
+            // $('<tr>').attr().appendTo('#test1');
+            // $('<td>').attr().appendTo('#test1');
+            // $('</td>').attr().appendTo('#test1');
+            // $('<td>').attr().appendTo('#test1');
+            // $('</td>').attr().appendTo('#test1');
+            // $('<td>').attr().appendTo('#test1');
+            // $('</td>').attr().appendTo('#test1');
+            // $('<td>').attr().appendTo('#test1');
+            // $('</td>').attr().appendTo('#test1');
+            // $('</tr>').attr().appendTo('#test1');
+
+
+
             $("#post_wishlist_btn").on("click", function () {
                // form action
                $("#cart_form").attr("action", "/api/wishlist");
@@ -121,6 +162,7 @@
                 }).appendTo('#cart_form');
                 $("#cart_form").attr("action", "/order/cart");
                 $("#cart_form").attr("method", "post");
+
             });
             $("#get_order_btn").on("click", function () {
                 $("#cart_form").attr("action", "/order/order");

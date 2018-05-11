@@ -1,5 +1,7 @@
 package com.project.shoppingmall.controller;
 
+import com.project.shoppingmall.repository.CartRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,22 @@ import java.util.List;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+    @Autowired
+    CartRepository cartRepository;
     //장바구니
     @GetMapping("/cart")
     public String getCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
-                       @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt){
+                       @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt, ModelMap modelmap){
         // DB에서 로그인한 member의 cart내 정보를 조회한다.
+        String productName = "product";
+        int quantity = 2;
+        int price = 3000;
+
+//        cartRepository.getOne()
+
+        modelmap.addAttribute("productName", productName);
+        modelmap.addAttribute("quantity", quantity);
+        modelmap.addAttribute("price", price);
         return "/order/cart";
     }
 
