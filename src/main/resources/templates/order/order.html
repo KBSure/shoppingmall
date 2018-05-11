@@ -28,129 +28,143 @@
                 <h1 class="my-4 font-weight-bold">주문결제</h1>
             </div>
             <br>
-            <div class="row">
-                <table class="table table-striped text-center">
-                    <thead>
-                    <tr>
-                        <th scope="col">상품명</th>
-                        <th scope="col">수량</th>
-                        <th scope="col">가격</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <img src="..." alt="img1" class="img-thumbnail">abc
-                        </td>
-                        <td>1</td>
-                        <td>3,000</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="..." alt="img2" class="img-thumbnail">efg
-                        </td>
-                        <td>2</td>
-                        <td>6,500</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="..." alt="img3" class="img-thumbnail">hij
-                        </td>
-                        <td>3</td>
-                        <td>7,000</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                결제 금액 : 총 23,700원
-            </div>
-            <br>
-            <div class="row">
+            <form id="order_form">
+                <div class="row">
+                    <table class="table table-striped text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">상품명</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">가격</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <img src="..." alt="img1" class="img-thumbnail">abc
+                            </td>
+                            <td>1</td>
+                            <td>3,000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="..." alt="img2" class="img-thumbnail">efg
+                            </td>
+                            <td>2</td>
+                            <td>6,500</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="..." alt="img3" class="img-thumbnail">hij
+                            </td>
+                            <td>3</td>
+                            <td>7,000</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    결제 금액 : 총 23,700원
+                </div>
+                <br>
+                <div class="row">
                 <h3 class="my-4 font-weight-normal">배송정보</h3>
             </div>
-                <form>
-                    <fieldset class="form-group">
-                        <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">배송지 선택</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="gridRadios1">
-                                        회원 정보와 동일
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                    <label class="form-check-label" for="gridRadios2">
-                                        새로운 배송지
-                                    </label>
-                                </div>
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">배송지 선택</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                <label class="form-check-label" for="gridRadios1">
+                                    회원 정보와 동일
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                <label class="form-check-label" for="gridRadios2">
+                                    새로운 배송지
+                                </label>
                             </div>
                         </div>
-                    </fieldset>
-                    <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">받으시는 분</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputName" placeholder="Name">
-                        </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="inputAddress" class="col-sm-2 col-form-label">주소</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputAddress" placeholder="우편번호">
-                            <input type="password" class="form-control my-1" id="inputAddress2" placeholder="지역주소">
-                            <input type="password" class="form-control my-1" id="inputAddress3" placeholder="상세주소">
-                        </div>
+                </fieldset>
+                <div class="form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label">받으시는 분</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputName" placeholder="Name">
                     </div>
-
-                    <div class="form-group row">
-                        <label for="inputPhone" class="col-sm-2 col-form-label">전화번호</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPhone" placeholder="Phone Number">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputAddress" class="col-sm-2 col-form-label">주소</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputAddress" placeholder="우편번호">
+                        <input type="password" class="form-control my-1" id="inputAddress2" placeholder="지역주소">
+                        <input type="password" class="form-control my-1" id="inputAddress3" placeholder="상세주소">
                     </div>
-                    <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">이메일</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputEmail" placeholder="Email">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPhone" class="col-sm-2 col-form-label">전화번호</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPhone" placeholder="Phone Number">
                     </div>
-                    <div class="form-group row">
-                        <label for="inputMessage" class="col-sm-2 col-form-label">배송메시지</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputMessage" placeholder="Password">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">이메일</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputEmail" placeholder="Email">
                     </div>
-                    <div class="row">
-                        <h3 class="my-4 font-weight-normal">입금정보</h3>
+                </div>
+                <div class="form-group row">
+                    <label for="inputMessage" class="col-sm-2 col-form-label">배송메시지</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputMessage" placeholder="Password">
                     </div>
-                    <div class="form-group row">
-                        <label for="inputBank" class="col-sm-2 col-form-label">입금은행</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputBank" placeholder="Phone Number">
-                        </div>
+                </div>
+                <div class="row">
+                    <h3 class="my-4 font-weight-normal">입금정보</h3>
+                </div>
+                <div class="form-group row">
+                    <label for="inputBank" class="col-sm-2 col-form-label">입금은행</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputBank" placeholder="Phone Number">
                     </div>
-                    <div class="form-group row">
-                        <label for="inputAccount" class="col-sm-2 col-form-label">계좌번호</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputAccount" placeholder="Email">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputAccount" class="col-sm-2 col-form-label">계좌번호</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputAccount" placeholder="Email">
                     </div>
-                    <div class="form-group row">
-                        <label for="inputDepositor" class="col-sm-2 col-form-label">입금자명</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputDepositor" placeholder="Password">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputDepositor" class="col-sm-2 col-form-label">입금자명</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputDepositor" placeholder="Password">
                     </div>
-                    <div class="row justify-content-center">
-                        <button type="submit" class="btn btn-primary">결제하기</button>
+                </div>
+                <div class="row justify-content-center">
+                    <input id="get_success_btn" type="submit" class="btn btn-primary" value="결제하기">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-secondary">뒤로가기</button>
-                    </div>
-                </form>
+                    <input id="get_cart_btn" type="submit" class="btn btn-secondary" value="뒤로가기">
+                </div>
+            </form>
         </div>
-
     </main>
+</th:block>
+<th:block layout:fragment="footer_script">
+    <script>
+        $(document).ready(function () {
+           $("#get_success_btn").on("click", function (){
+               var orderId = 1; //임시
+               var successUrl = "/order/" + orderId + "/success";
+               $("#order_form").attr("action", successUrl);
+               $("#order_form").attr("method", "get");
+           });
+           $("#get_cart_btn").on("click", function () {
+               $("#order_form").attr("action", "/order/cart");
+               $("#order_form").attr("method", "get");
+           });
+        });
+    </script>
 </th:block>
 </html>
