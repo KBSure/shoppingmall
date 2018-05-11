@@ -17,7 +17,6 @@ public class Wishlist implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int quantity;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="members_id")
@@ -40,7 +39,7 @@ public class Wishlist implements Serializable {
             this.product.getWishlists().remove(this);
         }
         this.product = product;
-        member.getWishlists().add(this);
+        product.getWishlists().add(this);
     }
     
     
