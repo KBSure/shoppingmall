@@ -29,5 +29,10 @@ public class Role implements Serializable {
             member.getRoles().add(this);
         }
     }
+
+    public Role makeRole(String name){
+        this.name = name;
+        return this;
+    }
     
 }
