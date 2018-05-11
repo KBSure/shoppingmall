@@ -41,19 +41,12 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                 .csrf().ignoringAntMatchers("/**")
                 .and().headers().frameOptions().disable()//여기까지 h2설정
                 .and().formLogin()
-                .loginPage("/members/signin").usernameParameter("email").passwordParameter("password")
-                .successHandler(customAuthenticationSuccessHandler())
-                .failureUrl("/main/error")
-                .defaultSuccessUrl("/", true)
+                    .loginPage("/members/signin")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .successHandler(new CustomAuthenticationSuccessHandler())
+                    .failureUrl("/main/error")
+//                    .defaultSuccessUrl("/", true)
                 .and().logout().permitAll();
-    }
-
-    @Bean
-    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler = new CustomAuthenticationSuccessHandler();
-        customAuthenticationSuccessHandler.setDefaultUrl("/members");
-       // customAuthenticationSuccessHandler.setTargetUrlParameter("loginRedirect");
-        //customAuthenticationSuccessHandler.setUseReferer(true);
-        return customAuthenticationSuccessHandler;
     }
 }
