@@ -3,7 +3,8 @@ package com.project.shoppingmall.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class SigninPram {
     long id;
     String name;
