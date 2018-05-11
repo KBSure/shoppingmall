@@ -2,8 +2,11 @@ package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.common.Pagination;
 import com.project.shoppingmall.domain.Category;
+import com.project.shoppingmall.domain.Image;
+import com.project.shoppingmall.domain.ImageType;
 import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.service.CategoryService;
+import com.project.shoppingmall.service.ImageService;
 import com.project.shoppingmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,9 @@ public class ProductController {
     
     @Autowired
     private CategoryService categoryService;
+    
+    @Autowired
+    private ImageService imageService;
     
     @ModelAttribute("categories")
     public List<Category> getCategories() {
@@ -61,9 +67,29 @@ public class ProductController {
         
         // id 로 상품 조회하기
         Product product = productService.getProduct(id);
+        
+        Image thumbnail = null;
+        Image detailImage = null;
+        List<Image> images = imageService.getAllImagesByProductId(product.getId());
+        for (Image image : images) {
+            if(image.getType() == ImageType.THUMB_NAIL) {
+                thumbnail = image;
+            }
+            else if(image.getType() == ImageType.DETAIL) {
+                detailImage = image;
+            }
+        }
+        
         // 조회한 상품 모델에 담기
         model.addAttribute("product", product);
+        if(thumbnail != null) {
+            model.addAttribute("thumbnail", thumbnail);
+        }
     
+        if(detailImage != null) {
+            model.addAttribute("detailImage", detailImage);
+        }
+        
         model.addAttribute("page", page);
         model.addAttribute("searchStr", searchStr);
         model.addAttribute("prdCate", prdCate);

@@ -90,11 +90,11 @@ insert into image (id, product_id, mime_type, type, name, size) values (55, 26, 
 insert into image (id, product_id, mime_type, type, name, size) values (56, 27, 'image/png', 'DETAIL', '/detail/detail.png',  653115);
 insert into image (id, product_id, mime_type, type, name, size) values (57, 28, 'image/png', 'DETAIL', '/detail/detail.png',  653115);
 insert into image (id, product_id, mime_type, type, name, size) values (58, 29, 'image/png', 'DETAIL', '/detail/detail.png',  653115);
-insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (1, 'test1@gmail.com', '{noop}12345', '010-1234-5678','김신','123-12', '삼성동','334-1 1101호',current_timestamp);
-insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (2, 'test2@gmail.com', '{noop}12345', '010-1234-5678','지은탁','123-12', '삼성동','334-1 1101호',current_timestamp);
-insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (3, 'test3@gmail.com', '{noop}12345', '010-1234-5678','유덕화','123-12', '삼성동','334-1 1101호',current_timestamp);
-insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (4, 'test4@gmail.com', '{noop}12345', '010-1234-5678','저승사자','123-12', '삼성동','334-1 1101호',current_timestamp);
-insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (5, 'test5@gmail.com', '{noop}12345', '010-1234-5678','써니','123-12', '삼성동','334-1 1101호',current_timestamp);
+insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (1, 'test1@gmail.com', '{noop}12345','김신','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp);
+insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (2, 'test2@gmail.com', '{noop}12345','지은탁','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp);
+insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (3, 'test3@gmail.com', '{noop}12345','유덕화','010-1234-5678','123-12', '삼성동','334-1 1101호',current_timestamp);
+insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (4, 'test4@gmail.com', '{noop}12345','저승사자','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp);
+insert into members (id, email, passwd, name, phone, adr_zipcode, adr_location, adr_detail, reg_date) values (5, 'test5@gmail.com', '{noop}12345','써니','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp);
 insert into roles (id,name) VALUES (1,'ADMIN');
 insert into roles (id,name) VALUES (2,'USER');
 insert into members_roles(members_id, roles_id) VALUES (1,1);
