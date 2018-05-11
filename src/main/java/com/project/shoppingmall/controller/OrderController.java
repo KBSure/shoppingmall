@@ -1,21 +1,17 @@
 package com.project.shoppingmall.controller;
 
-import com.project.shoppingmall.repository.CartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-    @Autowired
-    CartRepository cartRepository;
+
     //장바구니
     @GetMapping("/cart")
     public String getCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
