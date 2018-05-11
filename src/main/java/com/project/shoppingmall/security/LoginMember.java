@@ -6,12 +6,12 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 
 public class LoginMember extends User {
-    Long Id;
+    long Id;
     String name;
 
     public LoginMember(String username, String password, Collection<? extends GrantedAuthority> authorities, Long id, String name) {
         super(username, password, authorities);
-        Id = id;
+        this.Id = id;
         this.name = name;
     }
 
