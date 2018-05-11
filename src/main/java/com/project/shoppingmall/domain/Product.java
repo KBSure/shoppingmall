@@ -10,15 +10,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 @EqualsAndHashCode
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     
@@ -74,6 +73,18 @@ public class Product implements Serializable {
             this.orderItems.add(orderItem);
         }
         orderItem.setProduct(this);
+    }
+    
+    @JoinColumn(name = "category_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Category category;
+    
+    public void setCategory(Category category) {
+        if(this.category != null) {
+            this.category.getProducts().remove(this);
+        }
+        this.category = category;
+        category.getProducts().add(this);
     }
     
 }

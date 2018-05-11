@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name="members")
 public class Member implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String email;
     

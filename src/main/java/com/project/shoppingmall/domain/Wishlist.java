@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Wishlist implements Serializable {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int quantity;
     

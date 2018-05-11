@@ -18,9 +18,9 @@
 
                     <h1 class="my-4">Shop Name</h1>
                     <div class="list-group">
-                        <a href="#" class="list-group-item">Category 1</a>
-                        <a href="#" class="list-group-item">Category 2</a>
-                        <a href="#" class="list-group-item">Category 3</a>
+                        <a href="#" th:href="@{/products}" class="list-group-item">Category 1</a>
+                        <a href="#" th:href="@{/products}" class="list-group-item">Category 2</a>
+                        <a href="#" th:href="@{/products}" class="list-group-item">Category 3</a>
                     </div>
 
                 </div>
@@ -29,12 +29,12 @@
                 <div class="col-lg-9">
                     <br>
                     <nav class="navbar navbar-light">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <form class="form-inline" name="searchForm" id="searchForm" th:action="@{/products}" method="get">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchStr">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                         <span class="navbar-text">
-                            <a href="#">최신순</a>&nbsp;&nbsp;<a href="#">인기순</a>&nbsp;&nbsp;<a href="#">가격오름순</a>&nbsp;&nbsp;<a href="#">가격내림순</a>
+                            <a th:href="@{/products(page=1, sort=recent)}" href="#">최신순</a>&nbsp;&nbsp;<a href="#">인기순</a>&nbsp;&nbsp;<a href="#">가격오름순</a>&nbsp;&nbsp;<a href="#">가격내림순</a>
                         </span>
                     </nav>
                     <br>
@@ -42,10 +42,10 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
                             <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <a th:href="@{/products/1}" href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="#">Project One</a>
+                                        <a th:href="@{/products/1}" href="#">Project One</a>
                                     </h4>
                                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
                                 </div>
@@ -136,11 +136,11 @@
                             <li class="page-item disabled">
                                 <a class="page-link" href="#" tabindex="-1">&lt;</a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-link" th:href="@{/products(page=1)}" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" th:href="@{/products(page=2)}" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" th:href="@{/products}" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" th:href="@{/products}" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" th:href="@{/products}" href="#">5</a></li>
                             <li class="page-item">
                                 <a class="page-link" href="#">&gt;</a>
                             </li>
@@ -156,5 +156,10 @@
         <!-- /.container -->
 
     </main>
+</th:block>
+<th:block layout:fragment="footer_script">
+    <script>
+
+    </script>
 </th:block>
 </html>
