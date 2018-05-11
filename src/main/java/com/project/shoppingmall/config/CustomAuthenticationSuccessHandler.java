@@ -14,7 +14,8 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        //LoginMember loginMember = new LoginMember();
-        //(Member)authentication).getId();
+        // 여기서 시작
+        super.onAuthenticationSuccess(request, response, authentication);
+
     }
 }
