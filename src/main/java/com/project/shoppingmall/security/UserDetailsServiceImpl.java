@@ -1,9 +1,7 @@
 package com.project.shoppingmall.security;
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Role;
-import com.project.shoppingmall.service.LoginMember;
 import com.project.shoppingmall.service.MembersService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,9 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             GrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getName());
             list.add(simpleGrantedAuthority);
         }
-
-        //UserDetails userDetails = new org.springframework.security.core.userdetails.User(member.getEmail(), member.getPasswd(), list);
-        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPasswd(),list);
+        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPasswd(),list,member.getId(),member.getName());
         return loginMember;
     }
 }
