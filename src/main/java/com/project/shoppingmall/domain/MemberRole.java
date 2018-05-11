@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class MemberRole implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JoinColumn(name = "members_id")
     private Member member;

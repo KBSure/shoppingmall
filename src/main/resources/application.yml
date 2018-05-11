@@ -21,8 +21,11 @@ spring:
     username: fastcampus
     password: fastcampus
 
-logging:
-  level:
-    root: info
-    com:
-      project: debug
+#logging:
+#  level:
+#    root: info
+#    com:
+#      project: debug
+
+image:
+  path:

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class OrderItem implements Serializable {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String invoice;
     
