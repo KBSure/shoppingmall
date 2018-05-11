@@ -1,7 +1,10 @@
 package com.project.shoppingmall.security;
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Role;
+import com.project.shoppingmall.service.LoginMember;
 import com.project.shoppingmall.service.MembersService;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Log4j2
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     MembersService service;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -31,7 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             list.add(simpleGrantedAuthority);
         }
 
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(member.getEmail(), member.getPasswd(), list);
-        return userDetails;
+        //UserDetails userDetails = new org.springframework.security.core.userdetails.User(member.getEmail(), member.getPasswd(), list);
+        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPasswd(),list);
+        return loginMember;
     }
 }
