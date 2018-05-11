@@ -18,9 +18,12 @@
 
                     <h1 class="my-4">Shop Name</h1>
                     <div class="list-group">
-                        <a href="#" th:href="@{/products}" class="list-group-item">Category 1</a>
-                        <a href="#" th:href="@{/products}" class="list-group-item">Category 2</a>
-                        <a href="#" th:href="@{/products}" class="list-group-item">Category 3</a>
+                        <th:block th:each="category : ${categories}">
+                            <a href="#" th:href="@{/products(prd_cate=category.name)}" class="list-group-item" th:text="${category.name}">Category 1</a>
+                        </th:block>
+
+                        <!--<a href="#" th:href="@{/products}" class="list-group-item">Category 2</a>
+                        <a href="#" th:href="@{/products}" class="list-group-item">Category 3</a>-->
                     </div>
 
                 </div>
@@ -34,97 +37,24 @@
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                         <span class="navbar-text">
-                            <a th:href="@{/products(page=1, sort=recent)}" href="#">최신순</a>&nbsp;&nbsp;<a href="#">인기순</a>&nbsp;&nbsp;<a href="#">가격오름순</a>&nbsp;&nbsp;<a href="#">가격내림순</a>
+                            <a th:href="@{/products(page=1, sortType=recent)}" href="#">최신순</a>
+                            &nbsp;&nbsp;<a href="#">인기순</a>
+                            &nbsp;&nbsp;<a href="#">가격오름순</a>
+                            &nbsp;&nbsp;<a href="#">가격내림순</a>
                         </span>
                     </nav>
                     <br>
 
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a th:href="@{/products/1}" href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a th:href="@{/products/1}" href="#">Project One</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Two</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Three</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure perspiciatis mollitia recusandae vero vel quam!</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Four</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Five</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Six</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Seven</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">Project Eight</a>
-                                    </h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius adipisci dicta dignissimos neque animi ea, veritatis, provident hic consequatur ut esse! Commodi ea consequatur accusantium, beatae qui deserunt tenetur ipsa.</p>
+                        <div class="col-lg-3 col-md-3portfolio-item" th:if="${not #lists.isEmpty(products)}" th:each="product : ${products}">
+                            <div class="card mb-3 box-shadow">
+                                <!--<img th:src="@{}"/>-->
+                                <a href="#"><img th:src="@{'/image/'+${product.images[0].id}}"  class="card-img-top" src="//99nerds.io/web/product/medium/201712/103_shop1_470881.png"></a>
+                                <div class="card-body d-flex justify-content-between">
+                                    <!--<span th:text="${products.name}">-->
+                                    <a href="#"><span th:text="${product.name}"></span></a>
+                                    <!--<span th:text="${products.price}">-->
+                                    <div><span th:text="${product.price}+'원'">6,900원</span></div>
                                 </div>
                             </div>
                         </div>

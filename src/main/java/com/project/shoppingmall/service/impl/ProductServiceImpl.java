@@ -26,12 +26,12 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<Product> getProducts(String searchStr, String prdCate, int page, String sort) {
+    public Page<Product> getProducts(String searchStr, String prdCate, int page, String sortType) {
         
         //TODO 정렬 유형에 따른 소트 생성해야함.
         Sort defaultSort = Sort.by(Sort.Direction.DESC, "id");
         
-        Pageable pageable = PageRequest.of(page, 8, defaultSort);
+        Pageable pageable = PageRequest.of(page - 1, 8, defaultSort);
         
         return productRepository.findAllProducts(searchStr, prdCate, pageable);
     }
