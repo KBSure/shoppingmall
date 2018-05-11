@@ -1,8 +1,7 @@
 package com.project.shoppingmall.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,20 +26,6 @@ public class OrderController {
         modelmap.addAttribute("price", price);
 
         return "/order/cart";
-    }
-    
-    @PostMapping("/cart")
-    @ResponseBody
-    public ResponseEntity<Void> registCart() {
-        
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    
-    @PostMapping("/wishlist")
-    @ResponseBody
-    public ResponseEntity<String> registWishlist(HttpServletResponse response) {
-    
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/cart")

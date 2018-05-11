@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">--><html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+<th:block layout:fragment="html_head">
+    <title>WishList</title>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br>
+    <br>
+    <br>
+    <main role="main">
+       <div class="container">
+           <div class="row">
+               <h1 class="my-4 font-weight-bold">Wish List</h1>
+           </div>
+           <br>
+
+           <form id = "cart_form">
+               <div class="row">
+                   <table class="table table-striped text-center">
+                       <thead>
+                       <tr>
+                           <th scope="col">상품명</th>
+                           <th scope="col">수량</th>
+                           <th scope="col">가격</th>
+                           <th scope="col"></th>
+                       </tr>
+                       </thead>
+                       <tbody id="test1">
+                       <tr th:each="i:list">
+                           <td>
+                               <img src="..." alt="img1" class="img-thumbnail">
+                               <span th:text="${productName}"></span>
+                           </td>
+                           <td th:text="${quantity}"></td>
+                           <td th:text="${price}"></td>
+                           <td>
+                               <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                   </label>
+                               </div>
+                           </td>
+                       </tr>
+
+                       <tr>
+                           <td>
+                               <img src="..." alt="img2" class="img-thumbnail">efg
+                           </td>
+                           <td>2</td>
+                           <td>6,500</td>
+                           <td>
+                               <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                   </label>
+                               </div>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                               <img src="..." alt="img3" class="img-thumbnail">hij
+                           </td>
+                           <td>3</td>
+                           <td>7,000</td>
+                           <td>
+                               <div class="form-check">
+                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
+                                   </label>
+                               </div>
+                           </td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+               <div class="row">
+                   결제 금액 : 총 23,700원
+               </div>
+               <div class="row justify-content-end">
+                   <input id="post_cart_btn" class="btn btn-primary btn-sm" type="submit" value="장바구니에 담기"></input>
+                   &nbsp;&nbsp;&nbsp;
+                   <input id="delete_wishlist_btn" class="btn btn-secondary btn-sm" type="submit" value="선택 삭제"></input>
+               </div>
+               <br>
+               <div class="row justify-content-center">
+                   <input id="get_product_btn" type="submit" class="btn btn-secondary" value="계속 쇼핑하기"></input>
+               </div>
+           </form>
+       </div>
+
+    </main>
+</th:block>
+<th:block layout:fragment="footer_script">
+    <script>
+        $(document).ready(function () {
+
+            $("#post_cart_btn").on("click", function () {
+               $("#cart_form").attr("action", "/api/order/cart");
+               $("#cart_form").attr("method", "post");
+            });
+            $("#delete_wishlist_btn").on("click", function () {
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'delete_method',
+                    name: '_method',
+                    value: "delete"
+                }).appendTo('#cart_form');
+                $("#cart_form").attr("action", "/wishlist");
+                $("#cart_form").attr("method", "post");
+
+            });
+            $("#get_product_btn").on("click", function () {
+                $("#cart_form").attr("action", "/products");
+                $("#cart_form").attr("method", "get");
+            });
+        });
+
+    </script>
+
+</th:block>
+</html>
