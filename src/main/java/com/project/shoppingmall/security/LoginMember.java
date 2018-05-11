@@ -1,4 +1,4 @@
-package com.project.shoppingmall.service;
+package com.project.shoppingmall.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -8,6 +8,12 @@ import java.util.Collection;
 public class LoginMember extends User {
     Long Id;
     String name;
+
+    public LoginMember(String username, String password, Collection<? extends GrantedAuthority> authorities, Long id, String name) {
+        super(username, password, authorities);
+        Id = id;
+        this.name = name;
+    }
 
     public LoginMember(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
