@@ -9,20 +9,20 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li sec:authorize="hasRole('ROLE_ANONYMOUS')" class="nav-item">
-                        <a class="nav-link" href="/members/signin">login</a>
+                        <a class="nav-link" th:href="@{/members/signin}">login</a>
                     </li>
                     <li sec:authorize="hasRole('ROLE_ANONYMOUS')" class="nav-item">
-                        <a class="nav-link" href="/members/join">회원가입</a>
+                        <a class="nav-link" th:href="@{/members/join}">회원가입</a>
                     </li>
 
                     <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
-                <a class="nav-link" href="#"><span sec:authentication="name">Username</span></a>
+                        <a class="nav-link" href="#"><span sec:authentication="name">Username</span></a>
                     </li>
                     <li sec:authorize ="hasRole('ROLE_USER')" class="nav-item">
-                        <a class="nav-link" href="/logout">logout</a>
+                        <a class="nav-link" th:href="@{/logout}">logout</a>
                     </li>
-                    <li sec:authorize="hasRole('ROLE_ANONYMOUS')" class="nav-item">
-                        <a class="nav-link" href="#">Cart</a>
+                    <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
+                        <a class="nav-link" th:href="@{/order/cart}">Cart</a>
                     </li>
                 </ul>
             </div>
