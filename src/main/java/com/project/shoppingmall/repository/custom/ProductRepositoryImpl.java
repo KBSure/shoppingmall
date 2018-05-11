@@ -37,7 +37,9 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
     
         QProduct product = QProduct.product;
         QImage image = QImage.image;
-        JPAQuery<Product> query = jpaQueryFactory.selectFrom(product).leftJoin(product.images, image);
+        JPAQuery<Product> query = jpaQueryFactory.selectFrom(product)
+                                                    .leftJoin(product.images, image)
+                                                    .where(image.type.eq(ImageType.THUMB_NAIL));
         
         if(StringUtils.isNotBlank(searchStr)) {
             query.where(product.name.likeIgnoreCase("%"+searchStr+"%"));
