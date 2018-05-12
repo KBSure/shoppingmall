@@ -3,47 +3,57 @@
 <th:block layout:fragment="body_main">
     <main role="main">
         <div class="container">
-                <div class="pt-5 col-md-8 order-md-1">
-                    <h1 class="pt-5 py-2">회원 가입</h1>
-                    <form class="needs-validation" method="post" novalidate>
+            <div class="pt-5 col-md-8 order-md-1">
+                <p class="h1 pt-5 py-2">회원 가입</p>
+                <!--/*@thymesVar type="com.project.shoppingmall.dto.JoinFormConfirm"*/-->
+                <form  method="post" th:action="@{/members/join}" th:object="${joinFormConfirm}">
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="name">Username</label>
-                            <input type="text" class="form-control" id="name" placeholder="name" required>
-                            <div class="invalid-feedback">
-                                Valid first name is required.
-                            </div>
+                            <label for="name">이름</label>
+                            <input type="text" class="form-control" id="name" name="name" th:field ="*{name}" required>
+                            <small class="text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
-                        <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
-                        </div>
+                        <label for="email">이메일</label>
+                        <input type="email" class="form-control" id="email" name="email" th:field="*{email}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="password"required>
-                        <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
-                        </div>
+                        <label for="password">비밀번호</label>
+                        <input type="password" class="form-control" id="password"  name="password" th:field="*{password}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
                     </div>
                     <div class="mb-3">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
+                        <label for="rePassword">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="rePassword" name ="rePassword" th:field="*{rePassword}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone">전화번호</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="010-0000-0000" name="phone" th:field="*{phone}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="zipcode">우편번호</label>
+                        <input type="text" class="form-control" id="zipcode" name="zipcode" th:field="*{zipcode}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location">주소</label>
+                        <input type="text" class="form-control" id="location" name ="location" th:field="*{location}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"/>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                        <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                        <label for="detail">상세주소</label>
+                        <input type="text" class="form-control" id="detail" name="detail" th:field="*{detail}" required>
+                        <small class="text-muted" th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"/>
+                    </div>
+                    <div class="text-center pt-3">
+                        <button type="submit" class="btn btn-secondary btn-lg">가입하기</button>
                     </div>
                 </form>
-            </div>
-        </div>
             </div>
         </div>
     </main>

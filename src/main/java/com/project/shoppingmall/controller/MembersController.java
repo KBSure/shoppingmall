@@ -2,13 +2,21 @@ package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Role;
+import com.project.shoppingmall.dto.JoinFormConfirm;
 import com.project.shoppingmall.service.MembersService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.io.File;
+import java.security.Principal;
 
 
 @Controller
@@ -24,32 +32,37 @@ public class MembersController {
 	}
 
 	@GetMapping("/join")
-    public String joinForm() {
+	public String joinForm(@ModelAttribute JoinFormConfirm joinFormConfirm) {
 		return "members/join";
     }
 
 	@PostMapping("/join")
-	public String join(@ModelAttribute Member member){
-		//유효성 검사
-			//if(유효성 검사에 에러가 있음)
-				//return join화면
-			//if(패스워드 != 패스워드확인)
-				//bindingResult.addError
-				//return join화면
-			//Repository에서 Email로 유저정보 받아옴
-			//유저정보가 있다면
-				//bindingResult.addError
-				//return join화면
+	public String join(@Valid JoinFormConfirm joinFormConfirm, BindingResult bindingResult){
 
+		if(bindingResult.hasErrors()) {
+			return "members/join";
+		}
+		Member member = membersService.getUserByEmail(joinFormConfirm.getEmail());
+		if(member != null){
+			bindingResult.addError(new FieldError("joinFormConfirm","email","이미 존재하는 이메일 입니다."));
+			return "members/join";
+		}
+		if(!joinFormConfirm.getPassword().equals(joinFormConfirm.getRePassword())){
+			bindingResult.addError(new FieldError("joinFormConfirm","password","패스워드 확인 값과 다릅니다."));
+			return "members/join";
+		}
+		member = new Member();
+		BeanUtils.copyProperties(joinFormConfirm,member);
 
 		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
-
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 
 		member.addRole(new Role().makeRole("USER"));
 		Member saveMember = membersService.addMembers(member);
+		//TODO
+		//repository의 sava의 반환값
 
-		return "redirect:/main/main";
+		return "redirect:/members/signin";
 	}
 
 	@GetMapping(path="/findid")

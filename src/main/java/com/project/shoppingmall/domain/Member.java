@@ -23,7 +23,7 @@ public class Member implements Serializable {
     private String email;
     
     @JsonIgnore
-    private String passwd;
+    private String password;
     private String name;
     
     @Embedded

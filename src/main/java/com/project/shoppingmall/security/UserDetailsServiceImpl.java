@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             GrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getName());
             list.add(simpleGrantedAuthority);
         }
-        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPasswd(),list,member.getId(),member.getName());
+        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPassword(),list,member.getId(),member.getName());
         return loginMember;
     }
 }
