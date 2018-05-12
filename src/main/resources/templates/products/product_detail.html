@@ -18,9 +18,10 @@
                 <div class="col-lg-3">
                     <h1 class="my-4">Shop Name</h1>
                     <div class="list-group">
-                        <a href="#" th:href="@{/products}" class="list-group-item active">Category 1</a>
-                        <a href="#" th:href="@{/products}" class="list-group-item">Category 2</a>
-                        <a href="#" th:href="@{/products}" class="list-group-item">Category 3</a>
+                        <a href="#" th:href="@{/products}" class="list-group-item">전체보기</a>
+                        <th:block th:each="category : ${categories}">
+                            <a href="#" th:href="@{/products(prd_cate=${category.name})}" th:classappend="${product.category.name == category.name ? ' active' : ''}" class="list-group-item" th:text="${category.name}">Category 1</a>
+                        </th:block>
                     </div>
                 </div>
                 <!-- /.col-lg-3 -->
@@ -29,39 +30,41 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <div class="card mt-4">
-                                <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+                                <img th:if="${thumbnail != null}" th:src="@{'/image/'+${thumbnail.id}}" class="card-img-top img-fluid" src="#" alt="">
                             </div>
                         </div>
                         <!-- 상품정보 -->
                         <div class="col-lg-7">
                             <br>
                             <form name="productForm" method="post" id="productForm">
-                                <h2>상품이름</h2>
+                                <input type="hidden" id="prdId" name="prdId" th:value="${product.id}">
+                                <h2 th:text="${product.name}">상품이름</h2>
                                 <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
                                     <label for="price" class="col-md-3 col-form-label">&nbsp;판매가</label>
                                     <div class="col-md-9">
-                                        <input type="text" readonly class="form-control-plaintext" id="price" value="1000 원">
+                                        <input type="text" readonly class="form-control-plaintext" id="price" th:value="${product.price+' 원'}" value="1000 원">
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
                                     <label for="width" class="col-md-3 col-form-label">&nbsp;사이즈</label>
                                     <div class="col-md-9">
-                                        <input type="text" readonly class="form-control-plaintext" id="width" value="200&nbsp;X&nbsp;200&nbsp;mm">
+                                        <input type="text" readonly class="form-control-plaintext" id="width" th:value="${product.width+' X '+product.height+' mm'}" value="200&nbsp;X&nbsp;200&nbsp;mm">
                                     </div>
                                 </div>
                                 <div class="form-row" style="margin-bottom: 0; margin-top: 0">
                                     <div class="col-md-6 mb-3">
                                         <label for="quantity">&nbsp;상품수량</label>
-                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="0">
+                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="1" min="1" max="20">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="total">총 금액</label>
-                                        <input type="text" class="form-control-plaintext" id="total" name="total" value="1000" readonly>
+                                        <label for="totalPrice">총 금액</label>
+                                        <input type="text" class="form-control-plaintext" id="totalPrice" th:value="${product.price}" value="1000" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input id="cartBtn" class="btn btn-dark col-md-5" type="button" value="장바구니">
                                     <input id="wishBtn" class="btn btn-dark col-md-5" type="button" value="찜하기">
+                                    <!-- prdId -->
                                 </div>
                                 <div class="form-group">
                                     <input id="orderBtn" class="btn btn-success col-md-10" type="button" value="바로구매">
@@ -73,19 +76,11 @@
                     <!-- /.card -->
                     <div class="card card-outline-secondary my-4">
                         <div class="card-header">
-                            Product Reviews
+                            상품 설명
                         </div>
                         <div class="card-body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                            <hr>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                            <hr>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                            <hr>
-                            <a href="#" class="btn btn-success">Leave a Review</a>
+                            <div th:text="${product.content}"></div>
+                            <img th:if="${detailImage != null}" th:src="@{'/image/'+${detailImage.id}}" class="card-img-top img-fluid" src="#" alt="">
                         </div>
                     </div>
                     <!-- /.card -->
@@ -102,35 +97,55 @@
 <th:block layout:fragment="footer_script">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var cartUrl = /*[[@{/order/cart}]]*/ 'cart';
-        var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
+        var cartUrl = /*[[@{/api/order/cart}]]*/ 'cart';
+        var wishlistUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
+        var productPrice = /*[[${product.price}]]*/ 1;
         /*]]>*/
 
         $(document).ready(function () {
-            $("#quantity").on("click", function () {
-                if($("#quantity").val() < 0) {
-                    $("#quantity").val(0);
-                }
+            $("#quantity").on("keyup", function () {
+                checkQuantityValue();
+                calculateTotalPrice();
             });
 
             $("#cartBtn").on("click", function () {
-                processAjax(cartUrl, true, "장바구니로 이동하시겠습니까?");
+                var sendData = {
+                    prdId : $("#prdId").val()
+                    , quantity : $("#quantity").val()
+                };
+                sendJson(cartUrl, true, "장바구니로 이동하시겠습니까?", sendData);
             });
 
             $("#wishBtn").on("click", function () {
-                processAjax(wishlistUrl, true, "위시리스트로 이동하시겠습니까?");
+                sendForm(wishlistUrl, true, "위시리스트로 이동하시겠습니까?");
             });
 
             $("#orderBtn").on("click", function () {
-                processAjax(cartUrl, false);
+                sendJson(cartUrl, false);
             });
         });
 
-        var processAjax = function(url, isConfirm, msg) {
+        var checkQuantityValue = function() {
+            if($("#quantity").val() < 1) {
+                $("#quantity").val(1);
+            }
+            else if($("#quantity").val() > 20) {
+                $("#quantity").val(20);
+            }
+        }
+
+        var calculateTotalPrice = function() {
+            var quantity = $("#quantity").val();
+            $("#totalPrice").val(productPrice * quantity);
+        }
+
+        var sendJson = function(url, isConfirm, msg, sendData) {
+
             $.ajax({
                 method: "POST",
                 url: url,
-                data: $("#productForm").serializeArray()
+                contentType: 'application/json',
+                data: JSON.stringify(sendData)
             })
             .done(function() {
                 if(isConfirm) {
@@ -142,7 +157,31 @@
                     location.href = url;
                 }
             })
-            .fail(function () {
+            .fail(function (xhr) {
+                console.log(xhr);
+                alert("일시적인 장애가 발생하였습니다. 다시 시도해주세요.");
+            });
+        }
+
+        var sendForm = function(url, isConfirm, msg) {
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: $("#productForm").serialize()
+            })
+            .done(function() {
+                if(isConfirm) {
+                    if(confirm(msg)){
+                        location.href = url;
+                    }
+                }
+                else {
+                    location.href = url;
+                }
+            })
+            .fail(function (xhr) {
+                console.log(xhr);
                 alert("일시적인 장애가 발생하였습니다. 다시 시도해주세요.");
             });
         }

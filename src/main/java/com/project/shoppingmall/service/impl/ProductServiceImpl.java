@@ -3,6 +3,7 @@ package com.project.shoppingmall.service.impl;
 import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.repository.ProductRepository;
 import com.project.shoppingmall.service.ProductService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,13 +27,42 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<Product> getProducts(String searchStr, String prdCate, int page, String sort) {
+    public Page<Product> getProducts(String searchStr, String prdCate, int page, String sortType) {
         
-        //TODO 정렬 유형에 따른 소트 생성해야함.
-        Sort defaultSort = Sort.by(Sort.Direction.DESC, "id");
+        Sort sort = createSort(sortType);
         
-        Pageable pageable = PageRequest.of(page, 8, defaultSort);
+        Pageable pageable = PageRequest.of(page - 1, 8, sort);
         
         return productRepository.findAllProducts(searchStr, prdCate, pageable);
     }
+    
+    @Override
+    public Product getProduct(Long id) {
+        return productRepository.findById(id).get();
+    }
+    
+    private Sort createSort(String sortType) {
+    
+        if(StringUtils.isBlank(sortType)) {
+            return Sort.by(Sort.Direction.DESC, "id");
+        }
+    
+        String upperCase = sortType.toUpperCase();
+        
+        switch (SortType.valueOf(upperCase)) {
+            case NEWEST:
+                return Sort.by(Sort.Direction.DESC, "id");
+            case PRICE_ASC:
+                return Sort.by(Sort.Direction.ASC, "price");
+            case PRICE_DESC:
+                return Sort.by(Sort.Direction.DESC, "price");
+            default:
+                throw new IllegalArgumentException("잘못된 정렬 조건 입니다.");
+        }
+    }
+    
+    private enum SortType {
+        NEWEST, PRICE_ASC, PRICE_DESC;
+    }
+    
 }

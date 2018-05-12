@@ -26,7 +26,7 @@ public class Image implements Serializable {
     private ImageType type;
     private int size;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
     
