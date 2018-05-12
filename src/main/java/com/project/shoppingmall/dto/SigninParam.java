@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SigninPram {
-    long id;
+public class SigninParam {
+    String id;
     String name;
 
-    public SigninPram(long id, String name) {
+    public SigninParam(String id, String name) {
         this.id = id;
         this.name = name;
     }

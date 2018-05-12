@@ -3,6 +3,7 @@ package com.project.shoppingmall.controller;
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Role;
 import com.project.shoppingmall.dto.JoinFormConfirm;
+import com.project.shoppingmall.dto.SigninParam;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
-import java.security.Principal;
 
 
 @Controller
@@ -99,6 +99,7 @@ public class MembersController {
 
 	@GetMapping(path="/{id}/update")
 	public String updateAccountForm(@PathVariable("id") long id,ModelMap modelMap) {
+		System.out.println("update id : " + id);
 		modelMap.addAttribute("id",id);
 		return "members/update_member";
 	}
@@ -112,8 +113,13 @@ public class MembersController {
 		return "members/update_member";
 	}
 
+
+	//@GetMapping
 	@GetMapping(path="/{id}")
-	public String contractList(@PathVariable("id") long id,ModelMap modelMap) {
+	public String contractList(@PathVariable String id, ModelMap modelMap) {
+//public String contractList(@ModelAttribute SigninParam signinParam, ModelMap modelMap) {
+
+		System.out.println("contract id : " + id);
 		modelMap.addAttribute("id",id);
 		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
 		//페이져 초기화
@@ -125,6 +131,7 @@ public class MembersController {
 
 	@GetMapping(path="/{id}/dropout")
 	public String dropOutForm(@PathVariable("id") long id,ModelMap modelMap) {
+		System.out.println(" dropout id : " + id);
 		modelMap.addAttribute("id",id);
 		return "members/dropout";
 	}
@@ -143,7 +150,8 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}/password")
-	public String updatePasswdForm(@PathVariable("id") long id,ModelMap modelMap) {
+	public String updatePasswdForm(@PathVariable("id") long id,ModelMap modelMap,HttpServletRequest request) {
+		System.out.println("pass id : " + id);
 		modelMap.addAttribute("id",id);
 		return "members/update_password";
 	}
