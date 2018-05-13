@@ -21,4 +21,4 @@ spring:
       enabled: true
 
 image:
-  path: D:/image/
+  path: C:/Users/story/Pictures/shoppingmall

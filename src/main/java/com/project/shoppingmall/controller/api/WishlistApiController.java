@@ -33,20 +33,20 @@ public class WishlistApiController {
 //        for(Long prdId : prdIdList){
 //            System.out.println(prdId);
 //        }
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(((Member)principal).getEmail());
-
-        Member member = membersService.getUserByEmail(principal.getName());
-
-        List<Product> list = productService.getProducts(prdIdList);
-
-        for(Product p : list){
-            Wishlist wishlist = new Wishlist();
-            wishlist.setMember(member);
-            wishlist.setProduct(p);
-            Wishlist wishlist1 = wishlistService.addWishlist(wishlist);
-            System.out.println(wishlist1);
-        }
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        System.out.println(((Member)principal).getEmail());
+//
+//        Member member = membersService.getUserByEmail(principal.getName());
+//
+//        List<Product> list = productService.getProducts(prdIdList);
+//
+//        for(Product p : list){
+//            Wishlist wishlist = new Wishlist();
+//            wishlist.setMember(member);
+//            wishlist.setProduct(p);
+//            Wishlist wishlist1 = wishlistService.addWishlist(wishlist);
+//            System.out.println(wishlist1);
+//        }
 
 //        wishlist.getProduct(prdIdList.get(1));
         //ProductID 받는다.
