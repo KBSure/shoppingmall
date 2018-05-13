@@ -76,4 +76,15 @@ public class WishlistRepositoryTest {
 
 
     }
+
+    @Test
+    public void getWishlists(){
+        List<Wishlist> allByMemberEmail = wishlistRepository.findAllByMemberEmail("test2@gmail.com");
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+        for (Wishlist wishlist : allByMemberEmail) {
+            System.out.println(wishlist.getId());
+        }
+    }
 }

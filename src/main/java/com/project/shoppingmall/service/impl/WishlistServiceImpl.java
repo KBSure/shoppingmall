@@ -21,23 +21,13 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Wishlist> getWishlist() {
-        return null;
+    public List<Wishlist> getWishlists(String email) {
+        return wishlistRepository.findAllByMemberEmail(email);
     }
 
     @Override
-    public List<Wishlist> getWishlistByMember() {
-        return null;
-    }
-
-    @Override
-    public Wishlist addWishlist(Wishlist wishlist) {
-        return null;
-    }
-
     @Transactional
-    @Override
-    public List<Wishlist> addWIshlist(List<Product> productList, Member member) {
+    public List<Wishlist> addWishlist(List<Product> productList, Member member) {
 //        productList랑 member wishlist에 set해서 wishlist를 추가한다.
 
         List<Wishlist> wishlistList = new ArrayList<>();
