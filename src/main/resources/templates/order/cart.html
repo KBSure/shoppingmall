@@ -29,59 +29,32 @@
            </div>
            <br>
 
-           <form id = "cart_form">
+           <form id="cartForm" name="cartForm" action="post">
                <div class="row">
                    <table class="table table-striped text-center">
                        <thead>
                        <tr>
-                           <th scope="col">상품명</th>
-                           <th scope="col">수량</th>
-                           <th scope="col">가격</th>
-                           <th scope="col"></th>
+                           <th scope="col" width="20%"></th>
+                           <th scope="col" width="40%">상품명</th>
+                           <th scope="col" width="15%">수량</th>
+                           <th scope="col" width="15%">가격</th>
+                           <th scope="col" width="10%"><input type="checkbox" id="checkAll"/></th>
                        </tr>
                        </thead>
-                       <tbody id="test1">
-                       <tr th:each="i:list">
-                           <td>
-                               <img src="..." alt="img1" class="img-thumbnail">
-                               <span th:text="${productName}"></span>
-                           </td>
-                           <td th:text="${quantity}"></td>
-                           <td th:text="${price}"></td>
-                           <td>
-                               <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                   </label>
-                               </div>
-                           </td>
-                       </tr>
-
-                       <tr>
-                           <td>
-                               <img src="..." alt="img2" class="img-thumbnail">efg
-                           </td>
-                           <td>2</td>
-                           <td>6,500</td>
-                           <td>
-                               <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                                   </label>
-                               </div>
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>
-                               <img src="..." alt="img3" class="img-thumbnail">hij
-                           </td>
-                           <td>3</td>
-                           <td>7,000</td>
-                           <td>
-                               <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-                                   </label>
-                               </div>
-                           </td>
-                       </tr>
+                       <tbody>
+                           <tr th:if="${cartList != null}" th:each="cart : ${cartList}">
+                               <td>
+                                   <img th:width="100px" th:src="@{'/image/'+${cart.product.images[0].id}}" src="#" alt="img1" class="img-thumbnail" />
+                               </td>
+                               <td class="justify-content-center align-middle">
+                                   <span th:text="${cart.product.name}"></span>
+                               </td>
+                               <td class="justify-content-center align-middle" th:text="${cart.quantity}"></td>
+                               <td class="justify-content-center align-middle" th:text="${cart.quantity * cart.product.price}"></td>
+                               <td class="justify-content-center align-middle">
+                                   <input type="checkbox" name="prdId" th:value="${cart.product.id}" value="" th:id="'chk_'+${cart.product.id}"/>
+                               </td>
+                           </tr>
                        </tbody>
                    </table>
                </div>
@@ -89,16 +62,16 @@
                    결제 금액 : 총 23,700원
                </div>
                <div class="row justify-content-end">
-                   <input id="post_wishlist_btn" class="btn btn-primary btn-sm" type="submit" value="선택 찜하기"></input>
+                   <input id="wishlistBtn" class="btn btn-primary btn-sm" type="button" value="선택 찜하기" />
                    &nbsp;&nbsp;&nbsp;
-                   <input id="delete_cart_btn" class="btn btn-secondary btn-sm" type="submit" value="선택 삭제"></input>
+                   <input id="deleteBtn" class="btn btn-secondary btn-sm" type="button" value="선택 삭제" />
                </div>
                <br>
                <div class="row justify-content-center">
-                   <input id="get_order_btn" type="submit" class="btn btn-primary"  value="구매하기"></input>
+                   <input id="orderBtn" type="button" class="btn btn-primary"  value="구매하기" />
                    <!--</form>-->
                    &nbsp;&nbsp;&nbsp;&nbsp;
-                   <input id="get_product_btn" type="submit" class="btn btn-secondary" value="계속 쇼핑하기"></input>
+                   <input id="continueBtn" type="button" class="btn btn-secondary" value="계속 쇼핑하기" />
                    <!--</form>-->
                </div>
            </form>
@@ -107,75 +80,27 @@
     </main>
 </th:block>
 <th:block layout:fragment="footer_script">
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+            var productsUrl = /*[[@{/products}]]*/ 'products';
+
+        /*]]>*/
+
         $(document).ready(function () {
-
-        // <tr>
-        //     <td>
-        //     <img src="..." alt="img1" class="img-thumbnail">
-        //         abc
-        //
-        //         </td>
-        //         <td>1</td>
-        //
-        //         <td>3,000</td>
-        //
-        //     <td>
-        //     <div class="form-check">
-        //         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-        //         </label>
-        //         </div>
-        //         </td>
-        //         </tr>
-            var rowNum = 3; //temp
-            var colNum = 4;
-            for(var i = 0; i < rowNum; i++){
-                var row = $('<tr></tr>').appendTo('#test1');
-                for(var j = 0; j < colNum; j++){
-                    $('<td></td>').text("test").appendTo(row);
+            $("#checkAll").on("click", function () {
+                var length = cartForm.prdId.length;
+                for(var i = 0; i < length; i++) {
+                    cartForm.prdId[i].checked = cartForm.checkAll.checked;
                 }
-            }
-            // $('<tr>').attr().appendTo('#test1');
-            // $('<td>').attr().appendTo('#test1');
-            // $('</td>').attr().appendTo('#test1');
-            // $('<td>').attr().appendTo('#test1');
-            // $('</td>').attr().appendTo('#test1');
-            // $('<td>').attr().appendTo('#test1');
-            // $('</td>').attr().appendTo('#test1');
-            // $('<td>').attr().appendTo('#test1');
-            // $('</td>').attr().appendTo('#test1');
-            // $('</tr>').attr().appendTo('#test1');
-
-
-
-            $("#post_wishlist_btn").on("click", function () {
-               // form action
-               $("#cart_form").attr("action", "/api/wishlist");
-               $("#cart_form").attr("method", "post");
             });
-            $("#delete_cart_btn").on("click", function () {
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'delete_method',
-                    name: '_method',
-                    value: "delete"
-                }).appendTo('#cart_form');
-                $("#cart_form").attr("action", "/order/cart");
-                $("#cart_form").attr("method", "post");
-
-            });
-            $("#get_order_btn").on("click", function () {
-                $("#cart_form").attr("action", "/order/order");
-                $("#cart_form").attr("method", "get");
-            });
-            $("#get_product_btn").on("click", function () {
-                $("#cart_form").attr("action", "/products");
-                $("#cart_form").attr("method", "get");
+            $("#continueBtn").on("click", function () {
+                location.href = productsUrl;
             })
-        });
+            $("#deleteBtn").on("click", function () {
 
-        // $("#cart_form").attr("action", "/api/wishlist");
-        // $("#cart_form").attr("method", "post");
+            });
+        });
 
     </script>
 

@@ -103,3 +103,10 @@ insert into members_roles(members_id, roles_id) VALUES (2,2);
 insert into members_roles(members_id, roles_id) VALUES (3,2);
 insert into members_roles(members_id, roles_id) VALUES (4,2);
 insert into members_roles(members_id, roles_id) VALUES (5,2);
+
+insert into cart(id, product_id, members_id, quantity) values (1, 1, 1, 3);
+insert into cart(id, product_id, members_id, quantity) values (2, 2, 1, 3);
+insert into cart(id, product_id, members_id, quantity) values (3, 3, 1, 3);
+insert into cart(id, product_id, members_id, quantity) values (4, 2, 2, 3);
+insert into cart(id, product_id, members_id, quantity) values (5, 3, 2, 3);
+-- insert into cart(id, product_id, members_id, quantity) values (6, 3, 3, 3);

@@ -19,7 +19,7 @@ public class Cart implements Serializable {
     private Long id;
     private int quantity;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="members_id")
     private Member member;
     

@@ -1,8 +1,6 @@
 package com.project.shoppingmall.repository;
 
-import com.project.shoppingmall.domain.Cart;
-import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Product;
+import com.project.shoppingmall.domain.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +55,14 @@ public class CartRepositoryTest {
     }
     
     @Test
-    public void testfindAllCart() {
-        Member member = membersRepository.findById(1L).get();
+    public void testfindAllMembersCart() {
+        Member newMember = new Member();
+        Role role = new Role();
+        role.setName("USER");
+        newMember.addRole(role);
+        membersRepository.save(newMember);
+        
+        Member member = membersRepository.findById(newMember.getId()).get();
         List<Cart> cartList = new ArrayList<>();
         
         final long saveCount = 5;

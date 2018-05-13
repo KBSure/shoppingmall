@@ -1,33 +1,60 @@
 package com.project.shoppingmall.controller;
 
+import com.project.shoppingmall.domain.Cart;
+import com.project.shoppingmall.domain.Product;
+import com.project.shoppingmall.security.LoginMember;
+import com.project.shoppingmall.service.OrderService;
+import com.project.shoppingmall.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-
+    
+    @Autowired
+    private OrderService orderService;
+    
+    @Autowired
+    private ProductService productService;
+    
     //장바구니
     @GetMapping("/cart")
-    public String getCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
-                       @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt, ModelMap modelmap){
-        // DB에서 로그인한 member의 cart내 정보를 조회한다.
-        String productName = "product";
-        int quantity = 2;
-        int price = 3000;
-
-//        cartRepository.getOne()
-
-        modelmap.addAttribute("productName", productName);
-        modelmap.addAttribute("quantity", quantity);
-        modelmap.addAttribute("price", price);
-
+    public String getCart(HttpSession session, Authentication authentication, Model model){
+        // 세션에서 카트 내역 조회
+        @SuppressWarnings("unchecked")
+        List<Cart> cartList = (List<Cart>) session.getAttribute("cartList");
+        // 세션에 담긴 카트리스트가 없고, 로그인 사용자이면, DB에서 조회
+        if(cartList == null && authentication != null) {
+            LoginMember loginMember = (LoginMember) authentication.getPrincipal();
+            cartList = orderService.getAllMemebrCarts(loginMember.getId());
+        }
+        
+        if(cartList != null && !cartList.isEmpty()) {
+            List<Long> productIds = cartList.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
+    
+            Map<Long, Product> productMap = productService.getAllProductsWithThumnail(productIds).stream().collect(Collectors.toMap(p -> p.getId(), p -> p));
+            cartList.forEach(c -> {
+                Product product = productMap.get(c.getProduct().getId());
+                if(product == null) throw new IllegalArgumentException("존재하지 않는 상품입니다.");
+                c.setProduct(product);
+            });
+        }
+        
+        model.addAttribute("cartList", cartList);
         return "/order/cart";
     }
     
