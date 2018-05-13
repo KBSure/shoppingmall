@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -24,7 +25,7 @@ public class OrderApiController {
     private OrderService orderService;
     
     @PostMapping("/cart")
-    public ResponseEntity<Void> registCart(@Validated @RequestBody CartInfo cartInfo, HttpSession session, Principal principal){
+    public ResponseEntity<List<CartInfo>> registCart(@RequestBody CartInfo cartInfo, HttpSession session, Principal principal){
         
         @SuppressWarnings("unchecked")
         List<CartInfo> cartList = (List<CartInfo>) session.getAttribute("cartList");
@@ -39,6 +40,16 @@ public class OrderApiController {
             orderService.registCart(loginMember.getId(), cartInfo.getPrdId());
         }
         
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(cartList, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/cart")
+    public ResponseEntity<List<CartInfo>> removeCarts(@RequestBody List<CartInfo> cartInfos) {
+        
+        List<Long> cartIds = cartInfos.stream().map(c -> c.getCartId()).collect(Collectors.toList());
+        
+        orderService.removeCarts(cartIds);
+        
+        return new ResponseEntity<>(cartInfos, HttpStatus.OK);
     }
 }

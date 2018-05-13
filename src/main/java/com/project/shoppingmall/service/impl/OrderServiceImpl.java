@@ -33,6 +33,11 @@ public class OrderServiceImpl implements OrderService {
         return cartRepository.findAllMemberCarts(memberId);
     }
     
+    @Override
+    public List<Cart> getAllCartsByCartIds(List<Long> cartIds) {
+        return cartRepository.findAllById(cartIds);
+    }
+    
     @Transactional
     @Override
     public Cart registCart(Long memberId, Long productId) {
@@ -71,17 +76,12 @@ public class OrderServiceImpl implements OrderService {
         
     }
     
+    
     @Transactional
     @Override
-    public void removeCart(Long memberId, Long productId) {
-        // 멤버아이디와 상품아이디가 동일한 카트 삭제.
-    }
+    public void removeCarts(List<Long> cartIds) {
+        List<Cart> findCarts = cartRepository.findAllById(cartIds);
     
-    @Override
-    public void removeCarts(Long memberId, List<CartInfo> cartInfos) {
-        // cartInfos에서 상품 아이디만 추출
-        
-        // 멤버가 가진 카트중에서 일치하는 상품 아이디만 삭제.
-        
+        cartRepository.deleteInBatch(findCarts);
     }
 }

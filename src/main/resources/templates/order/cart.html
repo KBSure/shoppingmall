@@ -52,7 +52,7 @@
                                <td class="justify-content-center align-middle" th:text="${cart.quantity}"></td>
                                <td class="justify-content-center align-middle" th:text="${cart.quantity * cart.product.price}"></td>
                                <td class="justify-content-center align-middle">
-                                   <input type="checkbox" name="prdId" th:value="${cart.product.id}" value="" th:id="'chk_'+${cart.product.id}"/>
+                                   <input type="checkbox" name="cartId" th:value="${cart.id}" value="" th:id="'chk_'+${cart.id}"/>
                                </td>
                            </tr>
                        </tbody>
@@ -84,6 +84,8 @@
         /*<![CDATA[*/
 
             var productsUrl = /*[[@{/products}]]*/ 'products';
+            var cartUrl = /*[[@{/api/order/cart}]]*/ 'cart';
+            var wishlistUrl = /*[[@{/api/wishlist}]]*/ 'wishlist';
 
         /*]]>*/
 
@@ -94,14 +96,56 @@
                     cartForm.prdId[i].checked = cartForm.checkAll.checked;
                 }
             });
+
             $("#continueBtn").on("click", function () {
                 location.href = productsUrl;
-            })
-            $("#deleteBtn").on("click", function () {
+            });
 
+            $("#deleteBtn").on("click", function () {
+                if(!confirm("선택하신 상품을 삭제하시겠습니까?")) {
+                    return;
+                }
+                var cartIdArray = makeCartIdArray();
+                if(cartIdArray.length == 0) {
+                    alert("하나 이상의 상품을 선택해 주세요.");
+                    return;
+                }
+                sendJson(cartUrl, "delete", cartIdArray, function (data) {
+                    for(var i = 0; i < data.length; i++) {
+                        removeTr(data[i].cartId);
+                    }
+                });
             });
         });
 
+        var makeCartIdArray = function () {
+            var cartIdArray = new Array();
+            var length = cartForm.cartId.length;
+            for(var i = 0; i < length; i++) {
+                if(cartForm.cartId[i].checked) {
+                    cartIdArray.push({cartId : cartForm.cartId[i].value});
+                }
+            }
+            return cartIdArray;
+        }
+
+        var sendJson = function(url, method, sendData, successFunction) {
+            $.ajax({
+                method: method,
+                url: url,
+                contentType: 'application/json',
+                data: JSON.stringify(sendData)
+            })
+            .done(successFunction)
+            .fail(function (xhr) {
+                console.log(xhr);
+                alert("일시적인 장애가 발생하였습니다. 다시 시도해주세요.");
+            });
+        }
+        
+        var removeTr = function (cartId) {
+            $("#chk_"+cartId).parent().parent().remove();
+        }
     </script>
 
 </th:block>

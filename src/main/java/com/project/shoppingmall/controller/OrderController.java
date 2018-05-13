@@ -58,20 +58,6 @@ public class OrderController {
         return "/order/cart";
     }
     
-    @PostMapping("/cart")
-    @ResponseBody
-    public ResponseEntity<Void> registCart() {
-        
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    
-    @PostMapping("/wishlist")
-    @ResponseBody
-    public ResponseEntity<String> registWishlist(HttpServletResponse response) {
-    
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @DeleteMapping("/cart")
     public String deleteCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
                        @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt){

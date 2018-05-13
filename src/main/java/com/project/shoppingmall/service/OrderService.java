@@ -9,13 +9,13 @@ public interface OrderService {
     
     List<Cart> getAllMemebrCarts(Long memberId);
     
+    List<Cart> getAllCartsByCartIds(List<Long> cartIds);
+    
     Cart registCart(Long memberId, Long productId);
     
     void modifyCart(Long memberId, CartInfo cartInfo);
     
     void modifyCarts(Long memberId, List<CartInfo> cartInfos);
     
-    void removeCart(Long memberId, Long productId);
-    
-    void removeCarts(Long memberId, List<CartInfo> cartInfos);
+    void removeCarts(List<Long> cartIds);
 }

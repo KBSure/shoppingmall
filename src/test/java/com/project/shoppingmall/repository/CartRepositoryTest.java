@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -56,27 +58,11 @@ public class CartRepositoryTest {
     
     @Test
     public void testfindAllMembersCart() {
-        Member newMember = new Member();
-        Role role = new Role();
-        role.setName("USER");
-        newMember.addRole(role);
-        membersRepository.save(newMember);
-        
-        Member member = membersRepository.findById(newMember.getId()).get();
-        List<Cart> cartList = new ArrayList<>();
-        
         final long saveCount = 5;
-        for(long i = 1; i <= saveCount; i++) {
-            Product product = productRepository.findById(i).get();
-            Cart cart = new Cart();
-            cart.setMember(member);
-            cart.setProduct(product);
-            cartList.add(cart);
-//            cartRepository.save(cart);
-        }
-        cartRepository.saveAll(cartList);
-        
+    
+        List<Cart> saveCartList = saveTestCarts(saveCount);
         entityManager.flush();
+        Member member = saveCartList.get(0).getMember();
     
         List<Cart> memberCarts = cartRepository.findAllMemberCarts(member.getId());
         
@@ -87,5 +73,48 @@ public class CartRepositoryTest {
             assertTrue(Long.compare(cartMemberId, member.getId()) == 0);
         });
     }
+ 
+    @Test
+    public void testDeleteAllCarts() {
+        List<Cart> saveTestCarts = saveTestCarts(5);
+
+        Member member = saveTestCarts.get(0).getMember();
+        Long memberId = member.getId();
+        
+        List<Cart> findCarts = cartRepository.findAllMemberCarts(memberId);
+        cartRepository.deleteInBatch(findCarts);
+        entityManager.flush();
     
+        List<Cart> afterCarts = cartRepository.findAllMemberCarts(memberId);
+        
+        assertTrue(afterCarts.isEmpty());
+    }
+    
+    @Transactional
+    public List<Cart> saveTestCarts(long saveCount) {
+        Member newMember = new Member();
+        Role role = new Role();
+        role.setName("USER");
+        newMember.addRole(role);
+        membersRepository.save(newMember);
+    
+        Member member = membersRepository.findById(newMember.getId()).get();
+        List<Cart> cartList = new ArrayList<>();
+    
+        for(long i = 1; i <= saveCount; i++) {
+            Product product = productRepository.findById(i).get();
+            Cart cart = new Cart();
+            cart.setMember(member);
+            cart.setProduct(product);
+            cartList.add(cart);
+        }
+        List<Cart> saveList = cartRepository.saveAll(cartList);
+    
+        return saveList;
+    }
+    
+    @Test
+    public void testDeleteCarts() {
+//        cartRepository.deleteAllByIds(Arrays.asList(1L));
+    }
 }
