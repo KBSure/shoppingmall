@@ -22,15 +22,16 @@ import java.util.List;
 public class WishlistApiController {
     @Autowired
     WishlistService wishlistService;
+
+    @Autowired
     MembersService membersService;
+
+    @Autowired
     ProductService productService;
 
     @PostMapping
     public ResponseEntity<String> postWishList(@RequestParam(name = "prdId", required = true)List<Long> prdIdList, Principal principal){
         String wishListUrl = "/wishlist";
-
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(principal.getName());
 
 //        ProductID 받는다.
 //        pricipal로 memberId 가져온다.
@@ -40,28 +41,12 @@ public class WishlistApiController {
         //wishlist 객체 넣는다.
         //wishlist를 add한다.
 
+
         List<Product> productList = productService.getProducts(prdIdList);
+
         Member member = membersService.getUserByEmail(principal.getName());
 
         wishlistService.addWIshlist(productList, member);
-
-
-
-//        Member member = membersService.getUserByEmail(principal.getName());
-//
-//        List<Product> list = productService.getProducts(prdIdList);
-//
-//        for(Product p : list){
-//            Wishlist wishlist = new Wishlist();
-//            wishlist.setMember(member);
-//            wishlist.setProduct(p);
-//            Wishlist wishlist1 = wishlistService.addWishlist(wishlist);
-//            System.out.println(wishlist1);
-//        }
-
-//        wishlist.getProduct(prdIdList.get(1));
-
-
 
         return new ResponseEntity<String>(wishListUrl, HttpStatus.OK);
     }
