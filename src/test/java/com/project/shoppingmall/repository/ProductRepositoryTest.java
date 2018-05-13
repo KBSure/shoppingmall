@@ -1,6 +1,7 @@
 package com.project.shoppingmall.repository;
 
 import com.project.shoppingmall.domain.Category;
+import com.project.shoppingmall.domain.ImageType;
 import com.project.shoppingmall.domain.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -117,6 +118,12 @@ public class ProductRepositoryTest {
         List<Product> productList = products.getContent();
         
         assertFalse(productList.isEmpty());
+        
+        productList.forEach(p -> {
+            int size = p.getImages().size();
+            assertTrue(size == 1);
+            assertEquals(ImageType.THUMB_NAIL, p.getImages().get(0).getType());
+        });
     }
     
     @Test
@@ -126,6 +133,15 @@ public class ProductRepositoryTest {
         
         assertEquals(9, bestSellsers.size());
     
+    }
+    
+    @Test
+    public void testFindProductById() {
+        Product product = productRepository.findById(1L).get();
+    
+        assertNotNull(product);
+        
+        assertEquals(2, product.getImages().size());
     }
     
     private Category createTestCategory() {

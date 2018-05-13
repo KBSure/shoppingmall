@@ -9,6 +9,7 @@ public interface ProductService {
     
     List<Product> getBestSellers();
     
-    Page<Product> getProducts(String searchStr, String prdCate, int page, String sort);
+    Page<Product> getProducts(String searchStr, String prdCate, int page, String sortType);
     
+    Product getProduct(Long id);
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -72,6 +73,13 @@ public class ImageRepositoryTest {
         assertEquals(updateImage.getName(), updateName);
     }
     
+    @Test
+    public void testFindImages() {
+        List<Image> images = repository.findAllByProductId(1L);
+    
+        assertFalse(images.isEmpty());
+        
+    }
     
     private Image createTestImage() {
         Product product = createTestProduct();
