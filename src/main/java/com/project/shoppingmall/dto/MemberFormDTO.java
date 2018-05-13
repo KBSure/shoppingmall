@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 
-public class JoinFormConfirm {
+public class JoinFormDTO {
     @NotBlank
     @Size(min= 2, max = 10, message = "2자에서 10자 사이의 값만 가능합니다.")
     String name;
