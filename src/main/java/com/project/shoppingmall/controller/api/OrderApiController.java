@@ -1,22 +1,44 @@
 package com.project.shoppingmall.controller.api;
 
-import jdk.net.SocketFlow;
-import org.springframework.http.HttpHeaders;
+import com.project.shoppingmall.dto.CartInfo;
+import com.project.shoppingmall.security.LoginMember;
+import com.project.shoppingmall.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/order")
 public class OrderApiController {
-    //이동할 url이나 등록을 성공한 객체(DTO)를 넘겨준다.
+    
+    @Autowired
+    private OrderService orderService;
+    
     @PostMapping("/cart")
-    public ResponseEntity<String> postCart(){
-        String cartUrl = "/order/cart";
-
-        return new ResponseEntity<String>(cartUrl, HttpStatus.OK);
+    public ResponseEntity<Void> registCart(@Validated @RequestBody CartInfo cartInfo, HttpSession session, Principal principal){
+        
+        @SuppressWarnings("unchecked")
+        List<CartInfo> cartList = (List<CartInfo>) session.getAttribute("cartList");
+        if(cartList == null) {
+            cartList = new ArrayList<>();
+        }
+        cartList.add(cartInfo);
+        session.setAttribute("cartList", cartList);
+        
+        if(principal != null) {
+            LoginMember loginMember = (LoginMember) principal;
+            orderService.registCart(loginMember.getId(), cartInfo.getPrdId());
+        }
+        
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }
