@@ -87,4 +87,14 @@ public class WishlistRepositoryTest {
             System.out.println(wishlist.getId());
         }
     }
+
+    @Test
+    public void getProductIds(){
+        List<Product> productIdsByMemberEmail = wishlistRepository.findProductIdsByMemberEmail("test2@gmail.com");
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        for (Product product : productIdsByMemberEmail) {
+            System.out.println(product.getName());
+        }
+    }
 }

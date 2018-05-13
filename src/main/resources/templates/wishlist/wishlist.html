@@ -26,13 +26,13 @@
                        </tr>
                        </thead>
                        <tbody id="test1">
-                       <tr th:each="i:list">
+                       <tr th:each="wishlist:${wishlists}">
                            <td>
                                <img src="..." alt="img1" class="img-thumbnail">
-                               <span th:text="${productName}"></span>
+                               <span th:text="${wishlist.product.name}"></span>
                            </td>
-                           <td th:text="${quantity}"></td>
-                           <td th:text="${price}"></td>
+                           <td th:text="${wishlist.product.quantity}"></td>
+                           <td th:text="${wishlist.product.price}"></td>
                            <td>
                                <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
