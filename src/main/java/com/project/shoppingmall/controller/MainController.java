@@ -25,9 +25,4 @@ public class MainController {
         model.addAttribute("bestSellers", bestSellers);
         return "main/main";
     }
-    @PostMapping
-    public String main(){
-
-        return "main/main";
-    }
 }
