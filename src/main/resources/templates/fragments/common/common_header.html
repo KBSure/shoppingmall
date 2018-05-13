@@ -16,7 +16,7 @@
                     </li>
 
                     <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
-                        <a class="nav-link" th:href="@{/members/{id}(id=${signinParam.id})}"><span th:text="${signinParam.name}"></span>님 환영합니다.</a>
+                        <a class="nav-link" th:href="@{/members/{id}(id=${#authentication.principal.id})}"><span th:text="${#authentication.principal.name}"></span>님 환영합니다.</a>
 
                     </li>
                     <li sec:authorize ="hasRole('ROLE_USER')" class="nav-item">
