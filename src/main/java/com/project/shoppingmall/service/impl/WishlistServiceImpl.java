@@ -37,7 +37,21 @@ public class WishlistServiceImpl implements WishlistService {
             wishlist.setMember(member);
             wishlistList.add(wishlist);
         }
+
         List<Wishlist> saveWishlistList = wishlistRepository.saveAll(wishlistList);
         return saveWishlistList;
+    }
+
+    @Override
+    @Transactional
+    public void deleteWishlist(List<Long> wishlistIdList) {
+//        for (Long id : wishlistIdList) {
+//            System.out.println("###################");
+//            System.out.println(id);
+//            wishlistRepository.deleteById(4L);
+//        }
+        wishlistRepository.deleteById(4L);
+
+        return;
     }
 }

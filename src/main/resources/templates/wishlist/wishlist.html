@@ -29,13 +29,15 @@
                                <td>
                                    <img th:src="'/image/'+ ${wishlist.product.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
                                </td>
-                               <td align="left" >
+                               <td align="left">
                                    <span th:text="${wishlist.product.name}">3</span>
                                </td>
-                               <td th:text="${wishlist.product.price}">1</td>
+                               <td >
+                                   <span th:text="${wishlist.product.price} + '원'">3000원</span>
+                               </td>
                                <td>
                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" th:name="'check' + ${wishlist.product.id}">
+                                       <input class="form-check-input" type="checkbox" th:name="wishlist_id" th:value="${wishlist.id}">
                                        </label>
                                    </div>
                                </td>

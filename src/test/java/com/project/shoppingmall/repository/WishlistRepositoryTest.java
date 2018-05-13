@@ -16,7 +16,9 @@ import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -96,5 +98,23 @@ public class WishlistRepositoryTest {
         for (Product product : productIdsByMemberEmail) {
             System.out.println(product.getName());
         }
+    }
+
+    @Test
+    public void deleteWishlist(){
+//        List<Wishlist> prdIdList = new ArrayList<>();
+        Optional<Wishlist> byId = wishlistRepository.findById(4L);
+
+        wishlistRepository.delete(byId.get());
+
+        findWishlist();
+
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        System.out.println(byId);
+//        findWishlist();
+//
+//        wishlistRepository.deleteById(5L);
+//        findWishlist();
+
     }
 }

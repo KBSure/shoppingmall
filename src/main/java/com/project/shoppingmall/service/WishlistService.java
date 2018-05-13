@@ -11,4 +11,5 @@ public interface WishlistService {
 
     List<Wishlist> getWishlists(String email);
     List<Wishlist> addWishlist(List<Product> productList, Member member);
+    void deleteWishlist(List<Long> wishlistIdList);
 }

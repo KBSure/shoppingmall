@@ -33,8 +33,14 @@ public class WishlistController {
 
 
     @DeleteMapping
-    public String deleteWishList(){
+    public String deleteWishList(@RequestParam(name = "wishlist_id", required = false)List<Long> wishlistIdList, ModelMap modelMap){
+        //prdId List 들을 wishlistService에 넣어서 wishlist에서 삭제할 것입니다.
 
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@");
+//        for (Long aLong : wishlistIdList) {
+//            System.out.println(aLong);
+//        }
+        wishlistService.deleteWishlist(wishlistIdList);
         return "redirect:/wishlist";
     }
 }
