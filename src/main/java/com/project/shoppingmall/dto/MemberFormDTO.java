@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 
-public class JoinFormDTO {
+public class MemberFormDTO {
     @NotBlank
     @Size(min= 2, max = 10, message = "2자에서 10자 사이의 값만 가능합니다.")
     String name;
@@ -33,4 +33,12 @@ public class JoinFormDTO {
     String location;
     @NotBlank
     String detail;
+
+    public void setAdderss(String phone,String zipcode, String location, String detail){
+        this.phone = phone;
+        this.zipcode = zipcode;
+        this.location = location;
+        this.detail = detail;
+
+    }
 }
