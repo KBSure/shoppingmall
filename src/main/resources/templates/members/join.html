@@ -5,8 +5,8 @@
         <div class="container">
             <div class="pt-5 col-md-8 order-md-1">
                 <p class="h1 pt-5 py-2">회원 가입</p>
-                <!--/*@thymesVar type="com.project.shoppingmall.dto.JoinFormConfirm"*/-->
-                <form  method="post" th:action="@{/members/join}" th:object="${joinFormConfirm}">
+                <!--/*@thymesVar type="com.project.shoppingmall.dto.MemberFormDTO"*/-->
+                <form  method="post" th:action="@{/members/join}" th:object="${memberFormDTO}">
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="name">이름</label>
