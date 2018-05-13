@@ -26,13 +26,7 @@ public class WishlistController {
                               @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt, ModelMap modelmap, Principal principal){
 
         List<Wishlist> wishlists = wishlistService.getWishlists(principal.getName());
-
-        modelmap.addAttribute(wishlists);
-
-//        System.out.println("@@@@@@@@@@@@@@@@@@@");
-//        for (Wishlist wishlist : wishlists) {
-//            System.out.println(wishlist.getProduct().getName());
-//        }
+        modelmap.addAttribute("wishlists", wishlists);
 
         return "/wishlist/wishlist";
     }
