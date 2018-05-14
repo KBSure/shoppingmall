@@ -1,6 +1,7 @@
 package com.project.shoppingmall.repository;
 
 import com.project.shoppingmall.domain.Category;
+import com.project.shoppingmall.domain.Image;
 import com.project.shoppingmall.domain.ImageType;
 import com.project.shoppingmall.domain.Product;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -29,6 +31,9 @@ public class ProductRepositoryTest {
     
     @Autowired
     private ProductRepository productRepository;
+    
+    @Autowired
+    private ImageRepository imageRepository;
     
     @Autowired
     private EntityManager entityManager;
@@ -144,12 +149,54 @@ public class ProductRepositoryTest {
         assertEquals(2, product.getImages().size());
     }
     
+    @Test
+    public void testFindAllProductsWithThumnailByProductIds() {
+        List<Product> testProductList = createTestProductList(5);
+        List<Product> saveProducts = productRepository.saveAll(testProductList);
+        List<Image> testImages = createTestThumbnailIamges(saveProducts);
+        imageRepository.saveAll(testImages);
+        
+        entityManager.flush();
+        List<Long> productsIds = saveProducts.stream().map(p -> p.getId()).collect(Collectors.toList());
+    
+        List<Product> products = productRepository.findAllProductsWithThumnailByProductIds(productsIds);
+        
+        assertEquals(productsIds.size(), products.size());
+        
+        products.forEach(p -> {
+            assertTrue(productsIds.contains(p.getId()));
+            assertEquals(1, p.getImages().size());
+            assertEquals(ImageType.THUMB_NAIL, p.getImages().get(0).getType());
+        });
+    }
+    
+    
     private Category createTestCategory() {
         Category category = new Category();
 //        category.setId(1);
         category.setName("category");
         
         return category;
+    }
+    
+    private Image createTestThumnailImage(Product product) {
+        Image image = new Image();
+        image.setName("testImg");
+        image.setSize(10);
+        image.setMimeType("img");
+        image.setType(ImageType.THUMB_NAIL);
+        image.setProduct(product);
+        return image;
+    }
+    
+    private List<Image> createTestThumbnailIamges(List<Product> products) {
+        List<Image> testImages = new ArrayList<>();
+        for(Product product : products) {
+            Image testImage = createTestThumnailImage(product);
+            testImages.add(testImage);
+        }
+        
+        return testImages;
     }
     
     private Product createTestProduct() {
@@ -163,7 +210,6 @@ public class ProductRepositoryTest {
         testProduct.setQuantity(80);
         testProduct.setRegDate(LocalDateTime.now());
         testProduct.setShippingCharge(2500);
-        
         testProduct.setCategory(createTestCategory());
         return testProduct;
     }

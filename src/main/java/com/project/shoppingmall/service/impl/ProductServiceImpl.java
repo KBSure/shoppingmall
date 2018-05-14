@@ -70,4 +70,8 @@ public class ProductServiceImpl implements ProductService {
         NEWEST, PRICE_ASC, PRICE_DESC;
     }
     
+    @Override
+    public List<Product> getAllProductsWithThumnail(List<Long> productIds) {
+        return productRepository.findAllProductsWithThumnailByProductIds(productIds);
+    }
 }

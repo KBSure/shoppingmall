@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Log4j2
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -33,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             list.add(simpleGrantedAuthority);
         }
         LoginMember loginMember = new LoginMember(member.getEmail(), member.getPassword(),list,member.getId(),member.getName());
+
         return loginMember;
     }
 }

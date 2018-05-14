@@ -14,4 +14,7 @@ public interface ProductService {
     Product getProduct(Long id);
 
     List<Product> getProducts(List<Long> prdIdList);
+
+    List<Product> getAllProductsWithThumnail(List<Long> productIds);
+
 }

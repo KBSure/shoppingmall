@@ -97,8 +97,10 @@
 <th:block layout:fragment="footer_script">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var cartUrl = /*[[@{/api/order/cart}]]*/ 'cart';
-        var wishlistUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
+        var cartApiUrl = /*[[@{/api/order/cart}]]*/ 'cart';
+        var cartUrl = /*[[@{/order/cart}]]*/ 'cart';
+        var wishlistApiUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
+        var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
         var productPrice = /*[[${product.price}]]*/ 1;
         /*]]>*/
 
@@ -113,11 +115,11 @@
                     prdId : $("#prdId").val()
                     , quantity : $("#quantity").val()
                 };
-                sendJson(cartUrl, true, "장바구니로 이동하시겠습니까?", sendData);
+                sendJson(cartApiUrl, cartUrl, true, "장바구니로 이동하시겠습니까?", sendData);
             });
 
             $("#wishBtn").on("click", function () {
-                sendForm(wishlistUrl, true, "위시리스트로 이동하시겠습니까?");
+                sendForm(wishlistApiUrl, wishlistUrl, true, "위시리스트로 이동하시겠습니까?");
             });
 
             $("#orderBtn").on("click", function () {
@@ -139,7 +141,7 @@
             $("#totalPrice").val(productPrice * quantity);
         }
 
-        var sendJson = function(url, isConfirm, msg, sendData) {
+        var sendJson = function(url, targetUrl, isConfirm, msg, sendData) {
 
             $.ajax({
                 method: "POST",
@@ -150,11 +152,11 @@
             .done(function() {
                 if(isConfirm) {
                     if(confirm(msg)){
-                        location.href = url;
+                        location.href = targetUrl;
                     }
                 }
                 else {
-                    location.href = url;
+                    location.href = targetUrl;
                 }
             })
             .fail(function (xhr) {

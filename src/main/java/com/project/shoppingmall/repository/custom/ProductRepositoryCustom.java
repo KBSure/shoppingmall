@@ -10,4 +10,6 @@ public interface ProductRepositoryCustom {
     Page<Product> findAllProducts(String searchStr, String prdCate, Pageable pageable);
     
     List<Product> findBestSellerProductsByLimit();
+    
+    List<Product> findAllProductsWithThumnailByProductIds(List<Long> productIds);
 }
