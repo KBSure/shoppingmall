@@ -23,7 +23,9 @@ public class Member implements Serializable {
     private String email;
     
     @JsonIgnore
+    @Column(name = "password")
     private String password;
+
     private String name;
     
     @Embedded

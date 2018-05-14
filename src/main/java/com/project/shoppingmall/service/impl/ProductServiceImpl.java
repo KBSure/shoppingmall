@@ -60,7 +60,12 @@ public class ProductServiceImpl implements ProductService {
                 throw new IllegalArgumentException("잘못된 정렬 조건 입니다.");
         }
     }
-    
+
+    @Override
+    public List<Product> getProducts(List<Long> prdIdList) {
+        return productRepository.findAllById(prdIdList);
+    }
+
     private enum SortType {
         NEWEST, PRICE_ASC, PRICE_DESC;
     }
