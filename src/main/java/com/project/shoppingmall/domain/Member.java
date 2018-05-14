@@ -23,6 +23,7 @@ public class Member implements Serializable {
     private String email;
     
     @JsonIgnore
+    @Column(name = "password")
     private String passwd;
     private String name;
     

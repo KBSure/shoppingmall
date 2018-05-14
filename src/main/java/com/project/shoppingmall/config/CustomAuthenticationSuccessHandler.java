@@ -2,7 +2,8 @@ package com.project.shoppingmall.config;
 
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.dto.SigninPram;
-import com.project.shoppingmall.service.LoginMember;
+
+import com.project.shoppingmall.security.LoginMember;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
