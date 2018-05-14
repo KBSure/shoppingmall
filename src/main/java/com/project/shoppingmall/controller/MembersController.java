@@ -1,17 +1,22 @@
 package com.project.shoppingmall.controller;
 
+import com.project.shoppingmall.domain.Address;
 import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Role;
+import com.project.shoppingmall.dto.PasswordFormDTO;
+import com.project.shoppingmall.dto.UpdateFormDTO;
+import com.project.shoppingmall.dto.MemberFormDTO;
 import com.project.shoppingmall.service.MembersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
@@ -32,32 +37,86 @@ public class MembersController {
 	}
 
 	@GetMapping("/join")
-    public String joinForm() {
+	public String joinForm(MemberFormDTO memberFormDTO) {
 		return "members/join";
     }
 
 	@PostMapping("/join")
-	public String join(@ModelAttribute Member member){
-		//유효성 검사
-			//if(유효성 검사에 에러가 있음)
-				//return join화면
-			//if(패스워드 != 패스워드확인)
-				//bindingResult.addError
-				//return join화면
-			//Repository에서 Email로 유저정보 받아옴
-			//유저정보가 있다면
-				//bindingResult.addError
-				//return join화면
+	public String join(@Valid MemberFormDTO memberFormDTO, BindingResult bindingResult){
 
+		if(bindingResult.hasErrors()) {
+			return "members/join";
+		}
+		Member member = membersService.getUserByEmail(memberFormDTO.getEmail());
+		if(member != null){
+			bindingResult.addError(new FieldError("memberFormDTO","email","이미 존재하는 이메일 입니다."));
+			return "members/join";
+		}
+		if(!memberFormDTO.getPassword().equals(memberFormDTO.getRePassword())){
+			bindingResult.addError(new FieldError("memberFormDTO","password","패스워드 확인 값과 다릅니다."));
+			return "members/join";
+		}
+		membersService.joinMembers(memberFormDTO);
 
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		member.setPasswd(passwordEncoder.encode(member.getPasswd()));
+		return "redirect:/members/signin";
+	}
 
+	//@GetMapping
+	@GetMapping(path = "{id}")
+	public String contractList(@PathVariable long id, ModelMap modelMap) {
+		modelMap.addAttribute("id",id);
+		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
+		//페이져 초기화
+		//
+		//.attribute(페이지리스트)
+		//.attribute(페이져)
+		return "members/contract_list";
+	}
 
-		member.addRole(new Role().makeRole("USER"));
-		Member saveMember = membersService.addMembers(member);
+	@GetMapping(path="/{id}/update")
+	public String updateAccountForm(@PathVariable long id, Principal principal,ModelMap modelMap) {
+		Member member = membersService.getUserByEmail(principal.getName());
+		UpdateFormDTO updateFormDTO = new UpdateFormDTO();
+		BeanUtils.copyProperties(member, updateFormDTO);
+		Address address = member.getAddress();
+		updateFormDTO.setAdderss(address.getPhone(),address.getZipcode(),address.getLocation(),address.getDetail());
 
-		return "redirect:/main/main";
+		modelMap.addAttribute("id",id);
+		modelMap.addAttribute("updateFormDTO", updateFormDTO);
+		return "members/update_member";
+	}
+	@PostMapping(path="/{id}/update")
+	public String updateAccount(@PathVariable long id, @Valid UpdateFormDTO updateFormDTO, BindingResult bindingResult)
+	{
+		if(bindingResult.hasErrors()){
+			return"members/update_member";
+		}
+
+		membersService.updateMember(updateFormDTO);
+
+		return "members/update_member";
+	}
+
+	@GetMapping(path="/{id}/password")
+	public String updatePasswdForm(@PathVariable long id,PasswordFormDTO passwordFormDTO, ModelMap modelMap) {
+		modelMap.addAttribute("id",id);
+		return "members/update_password";
+	}
+
+	@PostMapping(path="/{id}/password")
+	public String updatePasswd(@PathVariable long id, @Valid PasswordFormDTO passwordFormDTO, BindingResult bindingResult, Principal principal) {
+
+		if(bindingResult.hasErrors()){
+			return "members/update_password";
+		}
+		if(!passwordFormDTO.getPassword().equals(passwordFormDTO.getRePassword())){
+			bindingResult.addError(new FieldError("passwordFormDTO","password","패스워드 확인 값과 다릅니다."));
+			return "members/update_password";
+		}
+		passwordFormDTO.setEmail(principal.getName());
+		membersService.updateMemberPassword(passwordFormDTO);
+
+		return "members/update_password";
 	}
 
 	@GetMapping(path="/findid")
@@ -92,40 +151,14 @@ public class MembersController {
 		return "members/find_result";
 	}
 
-	@GetMapping(path="/{id}/update")
-	public String updateAccountForm(@PathVariable("id") long id,ModelMap modelMap) {
-		modelMap.addAttribute("id",id);
-		return "members/update_member";
-	}
-	@PutMapping(path="/{id}")
-	public String updateAccount()
-	{
-		//form에서 멤버 정보 받아오기
-		//int = setFixed한 결과값 받아오기
-		//if(결과 == update실패)
-			//bindingResult.addError
-		return "members/update_member";
-	}
-
-	@GetMapping(path="/{id}")
-	public String contractList(@PathVariable("id") long id,ModelMap modelMap) {
-		modelMap.addAttribute("id",id);
-		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
-		//페이져 초기화
-		//
-		//.attribute(페이지리스트)
-		//.attribute(페이져)
-		return "members/contract_list";
-	}
-
 	@GetMapping(path="/{id}/dropout")
-	public String dropOutForm(@PathVariable("id") long id,ModelMap modelMap) {
+	public String dropOutForm(@PathVariable long id,ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
 		return "members/dropout";
 	}
 
 	@DeleteMapping(path="/{id}")
-	public String dropOut(@PathVariable("id") long id) {
+	public String dropOut(@PathVariable long id) {
 		//form에서 password가져오기
 		//Repository에서 Email로 Password 받아옴
 		//if(패스워드 != 쿼리 패스워드)
@@ -137,22 +170,6 @@ public class MembersController {
 		return "members";
 	}
 
-	@GetMapping(path="/{id}/password")
-	public String updatePasswdForm(@PathVariable("id") long id,ModelMap modelMap) {
-		modelMap.addAttribute("id",id);
-		return "members/update_password";
-	}
 
-	@PutMapping(path="/{id}/password")
-	public String updatePasswd(@PathVariable("id") long id) {
-		//form에서 password가져오기
-		//if(패스워드 != 확인 패스워드)
-			//bindingResult.addError
-			//return update_password
-		//int = setFixed한 결과값 받아오기
-		//if(결과 == update실패)
-			//bindingResult.addError
-		 return "members/update_password";
-	}
 
 }
