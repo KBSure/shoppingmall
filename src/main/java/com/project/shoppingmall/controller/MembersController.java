@@ -2,22 +2,23 @@ package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Address;
 import com.project.shoppingmall.domain.Member;
+import com.project.shoppingmall.dto.MemberFormDTO;
 import com.project.shoppingmall.dto.PasswordFormDTO;
 import com.project.shoppingmall.dto.UpdateFormDTO;
-import com.project.shoppingmall.dto.MemberFormDTO;
 import com.project.shoppingmall.service.MembersService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -74,7 +75,7 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}/update")
-	public String updateAccountForm(@PathVariable long id, Principal principal,ModelMap modelMap) {
+	public String updateAccountForm(@PathVariable long id, Principal principal, ModelMap modelMap) {
 		Member member = membersService.getUserByEmail(principal.getName());
 		UpdateFormDTO updateFormDTO = new UpdateFormDTO();
 		BeanUtils.copyProperties(member, updateFormDTO);
