@@ -24,7 +24,8 @@ public class Member implements Serializable {
     
     @JsonIgnore
     @Column(name = "password")
-    private String passwd;
+    private String password;
+
     private String name;
     
     @Embedded
@@ -74,5 +75,5 @@ public class Member implements Serializable {
         }
         wishlist.setMember(this);
     }
-    
+
 }
