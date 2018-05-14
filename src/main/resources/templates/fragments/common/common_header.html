@@ -16,12 +16,12 @@
                     </li>
 
                     <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
-                        <a class="nav-link" th:href="@{/members/{id}(id=${session.member.id})}"><span sec:authentication="name" th:text="${session.member.name}"></span>님 환영합니다.</a>
+                        <a class="nav-link" th:href="@{/members/{id}(id=${#authentication.principal.id})}"><span sec:authentication="name" th:text="${#authentication.principal.name}"></span>님 환영합니다.</a>
                     </li>
                     <li sec:authorize ="hasRole('ROLE_USER')" class="nav-item">
                         <a class="nav-link" th:href="@{/logout}">logout</a>
                     </li>
-                    <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
+                    <li sec:authorize="hasAnyRole('ROLE_ANONYMOUS', 'ROLE_USER')" class="nav-item">
                         <a class="nav-link" th:href="@{/order/cart}">Cart</a>
                     </li>
                 </ul>

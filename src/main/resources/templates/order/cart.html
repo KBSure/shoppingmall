@@ -44,15 +44,15 @@
                        <tbody>
                            <tr th:if="${cartList != null}" th:each="cart : ${cartList}">
                                <td>
-                                   <img th:width="100px" th:src="@{'/image/'+${cart.product.images[0].id}}" src="#" alt="img1" class="img-thumbnail" />
+                                   <img th:width="100px" th:src="@{'/image/'+${cart.imageId}}" src="#" alt="img1" class="img-thumbnail" />
                                </td>
                                <td class="justify-content-center align-middle">
-                                   <span th:text="${cart.product.name}"></span>
+                                   <span th:text="${cart.productName}"></span>
                                </td>
                                <td class="justify-content-center align-middle" th:text="${cart.quantity}"></td>
-                               <td class="justify-content-center align-middle" th:text="${cart.quantity * cart.product.price}"></td>
+                               <td class="justify-content-center align-middle" th:text="${cart.quantity * cart.price}"></td>
                                <td class="justify-content-center align-middle">
-                                   <input type="checkbox" name="cartId" th:value="${cart.id}" value="" th:id="'chk_'+${cart.id}"/>
+                                   <input type="checkbox" name="prdId" th:if="${cart.prdId != null}" th:value="${cart.prdId}" value="" th:id="'chk_'+${cart.prdId}"/>
                                </td>
                            </tr>
                        </tbody>
@@ -92,8 +92,13 @@
         $(document).ready(function () {
             $("#checkAll").on("click", function () {
                 var length = cartForm.prdId.length;
-                for(var i = 0; i < length; i++) {
-                    cartForm.prdId[i].checked = cartForm.checkAll.checked;
+                if(!length) {
+                    cartForm.prdId.checked = cartForm.checkAll.checked;
+                }
+                else {
+                    for(var i = 0; i < length; i++) {
+                        cartForm.prdId[i].checked = cartForm.checkAll.checked;
+                    }
                 }
             });
 
@@ -111,8 +116,16 @@
                     return;
                 }
                 sendJson(cartUrl, "delete", cartIdArray, function (data) {
-                    for(var i = 0; i < data.length; i++) {
-                        removeTr(data[i].cartId);
+                    var length = cartForm.prdId.length;
+                    if(!length) {
+                        removeTr(cartForm.prdId);
+                    }
+                    else {
+                        for(var i = 0; i < length; i++) {
+                            if(cartForm.prdId[i].checked) {
+                                removeTr(cartForm.prdId[i]);
+                            }
+                        }
                     }
                 });
             });
@@ -120,10 +133,17 @@
 
         var makeCartIdArray = function () {
             var cartIdArray = new Array();
-            var length = cartForm.cartId.length;
-            for(var i = 0; i < length; i++) {
-                if(cartForm.cartId[i].checked) {
-                    cartIdArray.push({cartId : cartForm.cartId[i].value});
+            var length = cartForm.prdId.length;
+            if(!length) {
+                if(cartForm.prdId.checked) {
+                    cartIdArray.push({prdId : cartForm.prdId.value});
+                }
+            }
+            else {
+                for(var i = 0; i < length; i++) {
+                    if(cartForm.prdId[i].checked) {
+                        cartIdArray.push({prdId : cartForm.prdId[i].value});
+                    }
                 }
             }
             return cartIdArray;
@@ -143,8 +163,8 @@
             });
         }
         
-        var removeTr = function (cartId) {
-            $("#chk_"+cartId).parent().parent().remove();
+        var removeTr = function (obj) {
+            $(obj).parent().parent().remove();
         }
     </script>
 

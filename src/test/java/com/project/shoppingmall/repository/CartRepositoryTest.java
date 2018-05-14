@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -111,6 +112,24 @@ public class CartRepositoryTest {
         List<Cart> saveList = cartRepository.saveAll(cartList);
     
         return saveList;
+    }
+    
+    @Test
+    public void testFindAllMemberCartsByProductIds() {
+        
+        List<Cart> saveTestCarts = saveTestCarts(5);
+    
+        Member member = saveTestCarts.get(0).getMember();
+    
+        List<Long> productIds = saveTestCarts.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
+    
+        List<Cart> findCarts = cartRepository.findAllMemberCartsByProductIds(member.getId(), productIds);
+        
+        assertEquals(saveTestCarts.size(), findCarts.size());
+    
+        for (Cart findCart : findCarts) {
+            assertEquals(member.getId(), findCart.getMember().getId());
+        }
     }
     
     @Test

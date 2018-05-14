@@ -16,8 +16,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     @Override
     public List<Cart> findAllMemberCarts(Long memberId) {
         QCart cart = QCart.cart;
-//        QProduct product = QProduct.product;
-        QImage image = QImage.image;
         
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
         JPAQuery<Cart> cartJPAQuery = jpaQueryFactory.select(cart)
@@ -25,5 +23,17 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                                                         .where(cart.member.id.eq(memberId));
     
         return cartJPAQuery.fetch();
+    }
+    
+    @Override
+    public List<Cart> findAllMemberCartsByProductIds(Long memberId, List<Long> productIds) {
+    
+        QCart cart = QCart.cart;
+        
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+        
+        return jpaQueryFactory.selectFrom(cart)
+                                .where(cart.member.id.eq(memberId).and(cart.product.id.in(productIds)))
+                                .fetch();
     }
 }

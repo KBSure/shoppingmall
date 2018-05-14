@@ -26,8 +26,8 @@ public class MembersController {
 	public String signinForm(HttpServletRequest request) {
 		String referer = request.getHeader(HttpHeaders.REFERER);
 		
-//		log.info("referer : {}", referer);
 		request.getSession().setAttribute("referer", referer);
+		
 		return "members/signin";
 	}
 

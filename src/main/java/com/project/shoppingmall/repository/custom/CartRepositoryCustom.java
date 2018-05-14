@@ -8,4 +8,6 @@ public interface CartRepositoryCustom {
     
     List<Cart> findAllMemberCarts(Long memberId);
     
+    List<Cart> findAllMemberCartsByProductIds(Long memberId, List<Long> productIds);
+    
 }

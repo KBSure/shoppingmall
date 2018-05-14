@@ -2,6 +2,7 @@ package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Cart;
 import com.project.shoppingmall.domain.Product;
+import com.project.shoppingmall.dto.CartInfo;
 import com.project.shoppingmall.security.LoginMember;
 import com.project.shoppingmall.service.OrderService;
 import com.project.shoppingmall.service.ProductService;
@@ -11,12 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,28 +38,88 @@ public class OrderController {
     public String getCart(HttpSession session, Authentication authentication, Model model){
         // 세션에서 카트 내역 조회
         @SuppressWarnings("unchecked")
-        List<Cart> cartList = (List<Cart>) session.getAttribute("cartList");
-        // 세션에 담긴 카트리스트가 없고, 로그인 사용자이면, DB에서 조회
-        if(cartList == null && authentication != null) {
-            LoginMember loginMember = (LoginMember) authentication.getPrincipal();
-            cartList = orderService.getAllMemebrCarts(loginMember.getId());
-        }
+        List<CartInfo> cartList = (List<CartInfo>) session.getAttribute("cartList");
         
-        if(cartList != null && !cartList.isEmpty()) {
-            List<Long> productIds = cartList.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
-    
+        //TODO 새로고침시 중복으로 저장 방지 필요.
+        // 세션에 담긴 카트리스트가 없고, 로그인 사용자이면, DB에서 조회
+        if(authentication != null) {
+            LoginMember loginMember = (LoginMember) authentication.getPrincipal();
+            List<Cart> memberCarts = orderService.getAllMemebrCarts(loginMember.getId());
+            List<Long> productIds = memberCarts.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
             Map<Long, Product> productMap = productService.getAllProductsWithThumnail(productIds).stream().collect(Collectors.toMap(p -> p.getId(), p -> p));
-            cartList.forEach(c -> {
-                Product product = productMap.get(c.getProduct().getId());
-                if(product == null) throw new IllegalArgumentException("존재하지 않는 상품입니다.");
-                c.setProduct(product);
-            });
+            List<CartInfo> membersCartInfos = makeCartInfoList(memberCarts, productMap);
+            if(cartList == null) {
+                cartList = membersCartInfos;
+            }
+            else { // 로그인한 사용자의 세션에 담긴 카트리스트가 있으면,
+                final List<CartInfo> tmpList = new ArrayList<>();
+                Map<Long, CartInfo> infoMap = membersCartInfos.stream().collect(Collectors.toMap(CartInfo::getPrdId, c -> c));
+                cartList.forEach(c -> {
+                    // TODO 일괄 등록 하도록 수정해야댐.
+                    // 카트리스트 내용
+                    Cart savedCart = orderService.registCart(loginMember.getId(), c);
+                    CartInfo cartInfo = infoMap.get(c.getPrdId());
+                    if(cartInfo == null) {
+                        c.setCartId(savedCart.getId());
+                        tmpList.add(c);
+                    }
+                    else{
+                        cartInfo.setQuantity(c.getQuantity() + cartInfo.getQuantity());
+                    }
+                });
+                membersCartInfos.addAll(tmpList);
+                cartList = membersCartInfos;
+                session.removeAttribute("cartList");
+            }
+        }
+        else if(cartList != null) {
+            List<Long> productIds = cartList.stream().map(c -> c.getPrdId()).collect(Collectors.toList());
+            Map<Long, Product> productMap = productService.getAllProductsWithThumnail(productIds).stream().collect(Collectors.toMap(p -> p.getId(), p -> p));
+            addProductInfo(cartList, productMap);
         }
         
         model.addAttribute("cartList", cartList);
-        return "/order/cart";
+        return "order/cart";
     }
     
+    private void addProductInfo(List<CartInfo> cartList, Map<Long, Product> productMap) {
+        cartList.forEach(c -> {
+            Product product = productMap.get(c.getPrdId());
+            c.setPrice(product.getPrice());
+            c.setImageId(product.getImages().get(0).getId());
+            c.setProductName(product.getName());
+        });
+    }
+    
+    private List<CartInfo> makeCartInfoList(List<Cart> memberCarts, Map<Long, Product> productMap) {
+        List<CartInfo> cartList = new ArrayList<>();
+        memberCarts.forEach(cart -> {
+            Product product = productMap.get(cart.getProduct().getId());
+            if(product == null) throw new IllegalArgumentException("존재하지 않는 상품입니다.");
+            CartInfo cartInfo = makeCartInfo(cart, product);
+            cartList.add(cartInfo);
+        });
+        return cartList;
+    }
+    
+    private CartInfo makeCartInfo(Cart cart, Product product) {
+        CartInfo cartInfo = new CartInfo();
+        cartInfo.setCartId(cart.getId());
+        cartInfo.setPrdId(product.getId());
+        cartInfo.setQuantity(cart.getQuantity());
+        cartInfo.setImageId(product.getImages().get(0).getId());
+        cartInfo.setProductName(product.getName());
+        cartInfo.setPrice(product.getPrice());
+        return cartInfo;
+    }
+    
+    @PostMapping("/wishlist")
+    @ResponseBody
+    public ResponseEntity<String> registWishlist(HttpServletResponse response) {
+    
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/cart")
     public String deleteCart(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
                        @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt){

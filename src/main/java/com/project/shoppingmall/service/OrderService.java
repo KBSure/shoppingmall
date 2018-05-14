@@ -11,11 +11,11 @@ public interface OrderService {
     
     List<Cart> getAllCartsByCartIds(List<Long> cartIds);
     
-    Cart registCart(Long memberId, Long productId);
+    Cart registCart(Long memberId, CartInfo cartInfo);
     
     void modifyCart(Long memberId, CartInfo cartInfo);
     
     void modifyCarts(Long memberId, List<CartInfo> cartInfos);
     
-    void removeCarts(List<Long> cartIds);
+    void removeCarts(Long memberId, List<Long> productIds);
 }
