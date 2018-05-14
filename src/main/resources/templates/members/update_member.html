@@ -19,55 +19,43 @@
                 </nav>
                 <div class="col-md-8 order-md-1">
                     <h2 class="pt-5 py-2">회원정보변경</h2>
-                    <form class="needs-validation" method="post" th:action="@{/members/{id}/update(id=${id})}">
+                    <form method="post" th:action="@{/members/{id}/update(id=${id})}" th:object="${updateFormDTO}">
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="name">이름</label>
-                                <input type="text" class="form-control" id="name">
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
+                                <input type="text" class="form-control" id="name" th:field="*{name}" readonly>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="email">이메일</label>
-                            <input type="email" class="form-control" id="email">
-                            <div class="invalid-feedback">
-                                Please enter a valid email address for shipping updates.
-                            </div>
+                            <input type="email" class="form-control" id="email" name ="email" th:field="*{email}" readonly>
                         </div>
-
                         <div class="mb-3">
-                            <label for="Phone">전화번호</label>
-                            <input type="tel" class="form-control" id="Phone">
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
+                            <label for="phone">전화번호</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="010-0000-0000" name="phone" th:field="*{phone}" required>
+                            <small class="text-muted" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"/>
                         </div>
                         <div class="mb-3">
                             <label for="zipcode">우편번호</label>
-                            <input type="text" class="form-control" id="zipcode">
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
+                            <input type="text" class="form-control" id="zipcode" name="zipcode" th:field="*{zipcode}" required>
+                            <small class="text-muted" th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"/>
                         </div>
                         <div class="mb-3">
-                            <label for="address">주소</label>
-                            <input type="text" class="form-control" id="address">
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
+                            <label for="location">주소</label>
+                            <input type="text" class="form-control" id="location" name ="location" th:field="*{location}" required>
+                            <small class="text-muted" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"/>
                         </div>
 
                         <div class="mb-3">
-                            <label for="address2">상세주소<span class="text-muted">(Optional)</span></label>
-                            <input type="text" class="form-control" id="address2">
+                            <label for="detail">상세주소</label>
+                            <input type="text" class="form-control" id="detail" name="detail" th:field="*{detail}" required>
+                            <small class="text-muted" th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"/>
+                        </div>
+                        <div class="text-center pt-3">
+                            <button type="submit" class="btn btn-secondary btn-lg">수정하기</button>
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="text-center pt-3">
-                <button type="submit" class="btn btn-secondary btn-lg">수정하기</button>
             </div>
         </div>
     </main>

@@ -2,6 +2,8 @@ package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Address;
 import com.project.shoppingmall.domain.Member;
+import com.project.shoppingmall.dto.PasswordFormDTO;
+import com.project.shoppingmall.dto.UpdateFormDTO;
 import com.project.shoppingmall.dto.MemberFormDTO;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.BeanUtils;
@@ -68,35 +70,45 @@ public class MembersController {
 	@GetMapping(path="/{id}/update")
 	public String updateAccountForm(@PathVariable long id, Principal principal,ModelMap modelMap) {
 		Member member = membersService.getUserByEmail(principal.getName());
-		MemberFormDTO memberFormDTO = new MemberFormDTO();
-		BeanUtils.copyProperties(member, memberFormDTO);
+		UpdateFormDTO updateFormDTO = new UpdateFormDTO();
+		BeanUtils.copyProperties(member, updateFormDTO);
 		Address address = member.getAddress();
-		memberFormDTO.setAdderss(address.getPhone(),address.getZipcode(),address.getLocation(),address.getDetail());
+		updateFormDTO.setAdderss(address.getPhone(),address.getZipcode(),address.getLocation(),address.getDetail());
 
 		modelMap.addAttribute("id",id);
-		modelMap.addAttribute("memberFormDTO", memberFormDTO);
+		modelMap.addAttribute("updateFormDTO", updateFormDTO);
 		return "members/update_member";
 	}
-	@PutMapping(path="/{id}")
-	public String updateAccount(@Valid MemberFormDTO memberFormDTO, BindingResult bindingResult)
+	@PostMapping(path="/{id}/update")
+	public String updateAccount(@PathVariable long id, @Valid UpdateFormDTO updateFormDTO, BindingResult bindingResult)
 	{
-		membersService.updateMember(memberFormDTO);
+		if(bindingResult.hasErrors()){
+			return"members/update_member";
+		}
+
+		membersService.updateMember(updateFormDTO);
 
 		return "members/update_member";
 	}
 
 	@GetMapping(path="/{id}/password")
-	public String updatePasswdForm(@PathVariable long id, MemberFormDTO memberFormDTO, ModelMap modelMap) {
+	public String updatePasswdForm(@PathVariable long id,PasswordFormDTO passwordFormDTO, ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
 		return "members/update_password";
 	}
 
-	@PutMapping(path="/{id}/password")
-	public String updatePasswd(@PathVariable long id, @Valid MemberFormDTO memberFormDTO, BindingResult bindingResult) {
-		if(memberFormDTO.getPassword().equals(memberFormDTO.getRePassword())){
-			bindingResult.addError(new FieldError("memberFormDTO","password","패스워드 확인 값과 다릅니다."));
+	@PostMapping(path="/{id}/password")
+	public String updatePasswd(@PathVariable long id, @Valid PasswordFormDTO passwordFormDTO, BindingResult bindingResult, Principal principal) {
+
+		if(bindingResult.hasErrors()){
 			return "members/update_password";
 		}
+		if(!passwordFormDTO.getPassword().equals(passwordFormDTO.getRePassword())){
+			bindingResult.addError(new FieldError("passwordFormDTO","password","패스워드 확인 값과 다릅니다."));
+			return "members/update_password";
+		}
+		passwordFormDTO.setEmail(principal.getName());
+		membersService.updateMemberPassword(passwordFormDTO);
 
 		return "members/update_password";
 	}

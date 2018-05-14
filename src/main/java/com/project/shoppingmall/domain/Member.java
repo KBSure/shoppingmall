@@ -73,5 +73,5 @@ public class Member implements Serializable {
         }
         wishlist.setMember(this);
     }
-    
+
 }
