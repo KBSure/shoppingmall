@@ -14,7 +14,7 @@
            </div>
            <br>
 
-           <form id = "cart_form">
+           <form id = "wishlist_form">
                <div class="row">
                    <table class="table table-striped text-center">
                        <thead>
@@ -63,10 +63,20 @@
 <th:block layout:fragment="footer_script">
     <script>
         $(document).ready(function () {
+            // $.urlParam = function(page){
+            //     var results = new RegExp('[\?&]' + page + '=([^&#]*)').exec(window.location.href);
+            //     if (results==null){
+            //         return null;
+            //     }
+            //     else{
+            //         return results[1] || 0;
+            //     }
+            // }
 
+            // var parameter = url.slice(url.indexOf('?') + 1, url.length);
             $("#post_cart_btn").on("click", function () {
-               $("#cart_form").attr("action", "/api/order/cart");
-               $("#cart_form").attr("method", "post");
+               $("#wishlist_form").attr("action", "/api/order/cart");
+               $("#wishlist_form").attr("method", "post");
             });
             $("#delete_wishlist_btn").on("click", function () {
                 $('<input>').attr({
@@ -74,14 +84,14 @@
                     id: 'delete_method',
                     name: '_method',
                     value: "delete"
-                }).appendTo('#cart_form');
-                $("#cart_form").attr("action", "/wishlist");
-                $("#cart_form").attr("method", "post");
+                }).appendTo('#wishlist_form');
+                $("#wishlist_form").attr("action", "/wishlist");
+                $("#wishlist_form").attr("method", "post");
 
             });
             $("#get_product_btn").on("click", function () {
-                $("#cart_form").attr("action", "/products");
-                $("#cart_form").attr("method", "get");
+                $("#wishlist_form").attr("action", "/products");
+                $("#wishlist_form").attr("method", "get");
             });
         });
 

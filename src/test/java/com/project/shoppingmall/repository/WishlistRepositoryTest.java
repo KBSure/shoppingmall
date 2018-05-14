@@ -103,18 +103,18 @@ public class WishlistRepositoryTest {
     @Test
     public void deleteWishlist(){
 //        List<Wishlist> prdIdList = new ArrayList<>();
-        Optional<Wishlist> byId = wishlistRepository.findById(4L);
-
-        wishlistRepository.delete(byId.get());
-
-        findWishlist();
+//        Optional<Wishlist> byId = wishlistRepository.findById(4L);
+//
+//        wishlistRepository.delete(byId.get());
+//
+//        findWishlist();
 
 //        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 //        System.out.println(byId);
 //        findWishlist();
 //
-//        wishlistRepository.deleteById(5L);
-//        findWishlist();
+        wishlistRepository.deleteById(5L);
+        findWishlist();
 
     }
 }

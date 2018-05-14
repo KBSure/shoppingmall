@@ -45,13 +45,9 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     @Transactional
     public void deleteWishlist(List<Long> wishlistIdList) {
-//        for (Long id : wishlistIdList) {
-//            System.out.println("###################");
-//            System.out.println(id);
-//            wishlistRepository.deleteById(4L);
-//        }
-        wishlistRepository.deleteById(4L);
-
+        for (Long id : wishlistIdList) {
+            wishlistRepository.deleteById(id);
+        }
         return;
     }
 }

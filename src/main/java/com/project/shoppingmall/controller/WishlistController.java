@@ -22,12 +22,16 @@ public class WishlistController {
     ProductService productService;
 
     @GetMapping
-    public String getWishList(@RequestParam(name = "prd_cate", required = false)String prdCate, @RequestParam(name = "page", defaultValue = "1")int page,
-                              @RequestParam(name = "prd_id", required = false)Long prdId, @RequestParam(name = "prd_cnt", defaultValue = "0")int prdCnt, ModelMap modelmap, Principal principal){
-
+    public String getWishList(@RequestParam(name = "prd_cate", required = false) String prdCate
+            , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
+            , @RequestParam(name="search_str", required = false) String searchStr, ModelMap modelmap, Principal principal){
         List<Wishlist> wishlists = wishlistService.getWishlists(principal.getName());
         modelmap.addAttribute("wishlists", wishlists);
-
+        modelmap.addAttribute("page", page);
+        modelmap.addAttribute("searchStr", searchStr);
+        modelmap.addAttribute("prdCate", prdCate);
+        modelmap.addAttribute("sortType", sortType);
+        //정렬 방법도
         return "/wishlist/wishlist";
     }
 
@@ -35,11 +39,6 @@ public class WishlistController {
     @DeleteMapping
     public String deleteWishList(@RequestParam(name = "wishlist_id", required = false)List<Long> wishlistIdList, ModelMap modelMap){
         //prdId List 들을 wishlistService에 넣어서 wishlist에서 삭제할 것입니다.
-
-//        System.out.println("@@@@@@@@@@@@@@@@@@@@");
-//        for (Long aLong : wishlistIdList) {
-//            System.out.println(aLong);
-//        }
         wishlistService.deleteWishlist(wishlistIdList);
         return "redirect:/wishlist";
     }

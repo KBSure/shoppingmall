@@ -3,6 +3,7 @@ package com.project.shoppingmall.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,11 +19,11 @@ public class Wishlist implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @JoinColumn(name="members_id")
     private Member member;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @JoinColumn(name = "product_id")
     private Product product;
     
