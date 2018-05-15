@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter @Setter
 @EqualsAndHashCode
 @Entity
 @Table(name = "current_member_status")
-public class CurrentMemberStatus {
+public class CurrentMemberStatus implements Serializable {
     
     @Id
     private Long id;
