@@ -33,7 +33,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
         
         return jpaQueryFactory.selectFrom(cart)
-                                .where(cart.member.id.eq(memberId).and(cart.product.id.in(productIds)))
+//                                .where(cart.member.id.eq(memberId).and(cart.product.id.in(productIds)))
                                 .fetch();
     }
 }

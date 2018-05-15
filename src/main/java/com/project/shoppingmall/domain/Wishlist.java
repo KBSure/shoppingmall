@@ -7,9 +7,10 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 @EqualsAndHashCode
 @Entity
 @Table(name = "wish_list")
@@ -19,29 +20,18 @@ public class Wishlist implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="members_id")
     private Member member;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
-    @JoinColumn(name = "product_id")
-    private Product product;
     
-    public void setMember(Member member) {
-        if(this.member != null) {
-            this.member.getWishlists().remove(this);
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlist")
+    private List<WishItem> wishItems = new ArrayList<>();
+    
+    public void addWishItem(WishItem wishItem) {
+        if(!this.wishItems.contains(wishItem)) {
+            this.wishItems.add(wishItem);
         }
-        this.member = member;
-        member.getWishlists().add(this);
+        wishItem.setWishlist(this);
     }
-    
-    public void setProduct(Product product) {
-        if(this.product != null) {
-            this.product.getWishlists().remove(this);
-        }
-        this.product = product;
-        product.getWishlists().add(this);
-    }
-    
     
 }

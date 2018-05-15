@@ -25,7 +25,7 @@
                        </tr>
                        </thead>
                        <tbody id="test1">
-                           <tr th:each="wishlist, iterstat : ${wishlists}">
+                           <tr th:each="wishlist, iterstat : ${wishItems}">
                                <td>
                                    <img th:src="'/image/'+ ${wishlist.product.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
                                </td>

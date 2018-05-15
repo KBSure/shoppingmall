@@ -30,10 +30,12 @@ public class Order implements Serializable {
     @Embedded
     private BankAccount bankAccount;
     
-    @Column(name = "shipping_charge")
-    private int shippingCharge;
     private String receiver;
     private String message;
+    private String invoice;
+    
+    @Enumerated(value = EnumType.STRING)
+    private DeliveryState deliveryState;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "members_id")

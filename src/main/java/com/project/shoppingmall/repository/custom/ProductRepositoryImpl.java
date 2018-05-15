@@ -1,9 +1,6 @@
 package com.project.shoppingmall.repository.custom;
 
-import com.project.shoppingmall.domain.ImageType;
-import com.project.shoppingmall.domain.Product;
-import com.project.shoppingmall.domain.QImage;
-import com.project.shoppingmall.domain.QProduct;
+import com.project.shoppingmall.domain.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +35,8 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
         QProduct product = QProduct.product;
         QImage image = QImage.image;
         JPAQuery<Product> query = jpaQueryFactory.selectFrom(product)
-                                                    .leftJoin(product.images, image)
+                                                    .leftJoin(product.images, image).fetchJoin()
+                                                    .leftJoin(product.bestSeller).fetchJoin()
                                                     .where(image.type.eq(ImageType.THUMB_NAIL));
         
         if(StringUtils.isNotBlank(searchStr)) {
@@ -49,7 +47,7 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
             query.where(product.category.name.eq(prdCate));
         }
         
-        List<Product> products = getQuerydsl().applyPagination(pageable, query).fetchJoin().fetch();
+        List<Product> products = getQuerydsl().applyPagination(pageable, query).fetch();
         long count = query.fetchCount();
         
         return new PageImpl<>(products, pageable, count);
@@ -60,15 +58,17 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
     
         QProduct product = QProduct.product;
         QImage image = QImage.image;
+        QBestSeller bestSeller = QBestSeller.bestSeller;
     
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
     
         JPAQuery<Product> productJPAQuery = jpaQueryFactory.selectFrom(product)
-                                                            .leftJoin(product.images, image)
-                                                            .where(product.bestSeller.eq(true).and(image.type.eq(ImageType.THUMB_NAIL)))
+                                                            .leftJoin(product.images, image).fetchJoin()
+                                                            .innerJoin(product.bestSeller, bestSeller).fetchJoin()
+                                                            .where(image.type.eq(ImageType.THUMB_NAIL))
                                                             .limit(8).orderBy(product.regDate.desc());
     
-        return productJPAQuery.fetchJoin().fetch();
+        return productJPAQuery.fetch();
     }
     
     @Override

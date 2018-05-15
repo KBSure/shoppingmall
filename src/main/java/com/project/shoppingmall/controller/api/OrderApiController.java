@@ -32,7 +32,7 @@ public class OrderApiController {
     public ResponseEntity<List<CartInfo>> registCart(@RequestBody CartInfo cartInfo, HttpSession session, Authentication authentication){
         
         @SuppressWarnings("unchecked")
-        List<CartInfo> cartList = (List<CartInfo>) session.getAttribute("cartList");
+        List<CartInfo> cartList = (List<CartInfo>) session.getAttribute("cartItems");
         if(cartList == null) {
             cartList = new ArrayList<>();
         }

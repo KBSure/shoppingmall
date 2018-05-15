@@ -20,9 +20,6 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    
-    @Column(name = "shipping_charge")
-    private int shippingCharge;
     private int width;
     private int height;
     private int quantity;
@@ -30,29 +27,33 @@ public class Product implements Serializable {
     
     @Lob
     private String content;
-    private boolean bestSeller;
     
     @Column(name = "reg_date")
     private LocalDateTime regDate;
+    @Enumerated(EnumType.STRING)
+    private ProductState state;
+    
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private BestSeller bestSeller;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<Cart> cartList = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
     
-    public void addCart(Cart cart) {
-        if(!this.cartList.contains(cart)) {
-            this.cartList.add(cart);
+    public void addCartItem(CartItem cartItem) {
+        if(!this.cartItems.contains(cartItem)) {
+            this.cartItems.add(cartItem);
         }
-        cart.setProduct(this);
+        cartItem.setProduct(this);
     }
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<Wishlist> wishlists = new ArrayList<>();
+    private List<WishItem> wishItems = new ArrayList<>();
     
-    public void addWishlist(Wishlist wishlist) {
-        if(!this.wishlists.contains(wishlist)) {
-            this.wishlists.add(wishlist);
+    public void addWishItem(WishItem wishItem) {
+        if(!this.wishItems.contains(wishItem)) {
+            this.wishItems.add(wishItem);
         }
-        wishlist.setProduct(this);
+        wishItem.setProduct(this);
     }
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
@@ -76,7 +77,7 @@ public class Product implements Serializable {
     }
     
     @JoinColumn(name = "category_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Category category;
     
     public void setCategory(Category category) {

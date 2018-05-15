@@ -42,7 +42,7 @@
                        </tr>
                        </thead>
                        <tbody>
-                           <tr th:if="${cartList != null}" th:each="cart : ${cartList}">
+                           <tr th:if="${cartItems != null}" th:each="cart : ${cartItems}">
                                <td>
                                    <img th:width="100px" th:src="@{'/image/'+${cart.imageId}}" src="#" alt="img1" class="img-thumbnail" />
                                </td>
