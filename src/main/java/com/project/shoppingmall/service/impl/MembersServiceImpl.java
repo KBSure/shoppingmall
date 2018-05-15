@@ -39,7 +39,7 @@ public class MembersServiceImpl implements MembersService {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
-        member.addRole(new Role().makeRole("USER"));
+//        member.addRole(new Role().makeRole("USER"));
 
         return repository.save(member);
     }

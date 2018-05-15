@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,30 +19,24 @@ public class Cart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int quantity;
     
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="members_id")
     private Member member;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
-    
     public void setMember(Member member) {
-        if(this.member != null) {
-            this.member.getCartList().remove(this);
-        }
         this.member = member;
-        member.getCartList().add(this);
+        member.setCart(this);
     }
     
-    public void setProduct(Product product) {
-        if(this.product != null) {
-            this.product.getCartList().remove(this);
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems = new ArrayList<>();
+    
+    public void addCartItem(CartItem cartItem) {
+        if(!this.cartItems.contains(cartItem)) {
+            this.cartItems.add(cartItem);
         }
-        this.product = product;
-        product.getCartList().add(this);
+        cartItem.setCart(this);
     }
     
 }

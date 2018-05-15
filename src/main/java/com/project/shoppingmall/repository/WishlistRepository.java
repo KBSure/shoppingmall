@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface WishlistRepository extends JpaQueryDslPredicateRepository<Wishlist, Long> {
-    @Query("SELECT w FROM Wishlist w WHERE w.member.email = :email")
-    public List<Wishlist> findAllByMemberEmail(@Param("email")String email);
-
-    @Query("SELECT w.product FROM Wishlist w WHERE w.member.email = :email")
-    public List<Product> findProductIdsByMemberEmail(@Param("email") String email);
+//    @Query("SELECT w FROM Wishlist w WHERE w.member.email = :email")
+//    public List<Wishlist> findAllByMemberEmail(@Param("email")String email);
+//
+//    @Query("SELECT w.product FROM Wishlist w WHERE w.member.email = :email")
+//    public List<Product> findProductIdsByMemberEmail(@Param("email") String email);
 }

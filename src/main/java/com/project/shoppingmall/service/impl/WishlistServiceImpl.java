@@ -22,7 +22,8 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     @Transactional(readOnly = true)
     public List<Wishlist> getWishlists(String email) {
-        return wishlistRepository.findAllByMemberEmail(email);
+//        return wishlistRepository.findAllByMemberEmail(email);
+        return null;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class WishlistServiceImpl implements WishlistService {
         List<Wishlist> wishlistList = new ArrayList<>();
         for (Product product : productList){
             Wishlist wishlist = new Wishlist();
-            wishlist.setProduct(product);
+//            wishlist.setProduct(product);
             wishlist.setMember(member);
             wishlistList.add(wishlist);
         }

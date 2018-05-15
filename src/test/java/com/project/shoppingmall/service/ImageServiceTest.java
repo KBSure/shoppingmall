@@ -55,7 +55,7 @@ public class ImageServiceTest {
     private Product createTestProduct() {
         Product product = new Product();
         product.setQuantity(100);
-        product.setShippingCharge(100);
+//        product.setShippingCharge(100);
         product.setRegDate(LocalDateTime.now());
         product.setPrice(500);
         product.setName("상품");

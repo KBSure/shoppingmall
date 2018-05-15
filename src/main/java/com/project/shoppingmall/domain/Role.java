@@ -11,13 +11,13 @@ import java.util.List;
 
 @Entity
 @Table(name="roles")
-@Getter
-@Setter
+@Getter @Setter
 @EqualsAndHashCode
 public class Role implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
     private String name;
 
     @ManyToMany(mappedBy = "roles")
@@ -30,7 +30,7 @@ public class Role implements Serializable {
         }
     }
 
-    public Role makeRole(String name){
+    public Role setName(String name){
         this.name = name;
         return this;
     }

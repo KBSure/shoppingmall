@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 @EqualsAndHashCode
 @Entity
 @Table(name="members")
@@ -56,24 +55,19 @@ public class Member implements Serializable {
         order.setMember(this);
     }
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private List<Cart> cartList = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
+    private Cart cart;
     
-    public void addCart(Cart cart) {
-        if(!this.cartList.contains(cart)) {
-            this.cartList.add(cart);
-        }
-        cart.setMember(this);
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
+    private Wishlist wishlist;
+    
+    @OneToOne
+    @JoinColumn(name = "current_member_status_id")
+    private CurrentMemberStatus currentMemberStatus;
+    
+    public void setCurrentMemberStatus(CurrentMemberStatus currentMemberStatus) {
+        this.currentMemberStatus = currentMemberStatus;
+        currentMemberStatus.setMember(this);
     }
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private List<Wishlist> wishlists = new ArrayList<>();
-    
-    public void addWishlist(Wishlist wishlist) {
-        if(!this.wishlists.contains(wishlist)) {
-            this.wishlists.add(wishlist);
-        }
-        wishlist.setMember(this);
-    }
-
 }

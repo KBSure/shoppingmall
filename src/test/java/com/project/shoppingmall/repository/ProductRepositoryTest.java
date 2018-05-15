@@ -65,6 +65,8 @@ public class ProductRepositoryTest {
         assertNotNull(findProduct);
         
         assertTrue(saveProduct == findProduct);
+        
+        assertNull(findProduct.getBestSeller());
     }
     
     @Test
@@ -136,7 +138,13 @@ public class ProductRepositoryTest {
     
         List<Product> bestSellsers = productRepository.findBestSellerProductsByLimit();
         
-        assertEquals(9, bestSellsers.size());
+        assertEquals(8, bestSellsers.size());
+        
+        bestSellsers.forEach(p -> {
+            assertEquals(1, p.getImages().size());
+            assertEquals(ImageType.THUMB_NAIL, p.getImages().get(0).getType());
+            assertNotNull(p.getBestSeller());
+        });
     
     }
     
@@ -201,7 +209,6 @@ public class ProductRepositoryTest {
     
     private Product createTestProduct() {
         Product testProduct = new Product();
-        testProduct.setBestSeller(false);
         testProduct.setContent("content!!!");
         testProduct.setHeight(30);
         testProduct.setWidth(30);
@@ -209,7 +216,6 @@ public class ProductRepositoryTest {
         testProduct.setPrice(1000);
         testProduct.setQuantity(80);
         testProduct.setRegDate(LocalDateTime.now());
-        testProduct.setShippingCharge(2500);
         testProduct.setCategory(createTestCategory());
         return testProduct;
     }

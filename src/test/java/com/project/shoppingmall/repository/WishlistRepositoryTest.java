@@ -70,7 +70,7 @@ public class WishlistRepositoryTest {
         Member member = new Member();
 
         Wishlist wishlist = new Wishlist();
-        wishlist.setProduct(product);
+//        wishlist.setProduct(product);
         wishlist.setMember(member);
         Wishlist save = wishlistRepository.save(wishlist);
         System.out.println(save.getId());
@@ -81,23 +81,23 @@ public class WishlistRepositoryTest {
 
     @Test
     public void getWishlists(){
-        List<Wishlist> allByMemberEmail = wishlistRepository.findAllByMemberEmail("test2@gmail.com");
-
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
-
-        for (Wishlist wishlist : allByMemberEmail) {
-            System.out.println(wishlist.getId());
-        }
+//        List<Wishlist> allByMemberEmail = wishlistRepository.findAllByMemberEmail("test2@gmail.com");
+//
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
+//
+//        for (Wishlist wishlist : allByMemberEmail) {
+//            System.out.println(wishlist.getId());
+//        }
     }
 
     @Test
     public void getProductIds(){
-        List<Product> productIdsByMemberEmail = wishlistRepository.findProductIdsByMemberEmail("test2@gmail.com");
-
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        for (Product product : productIdsByMemberEmail) {
-            System.out.println(product.getName());
-        }
+//        List<Product> productIdsByMemberEmail = wishlistRepository.findProductIdsByMemberEmail("test2@gmail.com");
+//
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        for (Product product : productIdsByMemberEmail) {
+//            System.out.println(product.getName());
+//        }
     }
 
     @Test
