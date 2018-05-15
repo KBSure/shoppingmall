@@ -22,6 +22,11 @@ public class CartItem implements Serializable {
     @JoinColumn(name="cart_id")
     private Cart cart;
     
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+
     public void setCart(Cart cart) {
         if(this.cart != null) {
             this.cart.getCartItems().remove(this);
@@ -29,11 +34,7 @@ public class CartItem implements Serializable {
         this.cart = cart;
         cart.addCartItem(this);
     }
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
-    
+
     public void setProduct(Product product) {
         if(this.product != null) {
             this.product.getCartItems().remove(this);

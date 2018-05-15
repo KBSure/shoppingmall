@@ -34,7 +34,11 @@ public class OrderItem implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
-    
+
+    @OneToMany(mappedBy = "orderItem")
+    private List<OrderImage> orderImages = new ArrayList<>();
+
+
     public void setOrder(Order order) {
         if(this.order != null) {
             this.order.getOrderItems().remove(this);
@@ -42,7 +46,7 @@ public class OrderItem implements Serializable {
         this.order = order;
         order.getOrderItems().add(this);
     }
-    
+
     public void setProduct(Product product) {
         if(this.product != null) {
             this.product.getOrderItems().remove(this);
@@ -50,10 +54,7 @@ public class OrderItem implements Serializable {
         this.product = product;
         product.getOrderItems().add(this);
     }
-    
-    @OneToMany(mappedBy = "orderItem")
-    private List<OrderImage> orderImages = new ArrayList<>();
-    
+
     public void addOrderImage(OrderImage orderImage) {
         if(!this.orderImages.contains(orderImage)) {
             this.orderImages.add(orderImage);

@@ -21,7 +21,8 @@ public class Category implements Serializable {
     private String name;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
-    
+
+
     public void addProduct(Product product) {
         if(!this.products.contains(product)) {
             this.products.add(product);

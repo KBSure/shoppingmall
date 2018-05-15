@@ -40,7 +40,11 @@ public class Order implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "members_id")
     private Member member;
-    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+
     public void setMember(Member member) {
         if(this.member != null) {
             this.member.getOrders().remove(this);
@@ -48,10 +52,7 @@ public class Order implements Serializable {
         this.member = member;
         member.getOrders().add(this);
     }
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<OrderItem> orderItems = new ArrayList<>();
-    
+
     public void addOrderItem(OrderItem orderItem) {
         if(!this.orderItems.contains(orderItem)) {
             this.orderItems.add(orderItem);
