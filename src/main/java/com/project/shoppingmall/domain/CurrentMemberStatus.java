@@ -14,8 +14,12 @@ import java.time.LocalDateTime;
 public class CurrentMemberStatus {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @MapsId
+    private Member member;
+    
     @Column(name = "reg_date")
     private LocalDateTime regDate;
     @Column(name = "end_date")
@@ -33,11 +37,4 @@ public class CurrentMemberStatus {
         memberStatus.getCurrentMemberStatus().add(this);
     }
     
-    @OneToOne(mappedBy = "currentMemberStatus")
-    private Member member;
-    
-    public void setMember(Member member) {
-        this.member = member;
-        member.setCurrentMemberStatus(this);
-    }
 }

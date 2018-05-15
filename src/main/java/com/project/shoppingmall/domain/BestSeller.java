@@ -14,13 +14,15 @@ import java.time.LocalDateTime;
 public class BestSeller {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @MapsId
+    private Product product;
+    
     @Column(name = "reg_date")
     private LocalDateTime regDate;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    
     
     public void setProduct(Product product) {
         this.product = product;

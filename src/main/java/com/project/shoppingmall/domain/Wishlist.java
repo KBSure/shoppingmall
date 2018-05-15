@@ -23,11 +23,6 @@ public class Wishlist implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="members_id")
     private Member member;
-
-    public void setMember(Member member) {
-        this.member = member;
-        member.setWishlist(this);
-    }
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlist")
     private List<WishItem> wishItems = new ArrayList<>();

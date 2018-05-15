@@ -24,11 +24,6 @@ public class Cart implements Serializable {
     @JoinColumn(name="members_id")
     private Member member;
     
-    public void setMember(Member member) {
-        this.member = member;
-        member.setCart(this);
-    }
-    
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<>();
     

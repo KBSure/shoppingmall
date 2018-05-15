@@ -33,7 +33,7 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductState state;
     
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private BestSeller bestSeller;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")

@@ -32,16 +32,16 @@ insert into product (id, name, width, height, quantity, price, content, reg_date
 insert into product (id, name, width, height, quantity, price, content, reg_date, category_id, state) values (28, 'Python', 32, 37, 19, 1500, '짱 좋음', current_timestamp, 2, 'NORMAL');
 insert into product (id, name, width, height, quantity, price, content, reg_date, category_id, state) values (29, 'Android', 26, 30, 17, 1500, '짱 좋음', current_timestamp, 1, 'NORMAL');
 
-insert into best_seller (id, product_id, reg_date) values (1, 1, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (2, 2, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (3, 3, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (4, 4, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (5, 5, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (6, 6, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (7, 7, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (8, 8, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (9, 9, current_timestamp);
-insert into best_seller (id, product_id, reg_date) values (10, 10, current_timestamp);
+insert into best_seller (product_id, reg_date) values (1, current_timestamp);
+insert into best_seller (product_id, reg_date) values (2, current_timestamp);
+insert into best_seller (product_id, reg_date) values (3, current_timestamp);
+insert into best_seller (product_id, reg_date) values (4, current_timestamp);
+insert into best_seller (product_id, reg_date) values (5, current_timestamp);
+insert into best_seller (product_id, reg_date) values (6, current_timestamp);
+insert into best_seller (product_id, reg_date) values (7, current_timestamp);
+insert into best_seller (product_id, reg_date) values (8, current_timestamp);
+insert into best_seller (product_id, reg_date) values (9, current_timestamp);
+insert into best_seller (product_id, reg_date) values (10, current_timestamp);
 
 insert into image (id, product_id, mime_type, type, name, size) values (1, 1, 'image/png', 'THUMB_NAIL', '/thumb/best_sticker_th.png',  124361);
 insert into image (id, product_id, mime_type, type, name, size) values (2, 2, 'image/png', 'THUMB_NAIL', '/thumb/html5_th.png',  31241);

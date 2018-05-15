@@ -55,19 +55,7 @@ public class Member implements Serializable {
         order.setMember(this);
     }
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
-    private Cart cart;
-    
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
-    private Wishlist wishlist;
-    
-    @OneToOne
-    @JoinColumn(name = "current_member_status_id")
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CurrentMemberStatus currentMemberStatus;
-    
-    public void setCurrentMemberStatus(CurrentMemberStatus currentMemberStatus) {
-        this.currentMemberStatus = currentMemberStatus;
-        currentMemberStatus.setMember(this);
-    }
     
 }

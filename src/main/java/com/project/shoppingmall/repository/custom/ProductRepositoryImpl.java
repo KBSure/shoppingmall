@@ -35,7 +35,8 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
         QProduct product = QProduct.product;
         QImage image = QImage.image;
         JPAQuery<Product> query = jpaQueryFactory.selectFrom(product)
-                                                    .leftJoin(product.images, image)
+                                                    .leftJoin(product.images, image).fetchJoin()
+                                                    .leftJoin(product.bestSeller).fetchJoin()
                                                     .where(image.type.eq(ImageType.THUMB_NAIL));
         
         if(StringUtils.isNotBlank(searchStr)) {
@@ -46,7 +47,7 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
             query.where(product.category.name.eq(prdCate));
         }
         
-        List<Product> products = getQuerydsl().applyPagination(pageable, query).fetchJoin().fetch();
+        List<Product> products = getQuerydsl().applyPagination(pageable, query).fetch();
         long count = query.fetchCount();
         
         return new PageImpl<>(products, pageable, count);
