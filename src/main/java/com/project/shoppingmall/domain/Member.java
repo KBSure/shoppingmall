@@ -37,25 +37,25 @@ public class Member implements Serializable {
     @JoinTable(name = "members_roles"
             , joinColumns = @JoinColumn(name = "members_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
     
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private CurrentMemberStatus currentMemberStatus;
+
+
     public void addRole(Role role) {
         roles.add(role);
         if(!role.getMembers().contains(this)) {
             role.getMembers().add(this);
         }
     }
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
-    
+
     public void addOrder(Order order) {
         if(!this.orders.contains(this)) {
             this.orders.add(order);
         }
         order.setMember(this);
     }
-    
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private CurrentMemberStatus currentMemberStatus;
-    
 }

@@ -21,7 +21,12 @@ public class WishItem implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wish_list_id")
     private Wishlist wishlist;
-    
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+
     public void setWishlist(Wishlist wishlist) {
         if(this.wishlist != null) {
             this.wishlist.getWishItems().remove(this);
@@ -29,11 +34,7 @@ public class WishItem implements Serializable {
         this.wishlist = wishlist;
         wishlist.getWishItems().add(this);
     }
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
-    
+
     public void setProduct(Product product) {
         if(this.product != null) {
             this.product.getWishItems().remove(this);

@@ -38,48 +38,48 @@ public class Product implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<WishItem> wishItems = new ArrayList<>();
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Image> images = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
+    
+    @JoinColumn(name = "category_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Category category;
+
     public void addCartItem(CartItem cartItem) {
         if(!this.cartItems.contains(cartItem)) {
             this.cartItems.add(cartItem);
         }
         cartItem.setProduct(this);
     }
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<WishItem> wishItems = new ArrayList<>();
-    
+
     public void addWishItem(WishItem wishItem) {
         if(!this.wishItems.contains(wishItem)) {
             this.wishItems.add(wishItem);
         }
         wishItem.setProduct(this);
     }
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<Image> images = new ArrayList<>();
-    
+
     public void addImage(Image image) {
         if(!this.images.contains(image)) {
             this.images.add(image);
         }
         image.setProduct(this);
     }
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<OrderItem> orderItems = new ArrayList<>();
-    
+
     public void addOrderItem(OrderItem orderItem) {
         if(!this.orderItems.contains(orderItem)) {
             this.orderItems.add(orderItem);
         }
         orderItem.setProduct(this);
     }
-    
-    @JoinColumn(name = "category_id")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Category category;
-    
+
     public void setCategory(Category category) {
         if(this.category != null) {
             this.category.getProducts().remove(this);
