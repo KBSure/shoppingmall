@@ -123,16 +123,12 @@ INSERT INTO members_roles(members_id, roles_id) VALUES (3,2);
 INSERT INTO members_roles(members_id, roles_id) VALUES (4,2);
 INSERT INTO members_roles(members_id, roles_id) VALUES (5,2);
 
--- insert into cart(id, members_id) values (1, 1);
--- insert into cart(id, members_id) values (2, 2);
--- insert into cart(id, members_id) values (3, 3);
---
--- insert into cart_item(id, product_id, cart_id, quantity) values (1, 1, 1, 3);
--- insert into cart_item(id, product_id, cart_id, quantity) values (2, 2, 1, 3);
--- insert into cart_item(id, product_id, cart_id, quantity) values (3, 3, 1, 3);
--- insert into cart_item(id, product_id, cart_id, quantity) values (4, 2, 2, 3);
--- insert into cart_item(id, product_id, cart_id, quantity) values (5, 3, 2, 3);
--- insert into cart_item(id, product_id, cart_id, quantity) values (6, 3, 3, 3);
+insert into cart_item(id, product_id, members_id, quantity) values (1, 1, 1, 3);
+insert into cart_item(id, product_id, members_id, quantity) values (2, 2, 1, 3);
+insert into cart_item(id, product_id, members_id, quantity) values (3, 3, 1, 3);
+insert into cart_item(id, product_id, members_id, quantity) values (4, 2, 2, 3);
+insert into cart_item(id, product_id, members_id, quantity) values (5, 3, 2, 3);
+insert into cart_item(id, product_id, members_id, quantity) values (6, 3, 3, 3);
 
 -- insert into wish_list(id, members_id, product_id) values(1, 4, 1);
 -- insert into wish_list(id, members_id, product_id) values(2, 3, 2);

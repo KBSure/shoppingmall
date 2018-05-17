@@ -19,7 +19,7 @@ public class CartItem implements Serializable {
     private int quantity;
     
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @JoinColumn(name="members_id")
     private Member member;
     
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

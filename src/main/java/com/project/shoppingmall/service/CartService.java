@@ -14,6 +14,8 @@ public interface CartService {
     
     List<CartItem> registCart(Long memberId, List<CartInfo> cartInfos);
     
+    List<CartItem> registCart(Long memberId, Map<Long, CartInfo> cartInfoMap);
+    
     void modifyCart(Long memberId, List<CartInfo> cartInfos);
     
     void removeCart(Long memberId, List<Long> productIds);

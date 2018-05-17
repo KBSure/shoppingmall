@@ -35,10 +35,11 @@ public class OrderApiController {
             cartInfoMap = new LinkedHashMap<>();
         }
         
-        // 로그인 사용자면 사용자 저장
+        // 로그인 사용자면 카트 저장.
         if(authentication != null) {
             LoginMember loginMember = (LoginMember) authentication.getPrincipal();
             cartService.registCart(loginMember.getId(), cartInfos);
+            session.setAttribute("cartRegist", true);
         }
         
         // 기존 세션에 중복 정보 있으면 세션 수량 업데이트하고, 없으면 추가.

@@ -1,7 +1,11 @@
 package com.project.shoppingmall.controller;
 
+import com.project.shoppingmall.domain.CartItem;
+import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.dto.CartInfo;
+import com.project.shoppingmall.security.LoginMember;
+import com.project.shoppingmall.service.CartService;
 import com.project.shoppingmall.service.OrderService;
 import com.project.shoppingmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 @Controller
 @RequestMapping("/order")
@@ -29,6 +38,9 @@ public class OrderController {
     @Autowired
     private ProductService productService;
     
+    @Autowired
+    private CartService cartService;
+    
     //장바구니
     @GetMapping("/cart")
     public String getCart(HttpSession session, Authentication authentication, Model model){
@@ -37,46 +49,50 @@ public class OrderController {
         Map<Long, CartInfo> cartInfoMap = (Map<Long, CartInfo>) session.getAttribute("cartInfoMap");
         
         //TODO 새로고침시 중복으로 저장 방지 필요.
-        // 세션에 담긴 카트리스트가 없고, 로그인 사용자이면, DB에서 조회
-//        if(authentication != null) {
-//            LoginMember loginMember = (LoginMember) authentication.getPrincipal();
-//            List<Cart> memberCarts = orderService.getAllMemebrCarts(loginMember.getId());
-//            List<Long> productIds = memberCarts.stream().map(c -> c.getDetailProduct().getId()).collect(Collectors.toList());
-//            Map<Long, Product> productMap = productService.getAllProductsWithThumnail(productIds).stream().collect(Collectors.toMap(p -> p.getId(), p -> p));
-//            List<CartInfo> membersCartInfos = makeCartInfoList(memberCarts, productMap);
-//            if(cartList == null) {
-//                cartList = membersCartInfos;
-//            }
-//            else { // 로그인한 사용자의 세션에 담긴 카트리스트가 있으면,
-//                final List<CartInfo> tmpList = new ArrayList<>();
-//                Map<Long, CartInfo> infoMap = membersCartInfos.stream().collect(Collectors.toMap(CartInfo::getPrdId, c -> c));
-//                cartList.forEach(c -> {
-//                    // TODO 일괄 등록 하도록 수정해야댐.
-//                    // 카트리스트 내용
-//                    Cart savedCart = orderService.registCart(loginMember.getId(), c);
-//                    CartInfo cartInfo = infoMap.get(c.getPrdId());
-//                    if(cartInfo == null) {
-//                        c.setCartItemId(savedCart.getId());
-//                        tmpList.add(c);
-//                    }
-//                    else{
-//                        cartInfo.setQuantity(c.getQuantity() + cartInfo.getQuantity());
-//                    }
-//                });
-//                membersCartInfos.addAll(tmpList);
-//                cartList = membersCartInfos;
-//                session.removeAttribute("cartItems");
-//            }
-//        }
-//        else if(cartList != null) {
-//            List<Long> productIds = cartList.stream().map(c -> c.getPrdId()).collect(Collectors.toList());
-//            Map<Long, Product> productMap = productService.getAllProductsWithThumnail(productIds).stream().collect(Collectors.toMap(p -> p.getId(), p -> p));
-//            addProductInfo(cartList, productMap);
-//        }
-//
-        List<CartInfo> cartInfoList = new ArrayList<>(cartInfoMap.values());
+        // 세션에 담긴 카트정보가 없고, 로그인 사용자이면, DB에서 사용자 카트 조회하여 카트정보에 담기.
+        if(authentication != null) {
+            LoginMember loginMember = (LoginMember) authentication.getPrincipal();
+            if(cartInfoMap != null && !cartInfoMap.isEmpty()) {
+                // 로그인 사용자 이면서, 세션에 담긴 저장하지 않은 카트정보가 있으면,
+                if(session.getAttribute("cartRegist") == null) {
+                    // 세션에 담긴정보 디비에 저장
+                    cartService.registCart(loginMember.getId(), cartInfoMap);
+                }
+
+                // 세션에서 카트정보 삭제.
+                session.removeAttribute("cartInfoMap");
+            }
+            List<CartItem> memberCart = cartService.getMemberCart(loginMember.getId());
+    
+            List<CartInfo> cartInfoList = memberCart.stream().map(item -> makeCartInfo(item)).collect(toList());
+            model.addAttribute("cart", cartInfoList);
+            return "order/cart";
+        }
+        
+        List<CartInfo> cartInfoList = new ArrayList<>();
+        if(cartInfoMap != null) {
+            cartInfoList.addAll(cartInfoMap.values());
+        }
         model.addAttribute("cart", cartInfoList);
         return "order/cart";
+    }
+    
+    private void addCartItemsToCartInfoMap(Map<Long, CartInfo> cartInfoMap, List<CartItem> cartItems) {
+        for (CartItem registItem : cartItems) {
+            cartInfoMap.put(registItem.getId(), makeCartInfo(registItem));
+        }
+    }
+    
+    private CartInfo makeCartInfo(CartItem item) {
+        CartInfo cartInfo = new CartInfo();
+        
+        Product product = item.getProduct();
+        cartInfo.setPrdId(product.getId());
+        cartInfo.setProductName(product.getName());
+        cartInfo.setPrice(product.getPrice());
+        cartInfo.setImageId(product.getThumbImages().get(0).getId());
+        cartInfo.setQuantity(item.getQuantity());
+        return cartInfo;
     }
     
     private void addProductInfo(List<CartInfo> cartList, Map<Long, Product> productMap) {
@@ -98,17 +114,7 @@ public class OrderController {
 //        });
 //        return cartList;
 //    }
-//
-//    private CartInfo makeCartInfo(Cart cart, Product product) {
-//        CartInfo cartInfo = new CartInfo();
-//        cartInfo.setCartItemId(cart.getId());
-//        cartInfo.setPrdId(product.getId());
-//        cartInfo.setQuantity(cart.getQuantity());
-//        cartInfo.setImageId(product.getDetailImages().get(0).getId());
-//        cartInfo.setProductName(product.getName());
-//        cartInfo.setPrice(product.getPrice());
-//        return cartInfo;
-//    }
+
     
     @PostMapping("/wishlist")
     @ResponseBody

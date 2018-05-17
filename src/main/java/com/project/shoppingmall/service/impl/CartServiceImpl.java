@@ -31,53 +31,67 @@ public class CartServiceImpl implements CartService {
     
     @Override
     public List<CartItem> getMemberCart(Long memberId) {
-        return null;
+        return cartItemRepository.findCartItemsByMemberId(memberId);
     }
     
     @Transactional
     @Override
     public List<CartItem> registCart(Long memberId, List<CartInfo> cartInfos) {
     
-    
         final Map<Long, CartInfo> cartInfoMap = cartInfos.stream()
                                                         .collect(toMap(CartInfo::getPrdId, c -> c));
     
+        return registCart(memberId, cartInfoMap);
+    }
+    
+    @Transactional
+    @Override
+    public List<CartItem> registCart(Long memberId, Map<Long, CartInfo> cartInfoMap) {
+    
+        Map<Long, CartInfo> copyMap = new HashMap<>(cartInfoMap);
+        
         // 멤머가 가진 카트 아이템 조회
         List<CartItem> memberCartItems = cartItemRepository.findCartItemsByMemberId(memberId);
         // 중복값이 존재하면, 기존 수량 변경
         for (CartItem cartItem : memberCartItems) {
             Long productId = cartItem.getProduct().getId();
-            if(cartInfoMap.containsKey(productId)) {
-                int quantity = cartInfoMap.get(productId).getQuantity();
+            if(copyMap.containsKey(productId)) {
+                int quantity = copyMap.get(productId).getQuantity();
                 cartItem.updateQuantity(quantity);
-                cartInfoMap.remove(productId);
+                copyMap.remove(productId);
             }
         }
     
         Member member = membersRepository.findById(memberId).get();
-        
+    
         // 중복되지 않는 상품 조회
-        List<Product> products = productRepository.findAllById(cartInfoMap.keySet());
+        List<Product> products = productRepository.findAllById(copyMap.keySet());
     
         // 중복되지 않는값 카트아이템에 저장
         List<CartItem> cartItems = new ArrayList<>();
         for (Product product : products) {
-            CartItem cartItem = new CartItem();
-            cartItem.setMember(member);
-            cartItem.setProduct(product);
-            int quantity = cartInfoMap.get(product.getId()).getQuantity();
-            cartItem.setQuantity(quantity);
-            cartItems.add(cartItem);
+            cartItems.add(makeCartItem(copyMap, member, product));
         }
     
         return cartItemRepository.saveAll(cartItems);
     }
     
+    private CartItem makeCartItem(Map<Long, CartInfo> cartInfoMap, Member member, Product product) {
+        CartItem cartItem = new CartItem();
+        cartItem.setMember(member);
+        cartItem.setProduct(product);
+        int quantity = cartInfoMap.get(product.getId()).getQuantity();
+        cartItem.setQuantity(quantity);
+        return cartItem;
+    }
+    
+    @Transactional
     @Override
     public void modifyCart(Long memberId, List<CartInfo> cartInfos) {
     
     }
     
+    @Transactional
     @Override
     public void removeCart(Long memberId, List<Long> productIds) {
     
