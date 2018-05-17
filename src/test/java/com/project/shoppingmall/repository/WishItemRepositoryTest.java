@@ -34,11 +34,11 @@ public class WishItemRepositoryTest {
 
     @Test
     public void findWishlist(){
-//        List<Wishlist> list = wishItemRepository.findAll();
-//        System.out.println("========================================");
-//        for(Wishlist wishlist : list){
-//            System.out.println(wishlist.getId());
-//        }
+        List<WishItem> list = wishItemRepository.findAll();
+        System.out.println("========================================");
+        for(WishItem wishItem : list){
+            System.out.println(wishItem.getId());
+        }
     }
 
 
@@ -107,7 +107,10 @@ public class WishItemRepositoryTest {
 //        System.out.println(byId);
 //        findWishlist();
 //
+        System.out.println("^^^^^^^^^^^^^^^^^^^");
         wishItemRepository.deleteById(5L);
+        entityManager.flush();
+        System.out.println("&&&&&&&&&&&&&&&&&&&&");
         findWishlist();
 
     }

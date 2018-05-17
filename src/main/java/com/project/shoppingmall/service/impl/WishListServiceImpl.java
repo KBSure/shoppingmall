@@ -2,7 +2,7 @@ package com.project.shoppingmall.service.impl;
 
 import com.project.shoppingmall.domain.WishItem;
 import com.project.shoppingmall.repository.WishItemRepository;
-import com.project.shoppingmall.service.WishlistService;
+import com.project.shoppingmall.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class WishlistServiceImpl implements WishlistService {
+public class WishListServiceImpl implements WishListService {
 
     @Autowired
     WishItemRepository wishItemRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public List<WishItem> getWishItems(String email) {
+    public List<WishItem> getWishList(String email) {
         return wishItemRepository.findAllByMemberEmail(email);
     }
 //
@@ -41,8 +41,8 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     @Transactional
-    public void deleteWishlist(List<Long> wishlistIdList) {
-        for (Long id : wishlistIdList) {
+    public void deleteWishList(List<Long> wishItemIdList) {
+        for (Long id : wishItemIdList) {
             wishItemRepository.deleteById(id);
         }
         return;

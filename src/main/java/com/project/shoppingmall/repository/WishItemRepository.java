@@ -10,7 +10,4 @@ import java.util.List;
 public interface WishItemRepository extends JpaQueryDslPredicateRepository<WishItem, Long> {
     @Query("SELECT w FROM WishItem w WHERE w.member.email = :email")
     public List<WishItem> findAllByMemberEmail(@Param("email")String email);
-
-//    @Query("SELECT w.product FROM Wishlist w WHERE w.member.email = :email")
-//    public List<Product> findProductIdsByMemberEmail(@Param("email") String email);
 }

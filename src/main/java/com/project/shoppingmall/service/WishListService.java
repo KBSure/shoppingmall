@@ -7,9 +7,9 @@ import com.project.shoppingmall.domain.WishItem;
 import java.util.List;
 
 
-public interface WishlistService {
+public interface WishListService {
 
-    List<WishItem> getWishItems(String email);
+    List<WishItem> getWishList(String email);
 //    List<Wishlist> addWishlist(List<Product> productList, Member member);
-    void deleteWishlist(List<Long> wishlistIdList);
+    void deleteWishList(List<Long> wishItemIdList);
 }

@@ -17,11 +17,11 @@ import static org.junit.Assert.*;
 public class WishItemServiceTest {
 
     @Autowired
-    private WishlistService wishlistService;
+    private WishListService wishListService;
 
     @Test
     public void wishlistService주입테스트(){
-        assertNotNull(wishlistService);
+        assertNotNull(wishListService);
     }
 
 }
