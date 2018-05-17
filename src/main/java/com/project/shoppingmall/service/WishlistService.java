@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface WishlistService {
 
-//    List<Wishlist> getWishlists(String email);
-//    List<Wishlist> addWishlist(List<Product> productList, Member member);
+//    List<WishItem> getWishlists(String email);
+//    List<WishItem> addWishlist(List<Product> productList, Member member);
     void deleteWishlist(List<Long> wishlistIdList);
 }

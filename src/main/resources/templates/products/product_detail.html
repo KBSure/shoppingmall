@@ -20,7 +20,7 @@
                     <div class="list-group">
                         <a href="#" th:href="@{/products}" class="list-group-item">전체보기</a>
                         <th:block th:each="category : ${categories}">
-                            <a href="#" th:href="@{/products(prd_cate=${category.name})}" th:classappend="${product.category.name == category.name ? ' active' : ''}" class="list-group-item" th:text="${category.name}">Category 1</a>
+                            <a href="#" th:href="@{/products(prd_cate=${category.name})}" th:classappend="${detailProduct.category.name == category.name ? ' active' : ''}" class="list-group-item" th:text="${category.name}">Category 1</a>
                         </th:block>
                     </div>
                 </div>
@@ -37,18 +37,18 @@
                         <div class="col-lg-7">
                             <br>
                             <form name="productForm" method="post" id="productForm">
-                                <input type="hidden" id="prdId" name="prdId" th:value="${product.id}">
-                                <h2 th:text="${product.name}">상품이름</h2>
+                                <input type="hidden" id="prdId" name="prdId" th:value="${detailProduct.id}">
+                                <h2 th:text="${detailProduct.name}">상품이름</h2>
                                 <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
                                     <label for="price" class="col-md-3 col-form-label">&nbsp;판매가</label>
                                     <div class="col-md-9">
-                                        <input type="text" readonly class="form-control-plaintext" id="price" th:value="${product.price+' 원'}" value="1000 원">
+                                        <input type="text" readonly class="form-control-plaintext" id="price" th:value="${detailProduct.price+' 원'}" value="1000 원">
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
                                     <label for="width" class="col-md-3 col-form-label">&nbsp;사이즈</label>
                                     <div class="col-md-9">
-                                        <input type="text" readonly class="form-control-plaintext" id="width" th:value="${product.width+' X '+product.height+' mm'}" value="200&nbsp;X&nbsp;200&nbsp;mm">
+                                        <input type="text" readonly class="form-control-plaintext" id="width" th:value="${detailProduct.width+' X '+detailProduct.height+' mm'}" value="200&nbsp;X&nbsp;200&nbsp;mm">
                                     </div>
                                 </div>
                                 <div class="form-row" style="margin-bottom: 0; margin-top: 0">
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="totalPrice">총 금액</label>
-                                        <input type="text" class="form-control-plaintext" id="totalPrice" th:value="${product.price}" value="1000" readonly>
+                                        <input type="text" class="form-control-plaintext" id="totalPrice" th:value="${detailProduct.price}" value="1000" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -79,7 +79,7 @@
                             상품 설명
                         </div>
                         <div class="card-body">
-                            <div th:text="${product.content}"></div>
+                            <div th:text="${detailProduct.content}"></div>
                             <img th:if="${detailImage != null}" th:src="@{'/image/'+${detailImage.id}}" class="card-img-top img-fluid" src="#" alt="">
                         </div>
                     </div>
@@ -101,7 +101,7 @@
         var cartUrl = /*[[@{/order/cart}]]*/ 'cart';
         var wishlistApiUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
         var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
-        var productPrice = /*[[${product.price}]]*/ 1;
+        var productPrice = /*[[${detailProduct.price}]]*/ 1;
         /*]]>*/
 
         $(document).ready(function () {

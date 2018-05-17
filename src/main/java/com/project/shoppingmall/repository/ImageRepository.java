@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ImageRepository extends JpaQueryDslPredicateRepository<Image, Long> {
     
-    @Query("select image from Image image where image.product.id =:productId")
-    List<Image> findAllByProductId(@Param("productId") Long productId);
+//    @Query("select image from Image image where image.product.id =:productId")
+//    List<Image> findAllByProductId(@Param("productId") Long productId);
 
 }
