@@ -7,8 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Getter @Setter
 @EqualsAndHashCode
 @Entity
 @Table(name = "wish_item")
@@ -19,20 +18,19 @@ public class WishItem implements Serializable {
     private Long id;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "wish_list_id")
-    private Wishlist wishlist;
-
+    @JoinColumn(name = "member_id")
+    private Member member;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
-
-
-    public void setWishlist(Wishlist wishlist) {
-        if(this.wishlist != null) {
-            this.wishlist.getWishItems().remove(this);
+    
+    public void setMember(Member member) {
+        if(this.member != null) {
+            this.member.getWishItems().remove(this);
         }
-        this.wishlist = wishlist;
-        wishlist.getWishItems().add(this);
+        this.member = member;
+        member.getWishItems().add(this);
     }
 
     public void setProduct(Product product) {

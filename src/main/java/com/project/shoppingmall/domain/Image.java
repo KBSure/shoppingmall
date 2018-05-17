@@ -27,14 +27,27 @@ public class Image implements Serializable {
     private int size;
     
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "product_detail_id")
+    private Product detailProduct;
     
-    public void setProduct(Product product) {
-        if(this.product != null) {
-            this.product.getImages().remove(this);
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_thumb_id")
+    private Product thumbProduct;
+    
+    public void setDetailProduct(Product detailProduct) {
+        if(this.detailProduct != null) {
+            this.detailProduct.getDetailImages().remove(this);
         }
-        product.getImages().add(this);
-        this.product = product;
+        detailProduct.getDetailImages().add(this);
+        this.detailProduct = detailProduct;
     }
+    
+    public void setThumbProduct(Product thumbProduct) {
+        if(this.thumbProduct != null) {
+            this.thumbProduct.getThumbImages().remove(this);
+        }
+        this.thumbProduct = thumbProduct;
+        thumbProduct.getThumbImages().add(this);
+    }
+    
 }

@@ -41,21 +41,55 @@ public class Member implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
     
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private CurrentMemberStatus currentMemberStatus;
-
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_status")
+    private MemberStatus memberStatus;
+    private LocalDateTime status_start_date;
+    private LocalDateTime status_end_date;
+    
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<WishItem> wishItems = new ArrayList<>();
 
     public void addRole(Role role) {
-        roles.add(role);
+        if(!this.roles.contains(role)) {
+            this.roles.add(role);
+        }
+        
         if(!role.getMembers().contains(this)) {
             role.getMembers().add(this);
         }
+        
     }
 
     public void addOrder(Order order) {
-        if(!this.orders.contains(this)) {
+        if(!this.orders.contains(order)) {
             this.orders.add(order);
         }
         order.setMember(this);
+    }
+    
+    public void addCartItem(CartItem cartItem) {
+        if(!this.cartItems.contains(cartItem)) {
+            this.cartItems.add(cartItem);
+        }
+        cartItem.setMember(this);
+    }
+    
+    public void addWishItem(WishItem wishItem) {
+        if(!this.wishItems.contains(wishItem)) {
+            this.wishItems.add(wishItem);
+        }
+        wishItem.setMember(this);
+    }
+    
+    public void setMemberStatus(MemberStatus memberStatus) {
+        if(this.memberStatus != null) {
+            this.memberStatus.getMembers().remove(this);
+        }
+        this.memberStatus = memberStatus;
+        memberStatus.getMembers().add(this);
     }
 }

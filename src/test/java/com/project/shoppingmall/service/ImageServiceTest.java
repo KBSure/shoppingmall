@@ -45,7 +45,7 @@ public class ImageServiceTest {
     private Image createTestImage() {
         Product product = createTestProduct();
         Image image = new Image();
-        image.setProduct(product);
+        image.setDetailProduct(product);
         image.setMimeType("image/png");
         image.setSize(1000);
         image.setName("이미지");

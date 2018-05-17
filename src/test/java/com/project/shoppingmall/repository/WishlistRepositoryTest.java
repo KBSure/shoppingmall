@@ -1,10 +1,7 @@
 package com.project.shoppingmall.repository;
 
-import com.project.shoppingmall.domain.Category;
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
-import com.project.shoppingmall.domain.Wishlist;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +10,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
-import javax.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -40,11 +33,11 @@ public class WishlistRepositoryTest {
 
     @Test
     public void findWishlist(){
-        List<Wishlist> list = wishlistRepository.findAll();
-        System.out.println("========================================");
-        for(Wishlist wishlist : list){
-            System.out.println(wishlist.getId());
-        }
+//        List<Wishlist> list = wishlistRepository.findAll();
+//        System.out.println("========================================");
+//        for(Wishlist wishlist : list){
+//            System.out.println(wishlist.getId());
+//        }
     }
 
 
@@ -69,12 +62,12 @@ public class WishlistRepositoryTest {
 //        product.setCategory(category);
         Member member = new Member();
 
-        Wishlist wishlist = new Wishlist();
-//        wishlist.setProduct(product);
-        wishlist.setMember(member);
-        Wishlist save = wishlistRepository.save(wishlist);
-        System.out.println(save.getId());
-        System.out.println(save.getMember().getId());
+//        Wishlist wishlist = new Wishlist();
+//        wishlist.setDetailProduct(product);
+//        wishlist.setMember(member);
+//        Wishlist save = wishlistRepository.save(wishlist);
+//        System.out.println(save.getId());
+//        System.out.println(save.getMember().getId());
 
 
     }
