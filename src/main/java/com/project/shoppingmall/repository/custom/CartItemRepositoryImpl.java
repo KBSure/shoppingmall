@@ -15,7 +15,7 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom {
     private EntityManager entityManager;
     
     @Override
-    public List<CartItem> findCartItemsByMemberId(Long memberId) {
+    public List<CartItem> findCartItems(Long memberId) {
     
         QCartItem cartItem = QCartItem.cartItem;
     
@@ -24,6 +24,22 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom {
                                                     .innerJoin(cartItem.product).fetchJoin()
                                                     .where(cartItem.member.id.eq(memberId));
     
+        return jpaQuery.fetch();
+    }
+    
+    @Override
+    public List<CartItem> findCartItems(Long memberId, List<Long> productIds) {
+    
+        QCartItem cartItem = QCartItem.cartItem;
+    
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+        JPAQuery<CartItem> jpaQuery = jpaQueryFactory.selectFrom(cartItem)
+                                                    .innerJoin(cartItem.product).fetchJoin()
+                                                    .where(
+                                                        cartItem.member.id.eq(memberId)
+                                                        .and(cartItem.product.id.in(productIds))
+                                                    );
+        
         return jpaQuery.fetch();
     }
 }

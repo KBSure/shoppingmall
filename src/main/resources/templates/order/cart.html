@@ -112,12 +112,13 @@
                 if(!confirm("선택하신 상품을 삭제하시겠습니까?")) {
                     return;
                 }
-                var cartIdArray = makeCartIdArray();
-                if(cartIdArray.length == 0) {
+                var prdIdArray = makePrdIdArray();
+                if(prdIdArray.length == 0) {
                     alert("하나 이상의 상품을 선택해 주세요.");
                     return;
                 }
-                sendJson(cartUrl, "delete", cartIdArray, function (data) {
+
+                sendJson(cartUrl, "delete", prdIdArray, function (data) {
                     var length = cartForm.prdId.length;
                     if(!length) {
                         removeTr(cartForm.prdId);
@@ -130,7 +131,9 @@
                         }
                     }
                 });
+
             });
+
         });
 
         var setTotalPrice = function () {
@@ -151,22 +154,22 @@
             $("#totalPrice").text(sum);
         };
 
-        var makeCartIdArray = function () {
-            var cartIdArray = new Array();
+        var makePrdIdArray = function () {
+            var prdIdArray = new Array();
             var length = cartForm.prdId.length;
             if(!length) {
                 if(cartForm.prdId.checked) {
-                    cartIdArray.push({prdId : cartForm.prdId.value});
+                    prdIdArray.push({prdId : cartForm.prdId.value});
                 }
             }
             else {
                 for(var i = 0; i < length; i++) {
                     if(cartForm.prdId[i].checked) {
-                        cartIdArray.push({prdId : cartForm.prdId[i].value});
+                        prdIdArray.push({prdId : cartForm.prdId[i].value});
                     }
                 }
             }
-            return cartIdArray;
+            return prdIdArray;
         }
 
         var sendJson = function(url, method, sendData, successFunction) {

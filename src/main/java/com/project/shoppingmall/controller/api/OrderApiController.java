@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -70,13 +71,12 @@ public class OrderApiController {
     public ResponseEntity<List<CartInfo>> removeCarts(@RequestBody List<CartInfo> cartInfos, Authentication authentication) {
     
         if(authentication != null) {
-    
             LoginMember loginMember = (LoginMember) authentication.getPrincipal();
-            List<Long> productIds = cartInfos.stream().map(c -> c.getPrdId()).collect(Collectors.toList());
-            
-//            orderService.removeCarts(loginMember.getId(), productIds);
+            List<Long> productIds = cartInfos.stream().map(CartInfo::getPrdId).collect(Collectors.toList());
+    
+            cartService.removeCart(loginMember.getId(), productIds);
         }
         
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(cartInfos, HttpStatus.OK);
     }
 }

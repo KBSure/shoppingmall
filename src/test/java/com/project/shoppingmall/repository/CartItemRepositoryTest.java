@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -62,7 +63,7 @@ public class CartItemRepositoryTest {
         entityManager.flush();
         Member member = cartItems.get(0).getMember();
     
-        List<CartItem> memberCarts = cartItemRepository.findCartItemsByMemberId(member.getId());
+        List<CartItem> memberCarts = cartItemRepository.findCartItems(member.getId());
 
         assertEquals(saveCount, memberCarts.size());
 
@@ -79,13 +80,13 @@ public class CartItemRepositoryTest {
         Member member = saveTestCarts.get(0).getMember();
         Long memberId = member.getId();
         
-//        List<CartItem> findCarts = cartItemRepository.findAllMemberCarts(memberId);
-//        cartItemRepository.deleteInBatch(findCarts);
-//        entityManager.flush();
-//
-//        List<CartItem> afterCarts = cartItemRepository.findAllMemberCarts(memberId);
-//
-//        assertTrue(afterCarts.isEmpty());
+        List<CartItem> findCarts = cartItemRepository.findCartItems(memberId);
+        cartItemRepository.deleteInBatch(findCarts);
+        entityManager.flush();
+
+        List<CartItem> afterCarts = cartItemRepository.findCartItems(memberId);
+        
+        assertTrue(afterCarts.isEmpty());
     }
     
     private List<CartItem> saveTestCartItem(long saveCount) {
@@ -111,25 +112,34 @@ public class CartItemRepositoryTest {
     }
     
     @Test
-    public void testFindAllMemberCartsByProductIds() {
+    public void testFindMemberCartByProductIds() {
         
-        List<CartItem> saveTestCarts = saveTestCartItem(5);
+        List<CartItem> saveTestCartItem = saveTestCartItem(5);
     
-        Member member = saveTestCarts.get(0).getMember();
+        Member member = saveTestCartItem.get(0).getMember();
     
-//        List<Long> productIds = saveTestCartItem.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
+        List<Long> productIds = saveTestCartItem.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
     
-//        List<Cart> findCarts = cartItemRepository.findAllMemberCartsByProductIds(member.getId(), productIds);
+        List<CartItem> cartItems = cartItemRepository.findCartItems(member.getId(), productIds);
         
-//        assertEquals(saveTestCartItem.size(), findCarts.size());
-//
-//        for (Cart findCart : findCarts) {
-//            assertEquals(member.getId(), findCart.getMember().getId());
-//        }
+        assertEquals(saveTestCartItem.size(), cartItems.size());
+
+        for (CartItem cartItem : cartItems) {
+            assertEquals(member.getId(), cartItem.getMember().getId());
+        }
     }
     
     @Test
     public void testDeleteCarts() {
-//        cartItemRepository.deleteAllByIds(Arrays.asList(1L));
+        List<CartItem> saveTestCartItem = saveTestCartItem(5);
+        Member member = saveTestCartItem.get(0).getMember();
+        List<Long> productIds = saveTestCartItem.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
+        List<CartItem> cartItems = cartItemRepository.findCartItems(member.getId(), productIds);
+        
+        cartItemRepository.deleteInBatch(cartItems);
+        entityManager.flush();
+    
+        List<CartItem> deleteItems = cartItemRepository.findCartItems(member.getId(), productIds);
+        assertTrue(deleteItems.isEmpty());
     }
 }

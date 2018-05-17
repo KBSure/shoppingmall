@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface CartItemRepositoryCustom {
     
-    List<CartItem> findCartItemsByMemberId(Long memberId);
+    List<CartItem> findCartItems(Long memberId);
 
-//    List<Cart> findAllMemberCartsByProductIds(Long memberId, List<Long> productIds);
+    List<CartItem> findCartItems(Long memberId, List<Long> productIds);
 
 }

@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
     
     @Override
     public List<CartItem> getMemberCart(Long memberId) {
-        return cartItemRepository.findCartItemsByMemberId(memberId);
+        return cartItemRepository.findCartItems(memberId);
     }
     
     @Transactional
@@ -51,7 +51,7 @@ public class CartServiceImpl implements CartService {
         Map<Long, CartInfo> copyMap = new HashMap<>(cartInfoMap);
         
         // 멤머가 가진 카트 아이템 조회
-        List<CartItem> memberCartItems = cartItemRepository.findCartItemsByMemberId(memberId);
+        List<CartItem> memberCartItems = cartItemRepository.findCartItems(memberId);
         // 중복값이 존재하면, 기존 수량 변경
         for (CartItem cartItem : memberCartItems) {
             Long productId = cartItem.getProduct().getId();
@@ -94,6 +94,8 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void removeCart(Long memberId, List<Long> productIds) {
-    
+        List<CartItem> cartItems = cartItemRepository.findCartItems(memberId, productIds);
+
+        cartItemRepository.deleteInBatch(cartItems);
     }
 }
