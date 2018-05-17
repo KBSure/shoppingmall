@@ -42,7 +42,7 @@ public class Member implements Serializable {
     private List<Order> orders = new ArrayList<>();
     
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_status")
+    @JoinColumn(name = "member_status_id")
     private MemberStatus memberStatus;
     private LocalDateTime status_start_date;
     private LocalDateTime status_end_date;
