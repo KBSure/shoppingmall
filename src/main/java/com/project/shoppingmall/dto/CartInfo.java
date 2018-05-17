@@ -16,9 +16,13 @@ public class CartInfo implements Serializable {
     
     private Long prdId;
     private int quantity;
-    private Long cartId;
+    private Long cartItemId;
     private String productName;
     private int price;
     private Long imageId;
+    
+    public void updateQuantity(int quantity) {
+        this.quantity += quantity;
+    }
     
 }

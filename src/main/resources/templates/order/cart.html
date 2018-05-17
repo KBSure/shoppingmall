@@ -42,17 +42,17 @@
                        </tr>
                        </thead>
                        <tbody>
-                           <tr th:if="${cartItems != null}" th:each="cart : ${cartItems}">
+                           <tr th:if="${cart != null}" th:each="item : ${cart}">
                                <td>
-                                   <img th:width="100px" th:src="@{'/image/'+${cart.imageId}}" src="#" alt="img1" class="img-thumbnail" />
+                                   <img th:width="100px" th:src="@{'/image/'+${item.imageId}}" src="#" alt="img1" class="img-thumbnail" />
                                </td>
                                <td class="justify-content-center align-middle">
-                                   <span th:text="${cart.productName}"></span>
+                                   <span th:text="${item.productName}"></span>
                                </td>
-                               <td class="justify-content-center align-middle" th:text="${cart.quantity}"></td>
-                               <td class="justify-content-center align-middle" th:text="${cart.quantity * cart.price}"></td>
+                               <td class="justify-content-center align-middle" th:text="${item.quantity}"></td>
+                               <td class="justify-content-center align-middle" th:text="${item.quantity * item.price}"></td>
                                <td class="justify-content-center align-middle">
-                                   <input type="checkbox" name="prdId" th:if="${cart.prdId != null}" th:value="${cart.prdId}" value="" th:id="'chk_'+${cart.prdId}"/>
+                                   <input type="checkbox" name="prdId" th:if="${item.prdId != null}" th:value="${item.prdId}" value="" th:id="'chk_'+${item.prdId}"/>
                                </td>
                            </tr>
                        </tbody>

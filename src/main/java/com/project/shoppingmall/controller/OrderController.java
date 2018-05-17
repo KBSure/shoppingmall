@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class OrderController {
     public String getCart(HttpSession session, Authentication authentication, Model model){
         // 세션에서 카트 내역 조회
         @SuppressWarnings("unchecked")
-        List<CartInfo> cartList = (List<CartInfo>) session.getAttribute("cartItems");
+        Map<Long, CartInfo> cartInfoMap = (Map<Long, CartInfo>) session.getAttribute("cartInfoMap");
         
         //TODO 새로고침시 중복으로 저장 방지 필요.
         // 세션에 담긴 카트리스트가 없고, 로그인 사용자이면, DB에서 조회
@@ -55,7 +56,7 @@ public class OrderController {
 //                    Cart savedCart = orderService.registCart(loginMember.getId(), c);
 //                    CartInfo cartInfo = infoMap.get(c.getPrdId());
 //                    if(cartInfo == null) {
-//                        c.setCartId(savedCart.getId());
+//                        c.setCartItemId(savedCart.getId());
 //                        tmpList.add(c);
 //                    }
 //                    else{
@@ -73,7 +74,8 @@ public class OrderController {
 //            addProductInfo(cartList, productMap);
 //        }
 //
-//        model.addAttribute("cartList", cartList);
+        List<CartInfo> cartInfoList = new ArrayList<>(cartInfoMap.values());
+        model.addAttribute("cart", cartInfoList);
         return "order/cart";
     }
     
@@ -99,7 +101,7 @@ public class OrderController {
 //
 //    private CartInfo makeCartInfo(Cart cart, Product product) {
 //        CartInfo cartInfo = new CartInfo();
-//        cartInfo.setCartId(cart.getId());
+//        cartInfo.setCartItemId(cart.getId());
 //        cartInfo.setPrdId(product.getId());
 //        cartInfo.setQuantity(cart.getQuantity());
 //        cartInfo.setImageId(product.getDetailImages().get(0).getId());

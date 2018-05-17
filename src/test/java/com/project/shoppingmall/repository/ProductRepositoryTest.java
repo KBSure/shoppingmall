@@ -32,9 +32,6 @@ public class ProductRepositoryTest {
     private ProductRepository productRepository;
     
     @Autowired
-    private ImageRepository imageRepository;
-    
-    @Autowired
     private EntityManager entityManager;
     
     @Test

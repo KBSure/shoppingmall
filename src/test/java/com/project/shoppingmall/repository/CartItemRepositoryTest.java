@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
@@ -40,15 +39,15 @@ public class CartItemRepositoryTest {
     }
 
     @Test
-    public void testSaveCart() {
+    public void testSaveCartItem() {
         Member member = membersRepository.findById(1L).get();
         Product product = productRepository.findById(1L).get();
     
-        CartItem cart = new CartItem();
-//        cart.setProduct(product);
-        cart.setMember(member);
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setMember(member);
     
-        CartItem saveCart = cartItemRepository.save(cart);
+        CartItem saveCart = cartItemRepository.save(cartItem);
     
         CartItem findCart = cartItemRepository.findById(saveCart.getId()).get();
         
@@ -56,26 +55,26 @@ public class CartItemRepositoryTest {
     }
     
     @Test
-    public void testfindAllMembersCart() {
+    public void testfindMemberCartItems() {
         final long saveCount = 5;
     
-        List<CartItem> saveCartList = saveTestCarts(saveCount);
+        List<CartItem> cartItems = saveTestCartItem(saveCount);
         entityManager.flush();
-        Member member = saveCartList.get(0).getMember();
+        Member member = cartItems.get(0).getMember();
     
-//        List<CartItem> memberCarts = cartItemRepository.findAllMemberCarts(member.getId());
-//
-//        assertEquals(saveCount, memberCarts.size());
-//
-//        memberCarts.forEach(c -> {
-//            Long cartMemberId = c.getMember().getId();
-//            assertTrue(Long.compare(cartMemberId, member.getId()) == 0);
-//        });
+        List<CartItem> memberCarts = cartItemRepository.findCartItemsByMemberId(member.getId());
+
+        assertEquals(saveCount, memberCarts.size());
+
+        memberCarts.forEach(c -> {
+            Long cartMemberId = c.getMember().getId();
+            assertTrue(Long.compare(cartMemberId, member.getId()) == 0);
+        });
     }
  
     @Test
     public void testDeleteAllCarts() {
-        List<CartItem> saveTestCarts = saveTestCarts(5);
+        List<CartItem> saveTestCarts = saveTestCartItem(5);
 
         Member member = saveTestCarts.get(0).getMember();
         Long memberId = member.getId();
@@ -89,8 +88,7 @@ public class CartItemRepositoryTest {
 //        assertTrue(afterCarts.isEmpty());
     }
     
-    @Transactional
-    public List<CartItem> saveTestCarts(long saveCount) {
+    private List<CartItem> saveTestCartItem(long saveCount) {
         Member newMember = new Member();
         Role role = new Role();
         role.setName("USER");
@@ -102,10 +100,10 @@ public class CartItemRepositoryTest {
     
         for(long i = 1; i <= saveCount; i++) {
             Product product = productRepository.findById(i).get();
-            CartItem cart = new CartItem();
-            cart.setMember(member);
-//            cart.setProduct(product);
-            cartList.add(cart);
+            CartItem cartItem = new CartItem();
+            cartItem.setMember(member);
+            cartItem.setProduct(product);
+            cartList.add(cartItem);
         }
         List<CartItem> saveList = cartItemRepository.saveAll(cartList);
     
@@ -115,15 +113,15 @@ public class CartItemRepositoryTest {
     @Test
     public void testFindAllMemberCartsByProductIds() {
         
-        List<CartItem> saveTestCarts = saveTestCarts(5);
+        List<CartItem> saveTestCarts = saveTestCartItem(5);
     
         Member member = saveTestCarts.get(0).getMember();
     
-//        List<Long> productIds = saveTestCarts.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
+//        List<Long> productIds = saveTestCartItem.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
     
 //        List<Cart> findCarts = cartItemRepository.findAllMemberCartsByProductIds(member.getId(), productIds);
         
-//        assertEquals(saveTestCarts.size(), findCarts.size());
+//        assertEquals(saveTestCartItem.size(), findCarts.size());
 //
 //        for (Cart findCart : findCarts) {
 //            assertEquals(member.getId(), findCart.getMember().getId());
