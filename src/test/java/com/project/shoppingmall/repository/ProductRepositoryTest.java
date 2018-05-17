@@ -119,17 +119,17 @@ public class ProductRepositoryTest {
     public void testFindAllProducts() {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(0, 3, sort);
-//        Page<Product> products = productRepository.findAllProducts("css", null, pageable);
-//
-//        List<Product> productList = products.getContent();
-//
-//        assertFalse(productList.isEmpty());
-//
-//        productList.forEach(p -> {
-//            int size = p.getDetailImages().size();
-//            assertTrue(size == 1);
-//            assertEquals(ImageType.THUMB_NAIL, p.getDetailImages().get(0).getType());
-//        });
+        Page<Product> products = productRepository.findAllProducts("css", null, pageable);
+
+        List<Product> productList = products.getContent();
+
+        assertFalse(productList.isEmpty());
+
+        productList.forEach(p -> {
+            int size = p.getThumbImages().size();
+            assertTrue(size == 1);
+            assertEquals(ImageType.THUMB_NAIL, p.getThumbImages().get(0).getType());
+        });
     }
     
     @Test
@@ -153,7 +153,8 @@ public class ProductRepositoryTest {
     
         assertNotNull(product);
         
-        assertEquals(2, product.getDetailImages().size());
+        assertEquals(1, product.getDetailImages().size());
+        assertEquals(1, product.getThumbImages().size());
     }
     
     @Test

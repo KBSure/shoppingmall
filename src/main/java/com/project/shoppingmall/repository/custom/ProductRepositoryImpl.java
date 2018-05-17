@@ -69,18 +69,4 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
         return productJPAQuery.fetch();
     }
 
-//    @Override
-//    public List<Product> findAllProductsWithThumnailByProductIds(List<Long> productIds) {
-//
-//        QProduct product = QProduct.product;
-//        QImage image = QImage.image;
-//
-//        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
-//        JPAQuery<Product> productJPAQuery = jpaQueryFactory.selectFrom(product)
-//                                                            .leftJoin(product.images, image)
-//                                                            .where(product.id.in(productIds).and(image.type.eq(ImageType.THUMB_NAIL)))
-//                                                            .fetchJoin();
-//
-//        return productJPAQuery.fetch();
-//    }
 }
