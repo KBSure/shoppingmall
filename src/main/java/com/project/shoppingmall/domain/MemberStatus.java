@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +21,14 @@ public class MemberStatus implements Serializable {
     private Integer id;
     @Enumerated(value = EnumType.STRING)
     private MemberStat state;
-    @OneToMany(mappedBy = "memberStatus", cascade = CascadeType.ALL)
-    private List<CurrentMemberStatus> currentMemberStatus = new ArrayList<>();
     
-    public void addCurrentMemberStatus(CurrentMemberStatus currentMemberStatus) {
-        if(!this.currentMemberStatus.contains(currentMemberStatus)) {
-            this.currentMemberStatus.add(currentMemberStatus);
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "memberStatus")
+    private List<Member> members = new ArrayList<>();
+    
+    public void addMember(Member member) {
+        if(!this.members.contains(member)) {
+            this.members.add(member);
         }
-        currentMemberStatus.setMemberStatus(this);
+        member.setMemberStatus(this);
     }
-    
 }

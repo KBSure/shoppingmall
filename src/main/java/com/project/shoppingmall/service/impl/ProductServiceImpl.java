@@ -23,7 +23,8 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public List<Product> getBestSellers() {
-        return productRepository.findBestSellerProductsByLimit();
+//        return productRepository.findBestSellerProductsByLimit();
+        return null;
     }
     
     @Override
@@ -33,7 +34,8 @@ public class ProductServiceImpl implements ProductService {
         
         Pageable pageable = PageRequest.of(page - 1, 8, sort);
         
-        return productRepository.findAllProducts(searchStr, prdCate, pageable);
+//        return productRepository.findAllProducts(searchStr, prdCate, pageable);
+        return null;
     }
     
     @Override
@@ -72,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public List<Product> getAllProductsWithThumnail(List<Long> productIds) {
-        return productRepository.findAllProductsWithThumnailByProductIds(productIds);
+//        return productRepository.findAllProductsWithThumnailByProductIds(productIds);
+        return null;
     }
 }

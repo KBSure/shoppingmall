@@ -19,20 +19,19 @@ public class CartItem implements Serializable {
     private int quantity;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="cart_id")
-    private Cart cart;
+    @JoinColumn(name="member_id")
+    private Member member;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
 
-
-    public void setCart(Cart cart) {
-        if(this.cart != null) {
-            this.cart.getCartItems().remove(this);
+    public void setMember(Member member) {
+        if(this.member != null) {
+            this.member.getCartItems().remove(this);
         }
-        this.cart = cart;
-        cart.addCartItem(this);
+        this.member = member;
+        member.getCartItems().add(this);
     }
 
     public void setProduct(Product product) {

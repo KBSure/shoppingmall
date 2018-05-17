@@ -1,6 +1,5 @@
 package com.project.shoppingmall.service.impl;
 
-import com.project.shoppingmall.domain.Cart;
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.dto.CartInfo;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,26 +26,26 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductRepository productRepository;
     
-    @Override
-    public List<Cart> getAllMemebrCarts(Long memberId) {
-        
-        return cartRepository.findAllMemberCarts(memberId);
-    }
-    
-    @Override
-    public List<Cart> getAllCartsByCartIds(List<Long> cartIds) {
-        return cartRepository.findAllById(cartIds);
-    }
-    
-    @Transactional
-    @Override
-    public Cart registCart(Long memberId, CartInfo cartInfo) {
-    
-        Member member = membersRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 아이디 입니다."));
-        Product product = productRepository.findById(cartInfo.getPrdId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
-        
+//    @Override
+//    public List<Cart> getAllMemebrCarts(Long memberId) {
+//
+////        return cartRepository.findCartByMemberId(memberId);
+//    }
+//
+//    @Override
+//    public List<Cart> getAllCartsByCartIds(List<Long> cartIds) {
+//        return cartRepository.findAllById(cartIds);
+//    }
+//
+//    @Transactional
+//    @Override
+//    public Cart registCart(Long memberId, CartInfo cartInfo) {
+//
+//        Member member = membersRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 아이디 입니다."));
+//        Product product = productRepository.findById(cartInfo.getPrdId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+//
 //        Optional<Cart> memberCart = getAllMemebrCarts(member.getId())
-//                .stream().filter(c -> c.getProduct().getId().equals(product.getId()))
+//                .stream().filter(c -> c.getDetailProduct().getId().equals(product.getId()))
 //                .reduce((c1, c2) -> c1);
 //
 //        if(memberCart.isPresent()) {
@@ -57,12 +55,12 @@ public class OrderServiceImpl implements OrderService {
 //        }
 //
 //        Cart cart = new Cart();
-//        cart.setProduct(product);
+//        cart.setDetailProduct(product);
 //        cart.setMember(member);
 //
 //        return cartRepository.save(cart);
-        return null;
-    }
+//        return null;
+//    }
     
     @Transactional
     @Override
@@ -93,8 +91,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void removeCarts(Long memberId, List<Long> productIds) {
         
-        List<Cart> findCarts = cartRepository.findAllMemberCartsByProductIds(memberId, productIds);
+//        List<Cart> findCarts = cartRepository.findAllMemberCartsByProductIds(memberId, productIds);
         
-        cartRepository.deleteInBatch(findCarts);
+//        cartRepository.deleteInBatch(findCarts);
     }
 }
