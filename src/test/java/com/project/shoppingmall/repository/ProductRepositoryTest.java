@@ -135,15 +135,15 @@ public class ProductRepositoryTest {
     @Test
     public void testFindBestSellerProductsByLimit() {
     
-//        List<Product> bestSellsers = productRepository.findBestSellerProductsByLimit();
-//
-//        assertEquals(8, bestSellsers.size());
-//
-//        bestSellsers.forEach(p -> {
-//            assertEquals(1, p.getDetailImages().size());
-//            assertEquals(ImageType.THUMB_NAIL, p.getDetailImages().get(0).getType());
-//            assertNotNull(p.getBestSeller());
-//        });
+        List<Product> bestSellsers = productRepository.findBestSellerProductsWithLimit();
+
+        assertEquals(8, bestSellsers.size());
+        
+        bestSellsers.forEach(p -> {
+            assertEquals(1, p.getThumbImages().size());
+            assertEquals(ImageType.THUMB_NAIL, p.getThumbImages().get(0).getType());
+            assertNotNull(p.getBestSeller());
+        });
     
     }
     

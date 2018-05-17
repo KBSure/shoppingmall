@@ -1,6 +1,7 @@
 package com.project.shoppingmall.repository;
 
 import com.project.shoppingmall.domain.Image;
+import com.project.shoppingmall.domain.ImageType;
 import com.project.shoppingmall.domain.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +34,7 @@ public class ImageRepositoryTest {
     
     @Test
     public void testSaveImage() {
-        Image testImage = createTestImage();
+        Image testImage = createTestDetailImage();
         Image saveImage = repository.save(testImage);
         entityManager.flush();
     
@@ -43,7 +43,7 @@ public class ImageRepositoryTest {
     
     @Test
     public void testFindImage() {
-        Image testImage = createTestImage();
+        Image testImage = createTestDetailImage();
         Image saveImage = repository.save(testImage);
         entityManager.flush();
     
@@ -59,7 +59,7 @@ public class ImageRepositoryTest {
     
     @Test
     public void testUpdateImage() {
-        Image testImage = createTestImage();
+        Image testImage = createTestDetailImage();
         Image saveImage = repository.save(testImage);
         entityManager.flush();
         Image findImage = repository.findById(saveImage.getId()).get();
@@ -81,10 +81,22 @@ public class ImageRepositoryTest {
         
     }
     
-    private Image createTestImage() {
+    private Image createTestDetailImage() {
         Product product = createTestProduct();
         Image image = new Image();
         image.setDetailProduct(product);
+        image.setType(ImageType.DETAIL);
+        image.setMimeType("image/png");
+        image.setSize(100);
+        image.setName("이미지");
+        return image;
+    }
+    
+    private Image createTestThumbImage() {
+        Product product = createTestProduct();
+        Image image = new Image();
+        image.setDetailProduct(product);
+        image.setType(ImageType.THUMB_NAIL);
         image.setMimeType("image/png");
         image.setSize(100);
         image.setName("이미지");
@@ -94,7 +106,6 @@ public class ImageRepositoryTest {
     private Product createTestProduct() {
         Product product = new Product();
         product.setQuantity(10);
-//        product.setShippingCharge(100);
         product.setRegDate(LocalDateTime.now());
         product.setPrice(500);
         product.setName("상품");

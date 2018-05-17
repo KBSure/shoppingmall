@@ -43,13 +43,13 @@
                     <br>
 
                     <div class="row">
-                        <div class="col-lg-3 col-md-3portfolio-item" th:if="${not #lists.isEmpty(products)}" th:each="detailProduct : ${products}">
+                        <div class="col-lg-3 col-md-3portfolio-item" th:if="${not #lists.isEmpty(products)}" th:each="product : ${products}">
                             <div class="card mb-3 box-shadow" style="height: 290px">
-                                <a th:href="@{'/products/'+${detailProduct.id}}" href="#"><img height="200px" th:src="@{'/image/'+${detailProduct.getDetailImages[0].id}}" class="card-img-top" src="//99nerds.io/web/detailProduct/medium/201712/103_shop1_470881.png"></a>
+                                <a th:href="@{'/products/'+${product.id}}" href="#"><img height="200px" th:src="@{'/image/'+${product.thumbImages[0].id}}" class="card-img-top" src="//99nerds.io/web/detailProduct/medium/201712/103_shop1_470881.png"></a>
                                 <div class="card-body d-flex justify-content-center justify-content-between">
                                     <div class="justify-content-center col-12">
-                                        <div class="text-center"><a th:href="@{'/products/'+${detailProduct.id}}" href="#"><span th:text="${detailProduct.name}" style="font-size: 1.2em;">상품명</span></a></div>
-                                        <div class="text-center"><span th:text="${detailProduct.price}+'원'">6,900원</span></div>
+                                        <div class="text-center"><a th:href="@{'/products/'+${product.id}}" href="#"><span th:text="${product.name}" style="font-size: 1.2em;">상품명</span></a></div>
+                                        <div class="text-center"><span th:text="${product.price}+'원'">6,900원</span></div>
                                     </div>
                                 </div>
                             </div>
