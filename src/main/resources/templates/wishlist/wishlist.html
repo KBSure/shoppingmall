@@ -13,8 +13,17 @@
                <h1 class="my-4 font-weight-bold">Wish List</h1>
            </div>
            <br>
+           // private Long prdId;
+           // private int quantity;
+           // private Long cartId;
+           // private String productName;
+           // private int price;
+           // private Long imageId;
 
            <form id ="wish_list_form">
+               <input type="hidden" id="product_name" name="product_name" th:value="${product.name}">
+               <input type="hidden" id="price" name="price" th:value="${product.price}">
+               <input type="hidden" id="image_id" name="image_id" th:value="${product.thumImages.id}">
                <div class="row">
                    <table class="table table-striped text-center">
                        <thead>
@@ -47,7 +56,8 @@
                </div>
 
                <div class="row justify-content-end">
-                   <input id="post_cart_btn" class="btn btn-primary btn-sm" type="submit" value="장바구니에 담기"></input>
+
+                   <input id="post_cart_btn" class="btn btn-primary btn-sm" type="button" value="장바구니에 담기"></input>
                    &nbsp;&nbsp;&nbsp;
                    <input id="delete_wish_list_btn" class="btn btn-secondary btn-sm" type="submit" value="선택 삭제"></input>
                </div>
@@ -62,21 +72,20 @@
 </th:block>
 <th:block layout:fragment="footer_script">
     <script>
+        var cartApiUrl = "/api/order/cart";
+        var cartUrl = "/order/cart";
         $(document).ready(function () {
-            // $.urlParam = function(page){
-            //     var results = new RegExp('[\?&]' + page + '=([^&#]*)').exec(window.location.href);
-            //     if (results==null){
-            //         return null;
-            //     }
-            //     else{
-            //         return results[1] || 0;
-            //     }
-            // }
+
+
 
             // var parameter = url.slice(url.indexOf('?') + 1, url.length);
             $("#post_cart_btn").on("click", function () {
-               $("#wish_list_form").attr("action", "/api/order/cart");
-               $("#wish_list_form").attr("method", "post");
+                var sendData = {
+                    prdId : $("#prd_id").val(),
+                    quantity : 1,
+                    productName : $("#")
+                };
+                sendJson(cartApiUrl, cartUrl, "장바구니로 이동하시겠습니까?", sendData);
             });
             $("#delete_wish_list_btn").on("click", function () {
                 $('<input>').attr({
@@ -93,6 +102,27 @@
                 $("#wish_list_form").attr("method", "get");
             });
         });
+
+
+
+        var sendJson = function(url, targetUrl, msg, sendData) {
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                contentType: 'application/json',
+                data: JSON.stringify(sendData)
+            })
+                .done(function() {
+                    if(confirm(msg)){
+                        location.href = targetUrl;
+                    }
+                })
+                .fail(function (xhr) {
+                    console.log(xhr);
+                    alert("일시적인 장애가 발생하였습니다. 다시 시도해주세요.");
+                });
+        }
 
     </script>
 
