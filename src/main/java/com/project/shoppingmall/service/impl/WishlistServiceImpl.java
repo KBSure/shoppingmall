@@ -1,29 +1,26 @@
 package com.project.shoppingmall.service.impl;
 
-import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Product;
-import com.project.shoppingmall.repository.WishlistRepository;
+import com.project.shoppingmall.domain.WishItem;
+import com.project.shoppingmall.repository.WishItemRepository;
 import com.project.shoppingmall.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class WishlistServiceImpl implements WishlistService {
 
     @Autowired
-    WishlistRepository wishlistRepository;
+    WishItemRepository wishItemRepository;
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<Wishlist> getWishlists(String email) {
-////        return wishlistRepository.findAllByMemberEmail(email);
-//        return null;
-//    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<WishItem> getWishItems(String email) {
+        return wishItemRepository.findAllByMemberEmail(email);
+    }
 //
 //    @Override
 //    @Transactional
@@ -38,7 +35,7 @@ public class WishlistServiceImpl implements WishlistService {
 //            wishlistList.add(wishlist);
 //        }
 //
-//        List<Wishlist> saveWishlistList = wishlistRepository.saveAll(wishlistList);
+//        List<Wishlist> saveWishlistList = wishItemRepository.saveAll(wishlistList);
 //        return saveWishlistList;
 //    }
 
@@ -46,7 +43,7 @@ public class WishlistServiceImpl implements WishlistService {
     @Transactional
     public void deleteWishlist(List<Long> wishlistIdList) {
         for (Long id : wishlistIdList) {
-            wishlistRepository.deleteById(id);
+            wishItemRepository.deleteById(id);
         }
         return;
     }

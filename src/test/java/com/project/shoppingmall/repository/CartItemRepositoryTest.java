@@ -7,24 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
 @ActiveProfiles("dev")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CartRepositoryTest {
+public class CartItemRepositoryTest {
     
     @Autowired
-    private CartRepository cartRepository;
+    private CartItemRepository cartItemRepository;
     
     @Autowired
     private MembersRepository membersRepository;
@@ -34,7 +28,7 @@ public class CartRepositoryTest {
     
     @Test
     public void testNotNull() {
-        assertNotNull(cartRepository);
+        assertNotNull(cartItemRepository);
         assertNotNull(entityManager);
     }
 
@@ -45,9 +39,9 @@ public class CartRepositoryTest {
 //        Cart cart = new Cart();
 //        cart.setMember(member);
 //
-//        Cart saveCart = cartRepository.save(cart);
+//        Cart saveCart = cartItemRepository.save(cart);
 //
-//        Cart findCart = cartRepository.findById(saveCart.getId()).get();
+//        Cart findCart = cartItemRepository.findById(saveCart.getId()).get();
 //
 //        assertEquals(saveCart, findCart);
     }
@@ -56,7 +50,7 @@ public class CartRepositoryTest {
     public void testfindMembersCart() {
         Member member = membersRepository.findById(1L).get();
     
-//        Cart cart = cartRepository.findCartByMemberId(member.getId());
+//        Cart cart = cartItemRepository.findCartByMemberId(member.getId());
 //
 //        assertTrue(cart.getCartItems().size() > 1);
 //
@@ -74,6 +68,6 @@ public class CartRepositoryTest {
     
     @Test
     public void testDeleteCarts() {
-//        cartRepository.deleteAllByIds(Arrays.asList(1L));
+//        cartItemRepository.deleteAllByIds(Arrays.asList(1L));
     }
 }

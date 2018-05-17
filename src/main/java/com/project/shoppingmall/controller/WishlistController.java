@@ -25,13 +25,15 @@ public class WishlistController {
     public String getWishList(@RequestParam(name = "prd_cate", required = false) String prdCate
             , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
             , @RequestParam(name="search_str", required = false) String searchStr, ModelMap modelmap, Principal principal){
-//        List<WishItem> wishlists = wishlistService.getWishlists(principal.getName());
-//        modelmap.addAttribute("wishlists", wishlists);
+
+        List<WishItem> wishList = wishlistService.getWishItems(principal.getName());
+
+        modelmap.addAttribute("wishList", wishList);
         modelmap.addAttribute("page", page);
         modelmap.addAttribute("searchStr", searchStr);
         modelmap.addAttribute("prdCate", prdCate);
         modelmap.addAttribute("sortType", sortType);
-        //정렬 방법도
+
         return "/wishlist/wishlist";
     }
 

@@ -1,9 +1,7 @@
 package com.project.shoppingmall.service.impl;
 
-import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.dto.CartInfo;
-import com.project.shoppingmall.repository.CartRepository;
+import com.project.shoppingmall.repository.CartItemRepository;
 import com.project.shoppingmall.repository.MembersRepository;
 import com.project.shoppingmall.repository.ProductRepository;
 import com.project.shoppingmall.service.OrderService;
@@ -18,7 +16,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     
     @Autowired
-    private CartRepository cartRepository;
+    private CartItemRepository cartItemRepository;
     
     @Autowired
     private MembersRepository membersRepository;
@@ -29,12 +27,12 @@ public class OrderServiceImpl implements OrderService {
 //    @Override
 //    public List<Cart> getAllMemebrCarts(Long memberId) {
 //
-////        return cartRepository.findCartByMemberId(memberId);
+////        return cartItemRepository.findCartByMemberId(memberId);
 //    }
 //
 //    @Override
 //    public List<Cart> getAllCartsByCartIds(List<Long> cartIds) {
-//        return cartRepository.findAllById(cartIds);
+//        return cartItemRepository.findAllById(cartIds);
 //    }
 //
 //    @Transactional
@@ -58,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 //        cart.setDetailProduct(product);
 //        cart.setMember(member);
 //
-//        return cartRepository.save(cart);
+//        return cartItemRepository.save(cart);
 //        return null;
 //    }
     
@@ -91,8 +89,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void removeCarts(Long memberId, List<Long> productIds) {
         
-//        List<Cart> findCarts = cartRepository.findAllMemberCartsByProductIds(memberId, productIds);
+//        List<Cart> findCarts = cartItemRepository.findAllMemberCartsByProductIds(memberId, productIds);
         
-//        cartRepository.deleteInBatch(findCarts);
+//        cartItemRepository.deleteInBatch(findCarts);
     }
 }

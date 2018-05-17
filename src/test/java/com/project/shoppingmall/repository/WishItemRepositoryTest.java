@@ -2,6 +2,7 @@ package com.project.shoppingmall.repository;
 
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
+import com.project.shoppingmall.domain.WishItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +19,22 @@ import static org.junit.Assert.*;
 @ActiveProfiles("dev")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class WishlistRepositoryTest {
+public class WishItemRepositoryTest {
     @Autowired
-    WishlistRepository wishlistRepository;
+    WishItemRepository wishItemRepository;
 
     @Autowired
     EntityManager entityManager;
 
     @Test
     public void testNotNull(){
-        assertNotNull(wishlistRepository);
+        assertNotNull(wishItemRepository);
         assertNotNull(entityManager);
     }
 
     @Test
     public void findWishlist(){
-//        List<Wishlist> list = wishlistRepository.findAll();
+//        List<Wishlist> list = wishItemRepository.findAll();
 //        System.out.println("========================================");
 //        for(Wishlist wishlist : list){
 //            System.out.println(wishlist.getId());
@@ -65,7 +66,7 @@ public class WishlistRepositoryTest {
 //        Wishlist wishlist = new Wishlist();
 //        wishlist.setDetailProduct(product);
 //        wishlist.setMember(member);
-//        Wishlist save = wishlistRepository.save(wishlist);
+//        Wishlist save = wishItemRepository.save(wishlist);
 //        System.out.println(save.getId());
 //        System.out.println(save.getMember().getId());
 
@@ -74,18 +75,18 @@ public class WishlistRepositoryTest {
 
     @Test
     public void getWishlists(){
-//        List<Wishlist> allByMemberEmail = wishlistRepository.findAllByMemberEmail("test2@gmail.com");
-//
-//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
-//
-//        for (Wishlist wishlist : allByMemberEmail) {
-//            System.out.println(wishlist.getId());
-//        }
+        List<WishItem> allByMemberEmail = wishItemRepository.findAllByMemberEmail("test2@gmail.com");
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+        for (WishItem wishItem : allByMemberEmail) {
+            System.out.println(wishItem.getId());
+        }
     }
 
     @Test
     public void getProductIds(){
-//        List<Product> productIdsByMemberEmail = wishlistRepository.findProductIdsByMemberEmail("test2@gmail.com");
+//        List<Product> productIdsByMemberEmail = wishItemRepository.findProductIdsByMemberEmail("test2@gmail.com");
 //
 //        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 //        for (Product product : productIdsByMemberEmail) {
@@ -96,9 +97,9 @@ public class WishlistRepositoryTest {
     @Test
     public void deleteWishlist(){
 //        List<Wishlist> prdIdList = new ArrayList<>();
-//        Optional<Wishlist> byId = wishlistRepository.findById(4L);
+//        Optional<Wishlist> byId = wishItemRepository.findById(4L);
 //
-//        wishlistRepository.delete(byId.get());
+//        wishItemRepository.delete(byId.get());
 //
 //        findWishlist();
 
@@ -106,7 +107,7 @@ public class WishlistRepositoryTest {
 //        System.out.println(byId);
 //        findWishlist();
 //
-        wishlistRepository.deleteById(5L);
+        wishItemRepository.deleteById(5L);
         findWishlist();
 
     }
