@@ -105,6 +105,7 @@
         var wishlistApiUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
         var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
         var productPrice = /*[[${product.price}]]*/ 1;
+        var ordrUrl = /*[[@{/order/orderform}]]*/ 1;
         /*]]>*/
 
         $(document).ready(function () {
@@ -134,7 +135,8 @@
             });
 
             $("#orderBtn").on("click", function () {
-                sendJson(cartUrl, false);
+                productForm.action = ordrUrl;
+                productForm.submit();
             });
         });
 

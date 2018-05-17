@@ -12,13 +12,13 @@
             <div class="row">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">장바구니</a>
+                        <a class="nav-link disabled">장바구니</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">주문결제</a>
+                        <a class="nav-link active">주문결제</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">주문완료</a>
+                        <a class="nav-link disabled">주문완료</a>
                     </li>
                     <li class="nav-item" style="width: 1000px;">
                     </li>
@@ -33,34 +33,32 @@
                     <table class="table table-striped text-center">
                         <thead>
                         <tr>
-                            <th scope="col">상품명</th>
-                            <th scope="col">수량</th>
-                            <th scope="col">가격</th>
+                            <th scope="col" width="20%"></th>
+                            <th scope="col" width="40%">상품명</th>
+                            <th scope="col" width="15%">수량</th>
+                            <th scope="col" width="15%">가격</th>
+                            <th scope="col" width="10%"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <img src="..." alt="img1" class="img-thumbnail">abc
-                            </td>
-                            <td>1</td>
-                            <td>3,000</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="..." alt="img2" class="img-thumbnail">efg
-                            </td>
-                            <td>2</td>
-                            <td>6,500</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="..." alt="img3" class="img-thumbnail">hij
-                            </td>
-                            <td>3</td>
-                            <td>7,000</td>
-                        </tr>
+                            <tr th:if="${orderInfos != null}" th:each="item : ${orderInfos}">
+                                <td>
+                                    <img th:width="100px" th:src="@{'/image/'+${item.imageId}}" src="#" alt="img1" class="img-thumbnail" />
+                                </td>
+                                <td class="justify-content-center align-middle">
+                                    <a th:href="@{'/products/'+${item.prdId}}" href="#"><span th:text="${item.productName}"></span></a>
+                                </td>
+                                <td class="justify-content-center align-middle" th:text="${item.quantity}"></td>
+                                <td class="justify-content-center align-middle" th:text="${item.quantity * item.price}"></td>
+                                <input type="hidden" name="itemPrice" th:value="${item.quantity * item.price}">
+                                <input type="hidden" name="quantity" th:value="${item.quantity}">
+                                <input type="hidden" name="productName" th:value="${item.productName}">
+                                <input type="hidden" name="prdId" th:value="${item.prdId}" value=""/>
+                                <td class="justify-content-center align-middle">
+                                </td>
+                            </tr>
                         </tbody>
+                    </table>
                     </table>
                 </div>
                 <div class="row">
@@ -72,53 +70,53 @@
             </div>
                 <fieldset class="form-group">
                     <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">배송지 선택</legend>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                <label class="form-check-label" for="gridRadios1">
-                                    회원 정보와 동일
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                <label class="form-check-label" for="gridRadios2">
-                                    새로운 배송지
-                                </label>
-                            </div>
-                        </div>
+                        <!--<legend class="col-form-label col-sm-2 pt-0">배송지 선택</legend>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<div class="form-check">-->
+                                <!--<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>-->
+                                <!--<label class="form-check-label" for="gridRadios1">-->
+                                    <!--회원 정보와 동일-->
+                                <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="form-check">-->
+                                <!--<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">-->
+                                <!--<label class="form-check-label" for="gridRadios2">-->
+                                    <!--새로운 배송지-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </fieldset>
                 <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">받으시는 분</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                        <input type="text" th:value="${member.name}" class="form-control col-3" id="inputName" placeholder="Name">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputAddress" class="col-sm-2 col-form-label">주소</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputAddress" placeholder="우편번호">
-                        <input type="password" class="form-control my-1" id="inputAddress2" placeholder="지역주소">
-                        <input type="password" class="form-control my-1" id="inputAddress3" placeholder="상세주소">
+                        <input type="text" th:value="${member.address.zipcode}" class="form-control col-3" id="inputAddress" placeholder="우편번호">
+                        <input type="text" th:value="${member.address.location}" class="form-control my-1" id="inputAddress2" placeholder="지역주소">
+                        <input type="text" th:value="${member.address.detail}" class="form-control my-1" id="inputAddress3" placeholder="상세주소">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputPhone" class="col-sm-2 col-form-label">전화번호</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPhone" placeholder="Phone Number">
+                        <input type="text" th:value="${member.address.phone}" class="form-control" id="inputPhone" placeholder="Phone Number">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail" class="col-sm-2 col-form-label">이메일</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputEmail" placeholder="Email">
+                        <input type="text" th:value="${member.email}" class="form-control" id="inputEmail" placeholder="Email">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputMessage" class="col-sm-2 col-form-label">배송메시지</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputMessage" placeholder="Password">
+                        <input type="text" class="form-control" id="inputMessage" placeholder="">
                     </div>
                 </div>
                 <div class="row">
@@ -127,19 +125,19 @@
                 <div class="form-group row">
                     <label for="inputBank" class="col-sm-2 col-form-label">입금은행</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputBank" placeholder="Phone Number">
+                        <input type="text" class="form-control-plaintext" readonly id="inputBank" value="좋은은행">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputAccount" class="col-sm-2 col-form-label">계좌번호</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputAccount" placeholder="Email">
+                        <input type="text" class="form-control-plaintext" readonly id="inputAccount" value="123-456-7890">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputDepositor" class="col-sm-2 col-form-label">입금자명</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputDepositor" placeholder="Password">
+                        <input type="text" class="form-control" id="inputDepositor" placeholder="">
                     </div>
                 </div>
                 <div class="row justify-content-center">
