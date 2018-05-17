@@ -38,10 +38,10 @@ public class OrderApiController {
         // 로그인 사용자면 사용자 저장
         if(authentication != null) {
             LoginMember loginMember = (LoginMember) authentication.getPrincipal();
-//            orderService.registCart(loginMember.getId(), cartInfo);
+            cartService.registCart(loginMember.getId(), cartInfos);
         }
         
-        // 기존 세션에 중복 정보 있으면 수량 업데이트하고, 없으면 추가.
+        // 기존 세션에 중복 정보 있으면 세션 수량 업데이트하고, 없으면 추가.
         for (CartInfo cartInfo : cartInfos) {
             updateCartInfoMap(cartInfoMap, cartInfo);
         }
