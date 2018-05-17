@@ -42,8 +42,11 @@ public class Product implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<WishItem> wishItems = new ArrayList<>();
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailProduct")
+    private List<Image> detailImages = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thumbProduct")
+    private List<Image> thumbImages = new ArrayList<>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -66,11 +69,18 @@ public class Product implements Serializable {
         wishItem.setProduct(this);
     }
 
-    public void addImage(Image image) {
-        if(!this.images.contains(image)) {
-            this.images.add(image);
+    public void addDetailImage(Image detailImage) {
+        if(!this.detailImages.contains(detailImage)) {
+            this.detailImages.add(detailImage);
         }
-        image.setProduct(this);
+        detailImage.setDetailProduct(this);
+    }
+    
+    public void addThumbImage(Image thumbImage) {
+        if(!this.thumbImages.contains(thumbImage)) {
+            this.thumbImages.add(thumbImage);
+        }
+        thumbImage.setThumbProduct(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {

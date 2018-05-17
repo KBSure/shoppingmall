@@ -1,9 +1,7 @@
 package com.project.shoppingmall.controller;
 
-import com.project.shoppingmall.domain.Cart;
 import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.dto.CartInfo;
-import com.project.shoppingmall.security.LoginMember;
 import com.project.shoppingmall.service.OrderService;
 import com.project.shoppingmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
@@ -44,7 +40,7 @@ public class OrderController {
 //        if(authentication != null) {
 //            LoginMember loginMember = (LoginMember) authentication.getPrincipal();
 //            List<Cart> memberCarts = orderService.getAllMemebrCarts(loginMember.getId());
-//            List<Long> productIds = memberCarts.stream().map(c -> c.getProduct().getId()).collect(Collectors.toList());
+//            List<Long> productIds = memberCarts.stream().map(c -> c.getDetailProduct().getId()).collect(Collectors.toList());
 //            Map<Long, Product> productMap = productService.getAllProductsWithThumnail(productIds).stream().collect(Collectors.toMap(p -> p.getId(), p -> p));
 //            List<CartInfo> membersCartInfos = makeCartInfoList(memberCarts, productMap);
 //            if(cartList == null) {
@@ -85,7 +81,7 @@ public class OrderController {
         cartList.forEach(c -> {
             Product product = productMap.get(c.getPrdId());
             c.setPrice(product.getPrice());
-            c.setImageId(product.getImages().get(0).getId());
+            c.setImageId(product.getDetailImages().get(0).getId());
             c.setProductName(product.getName());
         });
     }
@@ -93,7 +89,7 @@ public class OrderController {
 //    private List<CartInfo> makeCartInfoList(List<Cart> memberCarts, Map<Long, Product> productMap) {
 //        List<CartInfo> cartList = new ArrayList<>();
 //        memberCarts.forEach(cart -> {
-//            Product product = productMap.get(cart.getProduct().getId());
+//            Product product = productMap.get(cart.getDetailProduct().getId());
 //            if(product == null) throw new IllegalArgumentException("존재하지 않는 상품입니다.");
 //            CartInfo cartInfo = makeCartInfo(cart, product);
 //            cartList.add(cartInfo);
@@ -106,7 +102,7 @@ public class OrderController {
 //        cartInfo.setCartId(cart.getId());
 //        cartInfo.setPrdId(product.getId());
 //        cartInfo.setQuantity(cart.getQuantity());
-//        cartInfo.setImageId(product.getImages().get(0).getId());
+//        cartInfo.setImageId(product.getDetailImages().get(0).getId());
 //        cartInfo.setProductName(product.getName());
 //        cartInfo.setPrice(product.getPrice());
 //        return cartInfo;

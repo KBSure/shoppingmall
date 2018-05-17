@@ -51,8 +51,8 @@ public class ImageRepositoryTest {
     
         assertEquals(saveImage, findImage);
     
-        Product testProduct = testImage.getProduct();
-        Product findProduct = findImage.getProduct();
+        Product testProduct = testImage.getDetailProduct();
+        Product findProduct = findImage.getDetailProduct();
     
         assertEquals(testProduct.getId(), findProduct.getId());
     }
@@ -84,7 +84,7 @@ public class ImageRepositoryTest {
     private Image createTestImage() {
         Product product = createTestProduct();
         Image image = new Image();
-        image.setProduct(product);
+        image.setDetailProduct(product);
         image.setMimeType("image/png");
         image.setSize(100);
         image.setName("이미지");

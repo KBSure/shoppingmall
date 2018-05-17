@@ -1,7 +1,5 @@
 package com.project.shoppingmall.controller.api;
 
-import com.project.shoppingmall.domain.Cart;
-import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.dto.CartInfo;
 import com.project.shoppingmall.security.LoginMember;
 import com.project.shoppingmall.service.OrderService;
@@ -10,14 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -39,7 +34,7 @@ public class OrderApiController {
         
         if(authentication != null) {
             LoginMember loginMember = (LoginMember) authentication.getPrincipal();
-            orderService.registCart(loginMember.getId(), cartInfo);
+//            orderService.registCart(loginMember.getId(), cartInfo);
         }
         
         boolean exist = false;

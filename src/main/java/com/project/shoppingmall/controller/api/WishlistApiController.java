@@ -2,7 +2,6 @@ package com.project.shoppingmall.controller.api;
 
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
-import com.project.shoppingmall.domain.Wishlist;
 import com.project.shoppingmall.service.MembersService;
 import com.project.shoppingmall.service.ProductService;
 import com.project.shoppingmall.service.WishlistService;
@@ -36,7 +35,7 @@ public class WishlistApiController {
         List<Product> productList = productService.getProducts(prdIdList);
         Member member = membersService.getUserByEmail(principal.getName());
 
-        wishlistService.addWishlist(productList, member);
+//        wishlistService.addWishlist(productList, member);
         return new ResponseEntity<>(wishListUrl, HttpStatus.OK);
     }
 }
