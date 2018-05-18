@@ -65,20 +65,12 @@ public class ProductController {
             , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
             , @RequestParam(name="search_str", required = false) String searchStr, Model model) {
         
+        //TODO BestSeller LAZY 로딩 되도록 수정해야댐.
         // id 로 상품 조회하기
         Product product = productService.getProduct(id);
         
-        Image thumbnail = null;
-        Image detailImage = null;
-        List<Image> images = imageService.getAllImagesByProductId(product.getId());
-        for (Image image : images) {
-            if(image.getType() == ImageType.THUMB_NAIL) {
-                thumbnail = image;
-            }
-            else if(image.getType() == ImageType.DETAIL) {
-                detailImage = image;
-            }
-        }
+        Image thumbnail = product.getThumbImages().get(0);
+        Image detailImage = product.getDetailImages().get(0);
         
         // 조회한 상품 모델에 담기
         model.addAttribute("product", product);

@@ -27,13 +27,13 @@
                        <tbody id="test1">
                            <tr th:each="wishlist, iterstat : ${wishItems}">
                                <td>
-                                   <img th:src="'/image/'+ ${wishlist.product.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
+                                   <img th:src="'/image/'+ ${wishlist.detailProduct.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
                                </td>
                                <td align="left">
-                                   <span th:text="${wishlist.product.name}">3</span>
+                                   <span th:text="${wishlist.detailProduct.name}">3</span>
                                </td>
                                <td >
-                                   <span th:text="${wishlist.product.price} + '원'">3000원</span>
+                                   <span th:text="${wishlist.detailProduct.price} + '원'">3000원</span>
                                </td>
                                <td>
                                    <div class="form-check">

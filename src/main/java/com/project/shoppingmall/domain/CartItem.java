@@ -18,11 +18,11 @@ public class CartItem implements Serializable {
     private Long id;
     private int quantity;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="member_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name="members_id")
     private Member member;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -40,6 +40,10 @@ public class CartItem implements Serializable {
         }
         this.product = product;
         product.getCartItems().add(this);
+    }
+    
+    public void updateQuantity(int quantity) {
+        this.quantity += quantity;
     }
     
 }

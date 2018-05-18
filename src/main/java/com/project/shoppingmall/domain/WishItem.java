@@ -18,7 +18,7 @@ public class WishItem implements Serializable {
     private Long id;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "members_id")
     private Member member;
     
     @ManyToOne(cascade = CascadeType.ALL)

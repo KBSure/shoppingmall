@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3portfolio-item" th:if="${not #lists.isEmpty(bestSellers)}" th:each="bestSeller : ${bestSellers}">
                         <div class="card mb-3 box-shadow">
-                            <a th:href="@{'/products/'+${bestSeller.id}}" href="#"><img th:src="@{'/image/'+${bestSeller.images[0].id}}"  class="card-img-top" src="//99nerds.io/web/product/medium/201712/103_shop1_470881.png"></a>
+                            <a th:href="@{'/products/'+${bestSeller.id}}" href="#"><img th:src="@{'/image/'+${bestSeller.thumbImages[0].id}}" class="card-img-top" src="//99nerds.io/web/detailProduct/medium/201712/103_shop1_470881.png"></a>
                             <div class="card-body d-flex justify-content-between">
                                 <a th:href="@{'/products/'+${bestSeller.id}}" href="#"><span th:text="${bestSeller.name}"></span></a>
                                 <div><span th:text="${bestSeller.price}+'원'">6,900원</span></div>
