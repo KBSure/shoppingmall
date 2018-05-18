@@ -106,7 +106,7 @@ insert into image (id, product_detail_id, mime_type, type, name, size) values (5
 INSERT INTO roles (id,name) VALUES (1,'ADMIN');
 INSERT INTO roles (id,name) VALUES (2,'USER');
 
-INSERT INTO member_status(id,state) VALUES(1,'NOMAL');
+INSERT INTO member_status(id,state) VALUES(1,'NORMAL');
 INSERT INTO member_status(id,state) VALUES(2,'DROPOUT');
 INSERT INTO member_status(id,state) VALUES(3,'SUSPENSION');
 
@@ -130,8 +130,8 @@ insert into cart_item(id, product_id, members_id, quantity) values (4, 2, 2, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (5, 3, 2, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (6, 3, 3, 3);
 
--- insert into wish_list(id, members_id, product_id) values(1, 4, 1);
--- insert into wish_list(id, members_id, product_id) values(2, 3, 2);
--- insert into wish_list(id, members_id, product_id) values(3, 2, 1);
--- insert into wish_list(id, members_id, product_id) values(4, 2, 2);
--- insert into wish_list(id, members_id, product_id) values(5, 2, 3);
+insert into wish_item(id, member_id, product_id) values(1, 4, 1);
+insert into wish_item(id, member_id, product_id) values(2, 3, 2);
+insert into wish_item(id, member_id, product_id) values(3, 2, 1);
+insert into wish_item(id, member_id, product_id) values(4, 2, 2);
+insert into wish_item(id, member_id, product_id) values(5, 2, 3);
