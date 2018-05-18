@@ -35,6 +35,7 @@ public class Order implements Serializable {
     private String invoice;
     
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "state")
     private DeliveryState deliveryState;
     
     @ManyToOne(cascade = CascadeType.ALL)

@@ -20,7 +20,7 @@ public class MemberStatus implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Enumerated(value = EnumType.STRING)
-    private MemberStat state;
+    private MemberStat status;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "memberStatus")
     private List<Member> members = new ArrayList<>();
