@@ -13,17 +13,9 @@
                <h1 class="my-4 font-weight-bold">Wish List</h1>
            </div>
            <br>
-           // private Long prdId;
-           // private int quantity;
-           // private Long cartId;
-           // private String productName;
-           // private int price;
-           // private Long imageId;
 
            <form id ="wish_list_form">
-               <input type="hidden" id="product_name" name="product_name" th:value="${product.name}">
-               <input type="hidden" id="price" name="price" th:value="${product.price}">
-               <input type="hidden" id="image_id" name="image_id" th:value="${product.thumImages.id}">
+
                <div class="row">
                    <table class="table table-striped text-center">
                        <thead>
@@ -35,18 +27,21 @@
                        </thead>
                        <tbody id="test1">
                            <tr th:each="wishItem, iterstat : ${wishList}">
+                               <input type="hidden" id="prd_id" th:value="${wishItem.product.id}">
                                <td>
+                                   <input type="hidden" id="image_id" name="image_id" th:value="${wishItem.product.thumbImages[0].id}">
                                    <img th:src="'/image/'+ ${wishItem.product.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
                                </td>
                                <td align="left">
-                                   <span th:text="${wishItem.product.name}">product</span>
+                                   <span id="prd_name" th:text="${wishItem.product.name}">product</span>
                                </td>
                                <td >
-                                   <span th:text="${wishItem.product.price} + '원'">3000원</span>
+                                   <input type="hidden" id="prd_price_hidden" th:value="${wishItem.product.price}">
+                                   <span id="prd_price" th:text="${wishItem.product.price} + '원'">3000원</span>
                                </td>
                                <td>
                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" th:name="wish_item_id" th:value="${wishItem.id}">
+                                       <input class="form-check-input" type="checkbox" id="wish_item_id" th:name="wish_item_id" th:value="${wishItem.id}">
                                        </label>
                                    </div>
                                </td>
@@ -74,17 +69,41 @@
     <script>
         var cartApiUrl = "/api/order/cart";
         var cartUrl = "/order/cart";
+        var
         $(document).ready(function () {
 
-
+            // private Long prdId;
+            // private int quantity;
+            // private Long cartId;
+            // private String productName;
+            // private int price;
+            // private Long imageId;
+            console.log("test1");
+            $("input[name=wish_item_id]").each(function (index) {
+                console.log("test2");
+                console.log(index + ": " + $(this).val());
+            });
 
             // var parameter = url.slice(url.indexOf('?') + 1, url.length);
             $("#post_cart_btn").on("click", function () {
+                $("input[name=wish_item_id]").each(function (index) {
+                    var sendData = {
+                        prdId : $("#prd_id").val(),
+                        quantity : 1,
+                        productName : $("#prd_name").text(),
+                        // price : $("wishList[0].product.price").val(),
+                        imageId : $("#image_id").val()
+                    };
+
+                })
                 var sendData = {
                     prdId : $("#prd_id").val(),
                     quantity : 1,
-                    productName : $("#")
+                    productName : $("#prd_name").text(),
+                    price : $("#prd_price_hidden").val(),
+                    imageId : $("#image_id").val()
                 };
+                alert(sendData.productName);
                 sendJson(cartApiUrl, cartUrl, "장바구니로 이동하시겠습니까?", sendData);
             });
             $("#delete_wish_list_btn").on("click", function () {
@@ -106,7 +125,6 @@
 
 
         var sendJson = function(url, targetUrl, msg, sendData) {
-
             $.ajax({
                 method: "POST",
                 url: url,
