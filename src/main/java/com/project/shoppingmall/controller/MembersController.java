@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
-
+//진행중
 @Slf4j
 @Controller
 @RequestMapping("/members")
@@ -29,18 +30,24 @@ public class MembersController {
 	private MembersService membersService;
 
 	@GetMapping("/signin")
-	public String signinForm(HttpServletRequest request) {
+	public String signinForm(HttpServletRequest request,@RequestParam(defaultValue = "0")int error,ModelMap modelMap) {
+
+		if(error == 1){
+			log.info("탈퇴정보 controller에 넘어옴.");
+			modelMap.addAttribute("error","drop");
+
+		}
+
 		String referer = request.getHeader(HttpHeaders.REFERER);
-		
 		request.getSession().setAttribute("referer", referer);
-		
+
 		return "members/signin";
 	}
 
 	@GetMapping("/join")
 	public String joinForm(MemberFormDTO memberFormDTO) {
 		return "members/join";
-    }
+	}
 
 	@PostMapping("/join")
 	public String join(@Valid MemberFormDTO memberFormDTO, BindingResult bindingResult){
@@ -63,12 +70,11 @@ public class MembersController {
 	}
 
 	//@GetMapping
-	@GetMapping(path = "{id}")
+	@GetMapping(path ="{id}")
 	public String contractList(@PathVariable long id, ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
 		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
 		//페이져 초기화
-		//
 		//.attribute(페이지리스트)
 		//.attribute(페이져)
 		return "members/contract_list";
@@ -130,9 +136,9 @@ public class MembersController {
 		//form에서 사용자이름과 전화번호 정보 받아오기
 		//List<Member> = Ropository에서 사용자 이름과 전화번호로 ID 받아오기
 		//사용자가 있음
-			//.attribute(첫번째)
+		//.attribute(첫번째)
 		//사용자가 없음
-			//bindingResult.addError
+		//bindingResult.addError
 		return "members/find_result";
 	}
 
@@ -146,9 +152,9 @@ public class MembersController {
 		//form에서 이메일과 전화번호 정보 받아오기
 		//List<Member> = Ropository에서 사용자 이름과 전화번호로 password 받아오기
 		//if(사용자가 있음)
-			//.attribute(첫번째)
+		//.attribute(첫번째)
 		//else(사용자가 없음)
-			//bindingResult.addError
+		//bindingResult.addError
 		return "members/find_result";
 	}
 
@@ -163,11 +169,10 @@ public class MembersController {
 		//form에서 password가져오기
 		//Repository에서 Email로 Password 받아옴
 		//if(패스워드 != 쿼리 패스워드)
-			//bindingResult.addError
-			//return dropout
-		//int = delete한 결과값 받아오기
-		//if(결과 == delete실패)
-			//bindingResult.addError
+		//bindingResult.addError
+		//return "비밀번호 오류"
+		//else
+		//사용자 상태 "DROPOUT으로 변경"
 		return "members";
 	}
 
