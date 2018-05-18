@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Getter @Setter
 @EqualsAndHashCode
 @ToString
-public class CartInfo implements Serializable {
+public class OrderInfo implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -19,9 +19,5 @@ public class CartInfo implements Serializable {
     private String productName;
     private int price;
     private Long imageId;
-    
-    public void updateQuantity(int quantity) {
-        this.quantity += quantity;
-    }
     
 }

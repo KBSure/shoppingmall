@@ -22,7 +22,8 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers(new AntPathRequestMatcher("/static/**"));
+                .requestMatchers(new AntPathRequestMatcher("/static/**"))
+                .requestMatchers(new AntPathRequestMatcher("/image/**"));
     }
 
     @Override
@@ -32,11 +33,13 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .and().authorizeRequests()
-                .antMatchers("/members/**").permitAll()
+                .antMatchers("/members/signin").permitAll()
                 .antMatchers("/products/**").permitAll()
+                .antMatchers("/order/cart").permitAll()
+                .antMatchers("/api/order/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/h2-console/**").permitAll()//여기서부터
-                .anyRequest().fullyAuthenticated()
+                .anyRequest().authenticated()
                 .and()
                 .csrf().ignoringAntMatchers("/**")
                 .and().headers().frameOptions().disable()//여기까지 h2설정
@@ -45,7 +48,7 @@ public class WebApplicationSecurity  extends WebSecurityConfigurerAdapter {
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .successHandler(new CustomAuthenticationSuccessHandler())
-                    .failureUrl("/main/error")
+                    .failureUrl("/members/signin")
 //                    .defaultSuccessUrl("/", true)
                 .and().logout().permitAll();
     }

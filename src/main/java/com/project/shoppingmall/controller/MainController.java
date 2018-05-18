@@ -19,7 +19,7 @@ public class MainController {
 
     @GetMapping("/")
     public String main(Model model) {
-
+        
         List<Product> bestSellers = productService.getBestSellers();
         model.addAttribute("bestSellers", bestSellers);
         return "main/main";

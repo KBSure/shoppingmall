@@ -8,6 +8,10 @@
         <div class="container col-md-5 pt-5 py-5">
             <form class="form-signin" method="post" th:action="@{/members/signin}">
                 <h1 class="h3 mb-3 font-weight-normal pt-5">Please sign in</h1>
+                <!--throw를 이용해 탈퇴된 사용자도 Exception 내용으로 구분해 받을 수 있을것 같음, 찾아보기-->
+                <div class="alert alert-danger" role="alert" th:if="${error} == 'drop'">탈퇴한 사용자 입니다.</div>
+                <div class="alert alert-danger" role="alert" th:if="${session[SPRING_SECURITY_LAST_EXCEPTION]}">회원 정보를 다시 입력해 주세요</div>
+
                 <label for="email" class="sr-only">Email address</label>
                 <input type="email" id="email" name ="email" class="form-control" placeholder="Email address" required autofocus>
                 <label for="password" class="sr-only">Password</label>

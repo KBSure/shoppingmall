@@ -38,10 +38,13 @@
                             <br>
                             <form name="productForm" method="post" id="productForm">
                                 <input type="hidden" id="prdId" name="prdId" th:value="${product.id}">
+                                <input type="hidden" id="imageId" th:value="${thumbnail.id}">
+                                <input type="hidden" id="productName" th:value="${product.name}">
+
                                 <h2 th:text="${product.name}">상품이름</h2>
                                 <div class="form-group row" style="margin-bottom: 0; margin-top: 0">
                                     <label for="price" class="col-md-3 col-form-label">&nbsp;판매가</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-9 form-row">
                                         <input type="text" readonly class="form-control-plaintext" id="price" th:value="${product.price+' 원'}" value="1000 원">
                                     </div>
                                 </div>
@@ -102,6 +105,7 @@
         var wishlistApiUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
         var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
         var productPrice = /*[[${product.price}]]*/ 1;
+        var ordrUrl = /*[[@{/order/orderform}]]*/ 1;
         /*]]>*/
 
         $(document).ready(function () {
@@ -110,12 +114,20 @@
                 calculateTotalPrice();
             });
 
+            $("#quantity").on("click", function () {
+                calculateTotalPrice();
+            });
+
             $("#cartBtn").on("click", function () {
                 var sendData = {
                     prdId : $("#prdId").val()
                     , quantity : $("#quantity").val()
+                    , imageId : $("#imageId").val()
+                    , price : productPrice
+                    , productName : $("#productName").val()
                 };
-                sendJson(cartApiUrl, cartUrl, true, "장바구니로 이동하시겠습니까?", sendData);
+
+                sendJson(cartApiUrl, cartUrl, true, "장바구니로 이동하시겠습니까?", [sendData]);
             });
 
             $("#wishBtn").on("click", function () {
@@ -123,7 +135,8 @@
             });
 
             $("#orderBtn").on("click", function () {
-                sendJson(cartUrl, false);
+                productForm.action = ordrUrl;
+                productForm.submit();
             });
         });
 
