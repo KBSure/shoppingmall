@@ -28,12 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Member member = service.getUserByEmail(name);
 
         List<GrantedAuthority> list = new ArrayList<>();
-       // member.getRoles().forEach(role -> list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName())));
         for(Role role : member.getRoles()) {
             GrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getName());
             list.add(simpleGrantedAuthority);
         }
-        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPassword(),list,member.getId(),member.getName());
+        LoginMember loginMember = new LoginMember(member.getEmail(), member.getPassword(),list,member.getId(),member.getName(),member.getMemberStatus().getStatus());
 
         return loginMember;
     }

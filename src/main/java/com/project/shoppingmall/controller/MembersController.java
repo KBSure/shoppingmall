@@ -2,6 +2,7 @@ package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.Address;
 import com.project.shoppingmall.domain.Member;
+import com.project.shoppingmall.domain.Order;
 import com.project.shoppingmall.dto.MemberFormDTO;
 import com.project.shoppingmall.dto.PasswordFormDTO;
 import com.project.shoppingmall.dto.UpdateFormDTO;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
+
 //진행중
 @Slf4j
 @Controller
@@ -71,12 +74,15 @@ public class MembersController {
 
 	//@GetMapping
 	@GetMapping(path ="{id}")
-	public String contractList(@PathVariable long id, ModelMap modelMap) {
+	public String contractList(@PathVariable long id, Principal principal,ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
 		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
 		//페이져 초기화
 		//.attribute(페이지리스트)
 		//.attribute(페이져)
+		Member member = membersService.getUserByEmail(principal.getName());
+		List<Order> orders = membersService.getOrderList(member);
+
 		return "members/contract_list";
 	}
 

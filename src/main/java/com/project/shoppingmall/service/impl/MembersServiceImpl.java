@@ -6,6 +6,7 @@ import com.project.shoppingmall.dto.UpdateFormDTO;
 import com.project.shoppingmall.dto.MemberFormDTO;
 import com.project.shoppingmall.repository.MemberStatusRepository;
 import com.project.shoppingmall.repository.MembersRepository;
+import com.project.shoppingmall.repository.OrdersRepository;
 import com.project.shoppingmall.repository.RoleRepository;
 import com.project.shoppingmall.service.MembersService;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +29,9 @@ public class MembersServiceImpl implements MembersService  {
 
     @Autowired
     MemberStatusRepository memberStatusRepository;
+
+    @Autowired
+    OrdersRepository ordersRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -75,6 +79,13 @@ public class MembersServiceImpl implements MembersService  {
     @Transactional(readOnly = true)
     public Member getUserByEmail(String email) {
         return membersRepository.findMembersByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> getOrderList(Member member){
+        List<Order> orders= ordersRepository.findAllByMember(member);
+        return orders;
     }
 
 }
