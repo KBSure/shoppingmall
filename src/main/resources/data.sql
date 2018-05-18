@@ -106,9 +106,9 @@ insert into image (id, product_detail_id, mime_type, type, name, size) values (5
 INSERT INTO roles (id,name) VALUES (1,'ADMIN');
 INSERT INTO roles (id,name) VALUES (2,'USER');
 
-INSERT INTO member_status(id,state) VALUES(1,'NOMAL');
-INSERT INTO member_status(id,state) VALUES(2,'DROPOUT');
-INSERT INTO member_status(id,state) VALUES(3,'SUSPENSION');
+INSERT INTO member_status(id,status) VALUES(1,'NORMAL');
+INSERT INTO member_status(id,status) VALUES(2,'DROPOUT');
+INSERT INTO member_status(id,status) VALUES(3,'SUSPENSION');
 
 INSERT INTO members (id, email, password, name, phone, adr_zipcode, adr_location, adr_detail, reg_date,member_status_id) VALUES (1, 'test1@gmail.com', '{noop}12345','김신','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp,1);
 INSERT INTO members (id, email, password, name, phone, adr_zipcode, adr_location, adr_detail, reg_date,member_status_id) VALUES (2, 'test2@gmail.com', '{noop}12345','지은탁','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp,1);
@@ -129,6 +129,8 @@ insert into cart_item(id, product_id, members_id, quantity) values (3, 3, 1, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (4, 2, 2, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (5, 3, 2, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (6, 3, 3, 3);
+
+insert into delivery(id, company_name, shipping_charge) values (1, '우체국', 2500);
 
 -- insert into wish_list(id, members_id, product_id) values(1, 4, 1);
 -- insert into wish_list(id, members_id, product_id) values(2, 3, 2);

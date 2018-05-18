@@ -28,7 +28,7 @@
                 <h1 class="my-4 font-weight-bold">주문결제</h1>
             </div>
             <br>
-            <form id="order_form">
+            <form id="orderForm">
                 <div class="row">
                     <table class="table table-striped text-center">
                         <thead>
@@ -50,9 +50,9 @@
                                 </td>
                                 <td class="justify-content-center align-middle" th:text="${item.quantity}"></td>
                                 <td class="justify-content-center align-middle" th:text="${item.quantity * item.price}"></td>
-                                <input type="hidden" name="itemPrice" th:value="${item.quantity * item.price}">
+                                <!--<input type="hidden" name="itemPrice" th:value="${item.quantity * item.price}">-->
                                 <input type="hidden" name="quantity" th:value="${item.quantity}">
-                                <input type="hidden" name="productName" th:value="${item.productName}">
+                                <!--<input type="hidden" name="productName" th:value="${item.productName}">-->
                                 <input type="hidden" name="prdId" th:value="${item.prdId}" value=""/>
                                 <td class="justify-content-center align-middle">
                                 </td>
@@ -62,7 +62,7 @@
                     </table>
                 </div>
                 <div class="row">
-                    결제 금액 : 총 23,700원
+                    결제 금액 : 총&nbsp;<span th:text="${totalPrice+' 원'}">23700 원</span>
                 </div>
                 <br>
                 <div class="row">
@@ -88,56 +88,50 @@
                     </div>
                 </fieldset>
                 <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">받으시는 분</label>
+                    <label for="receiver" class="col-sm-2 col-form-label">받으시는 분</label>
                     <div class="col-sm-10">
-                        <input type="text" th:value="${member.name}" class="form-control col-3" id="inputName" placeholder="Name">
+                        <input type="text" th:value="${member.name}" class="form-control col-3" name="receiver" id="receiver">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputAddress" class="col-sm-2 col-form-label">주소</label>
+                    <label class="col-sm-2 col-form-label">주소</label>
                     <div class="col-sm-10">
-                        <input type="text" th:value="${member.address.zipcode}" class="form-control col-3" id="inputAddress" placeholder="우편번호">
-                        <input type="text" th:value="${member.address.location}" class="form-control my-1" id="inputAddress2" placeholder="지역주소">
-                        <input type="text" th:value="${member.address.detail}" class="form-control my-1" id="inputAddress3" placeholder="상세주소">
+                        <input type="text" th:value="${member.address.zipcode}" class="form-control col-3" id="adrZipcode" name="adrZipcode" placeholder="우편번호">
+                        <input type="text" th:value="${member.address.location}" class="form-control my-1" id="adrLocation" name="adrLocation" placeholder="지역주소">
+                        <input type="text" th:value="${member.address.detail}" class="form-control my-1" id="adrDetail" name="adrDetail" placeholder="상세주소">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputPhone" class="col-sm-2 col-form-label">전화번호</label>
+                    <label for="phone" class="col-sm-2 col-form-label">전화번호</label>
                     <div class="col-sm-10">
-                        <input type="text" th:value="${member.address.phone}" class="form-control" id="inputPhone" placeholder="Phone Number">
+                        <input type="text" th:value="${member.address.phone}" class="form-control" id="phone" name="phone" placeholder="000-0000-0000 형태로 입력해 주세요.">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">이메일</label>
+                    <label for="message" class="col-sm-2 col-form-label">배송메시지</label>
                     <div class="col-sm-10">
-                        <input type="text" th:value="${member.email}" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputMessage" class="col-sm-2 col-form-label">배송메시지</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputMessage" placeholder="">
+                        <input type="text" class="form-control" id="message" name="message" placeholder="배송 메시지를 적어주세요.">
                     </div>
                 </div>
                 <div class="row">
-                    <h3 class="my-4 font-weight-normal">입금정보</h3>
+                    <h3 class="my-4 font-weight-normal">입금계좌 정보</h3>
                 </div>
                 <div class="form-group row">
-                    <label for="inputBank" class="col-sm-2 col-form-label">입금은행</label>
+                    <label for="bank" class="col-sm-2 col-form-label">은행명</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-plaintext" readonly id="inputBank" value="좋은은행">
+                        <input type="text" class="form-control-plaintext" readonly id="bank" name="bank" value="좋은 은행">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputAccount" class="col-sm-2 col-form-label">계좌번호</label>
+                    <label for="account" class="col-sm-2 col-form-label">계좌번호</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-plaintext" readonly id="inputAccount" value="123-456-7890">
+                        <input type="text" class="form-control-plaintext" readonly id="account" name="account" value="123-456-7890">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputDepositor" class="col-sm-2 col-form-label">입금자명</label>
+                    <label for="depositor" class="col-sm-2 col-form-label">입금자명</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputDepositor" placeholder="">
+                        <input type="text" class="form-control" id="depositor" name="depositor" placeholder="입금하시는 분의 이름을 적어주세요.">
                     </div>
                 </div>
                 <div class="row justify-content-center">
