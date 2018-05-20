@@ -149,3 +149,9 @@ insert into order_image (id, mime_type, type, name, size, order_item_id) values 
 insert into order_image (id, mime_type, type, name, size, order_item_id) values (3, 'image/png', 'THUMB_NAIL', '/thumb/css3_th.png', 32137, 3);
 insert into order_image (id, mime_type, type, name, size, order_item_id) values (4, 'image/png', 'THUMB_NAIL', '/thumb/best_sticker_th.png', 124361, 4);
 insert into order_image (id, mime_type, type, name, size, order_item_id) values (5, 'image/png', 'THUMB_NAIL', '/thumb/best_sticker_th.png', 124361, 5);
+
+insert into wish_item(id, member_id, product_id) values(1, 4, 1);
+insert into wish_item(id, member_id, product_id) values(2, 3, 2);
+insert into wish_item(id, member_id, product_id) values(3, 2, 1);
+insert into wish_item(id, member_id, product_id) values(4, 2, 2);
+insert into wish_item(id, member_id, product_id) values(5, 2, 3);

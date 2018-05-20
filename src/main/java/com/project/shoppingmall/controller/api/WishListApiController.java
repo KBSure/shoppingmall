@@ -4,7 +4,7 @@ import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.service.MembersService;
 import com.project.shoppingmall.service.ProductService;
-import com.project.shoppingmall.service.WishlistService;
+import com.project.shoppingmall.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/wishlist")
-public class WishlistApiController {
+public class WishListApiController {
     @Autowired
-    WishlistService wishlistService;
+    WishListService wishListService;
 
     @Autowired
     MembersService membersService;
@@ -35,7 +35,7 @@ public class WishlistApiController {
         List<Product> productList = productService.getProducts(prdIdList);
         Member member = membersService.getUserByEmail(principal.getName());
 
-//        wishlistService.addWishlist(productList, member);
+//        wishListService.addWishlist(productList, member);
         return new ResponseEntity<>(wishListUrl, HttpStatus.OK);
     }
 }
