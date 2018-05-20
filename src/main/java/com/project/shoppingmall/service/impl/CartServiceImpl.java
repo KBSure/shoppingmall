@@ -31,7 +31,15 @@ public class CartServiceImpl implements CartService {
     
     @Override
     public List<CartItem> getMemberCart(Long memberId) {
-        return cartItemRepository.findCartItems(memberId);
+        List<CartItem> memberCart = cartItemRepository.findCartItems(memberId);
+        
+        memberCart.forEach(c -> {
+            if(c.getProduct().getQuantity() <= 0) {
+                c.setQuantity(0);
+            }
+        });
+        
+        return memberCart;
     }
     
     @Transactional

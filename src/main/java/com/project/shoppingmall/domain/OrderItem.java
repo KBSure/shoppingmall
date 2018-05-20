@@ -27,15 +27,15 @@ public class OrderItem implements Serializable {
     @Column(name = "product_name")
     private String productName;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "orders_id")
     private Order order;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToMany(mappedBy = "orderItem")
+    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL)
     private List<OrderImage> orderImages = new ArrayList<>();
 
 

@@ -12,11 +12,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
+    
+    @Autowired
+    private EntityManager entityManager;
     
     @Autowired
     private ProductRepository productRepository;
@@ -75,5 +79,36 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getSoldOutProducts(List<Long> productIds) {
         
         return productRepository.findSoldOutProducts(productIds);
+    }
+    
+    @Transactional
+    @Override
+    public List<Product> minusProductsQuantity(List<Long> productIds, List<Integer> quantities) throws IllegalAccessException {
+    
+        for (int i = 0; i < productIds.size(); i++) {
+            Long productId = productIds.get(i);
+            int quantity = quantities.get(i);
+            productRepository.minusProductQuantity(productId, quantity);
+        }
+        
+        entityManager.clear();
+    
+        List<Product> products = productRepository.findAllById(productIds);
+        
+        boolean minusQuantity = false;
+        StringBuilder sb = new StringBuilder();
+        for(Product product : products) {
+            if(product.getQuantity() < 0) {
+                minusQuantity = true;
+                sb.append(product.getName()+",");
+            }
+        }
+        
+        if(minusQuantity) {
+            String productNames = sb.deleteCharAt(sb.length() - 1).toString();
+            throw new IllegalAccessException(productNames);
+        }
+    
+        return products;
     }
 }
