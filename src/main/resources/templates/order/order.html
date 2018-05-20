@@ -144,13 +144,16 @@
     </main>
 </th:block>
 <th:block layout:fragment="footer_script">
-    <script>
-        // $(document).ready(function () {
-        //    $("#orderBtn").on("click", function (){
-        //
-        //    });
-        //
-        // });
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var soldOut = /*[[${soldOut == null ? false : true }]]*/ false;
+        var soldOutNames = /*[[${soldOutNames == null ? '' : soldOutNames }]]*/ 'name';
+        var cartUrl = /*[[@{/order/cart}]]*/ 'cart';
+        if(soldOut) {
+            alert(soldOutNames+"의 수량이 부족합니다. 장바구니 페이지로 이동합니다.");
+            location.href = cartUrl;
+        }
+        /*]]>*/
     </script>
 </th:block>
 </html>

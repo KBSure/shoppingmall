@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Transactional
     @Override
-    public List<Product> minusProductsQuantity(List<Long> productIds, List<Integer> quantities) throws IllegalAccessException {
+    public List<Product> minusProductsQuantity(List<Long> productIds, List<Integer> quantities) {
     
         for (int i = 0; i < productIds.size(); i++) {
             Long productId = productIds.get(i);
@@ -91,8 +91,6 @@ public class ProductServiceImpl implements ProductService {
             productRepository.minusProductQuantity(productId, quantity);
         }
         
-        entityManager.clear();
-    
         List<Product> products = productRepository.findAllById(productIds);
         
         boolean minusQuantity = false;
@@ -106,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
         
         if(minusQuantity) {
             String productNames = sb.deleteCharAt(sb.length() - 1).toString();
-            throw new IllegalAccessException(productNames);
+            throw new IllegalStateException(productNames);
         }
     
         return products;

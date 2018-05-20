@@ -17,6 +17,6 @@ public interface ProductService {
 
     List<Product> getSoldOutProducts(List<Long> productIds);
     
-    List<Product> minusProductsQuantity(List<Long> productIds, List<Integer> quantities) throws IllegalAccessException;
+    List<Product> minusProductsQuantity(List<Long> productIds, List<Integer> quantities);
     
 }

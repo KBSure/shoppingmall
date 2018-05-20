@@ -153,6 +153,8 @@ public class OrderController {
         if(!soldOutProducts.isEmpty()) {
             String soldOutNames = soldOutProducts.stream().map(Product::getName).collect(Collectors.joining(", "));
             addSoldOutProductNames(model, soldOutNames);
+            Member member = membersService.getUserByEmail(loginMember.getUsername());
+            model.addAttribute("member", member);
             return "order/order";
         }
         
@@ -161,10 +163,12 @@ public class OrderController {
         try {
             products = productService.minusProductsQuantity(productIds, quantities);
         }
-        catch (IllegalAccessException e) {
+        catch (IllegalStateException e) {
             log.error("재고수량 부족!!", e);
             String soldOutNames = e.getMessage();
             addSoldOutProductNames(model, soldOutNames);
+            Member member = membersService.getUserByEmail(loginMember.getUsername());
+            model.addAttribute("member", member);
             return "order/order";
         }
         
