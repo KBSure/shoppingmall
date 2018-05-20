@@ -57,7 +57,7 @@
                                 <div class="form-row" style="margin-bottom: 0; margin-top: 0">
                                     <div class="col-md-6 mb-3">
                                         <label for="quantity">&nbsp;상품수량</label>
-                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="1" min="1" max="20">
+                                        <input type="number" style="text-align: right" name="quantity" class="form-control col-md-6" id="quantity" value="1" th:max="${product.quantity}" min="1" max="20">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="totalPrice">총 금액</label>
@@ -106,6 +106,7 @@
         var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
         var productPrice = /*[[${product.price}]]*/ 1;
         var ordrUrl = /*[[@{/order/orderform}]]*/ 1;
+        var productQuantity = /*[[${product.quantity}]]*/ 20;
         /*]]>*/
 
         $(document).ready(function () {
@@ -144,8 +145,8 @@
             if($("#quantity").val() < 1) {
                 $("#quantity").val(1);
             }
-            else if($("#quantity").val() > 20) {
-                $("#quantity").val(20);
+            else if($("#quantity").val() > productQuantity) {
+                $("#quantity").val(productQuantity);
             }
         }
 

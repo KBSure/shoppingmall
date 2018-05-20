@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @EqualsAndHashCode
@@ -20,5 +22,15 @@ public class Delivery implements Serializable {
     private String companyName;
     @Column(name = "shipping_charge")
     private int shippingCharge;
+    
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
+    
+    public void addOrder(Order order) {
+        if(!this.orders.contains(order)) {
+            this.orders.add(order);
+        }
+        order.setDelivery(this);
+    }
     
 }

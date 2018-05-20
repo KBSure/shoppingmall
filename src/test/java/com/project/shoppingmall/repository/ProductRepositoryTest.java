@@ -4,6 +4,8 @@ import com.project.shoppingmall.domain.Category;
 import com.project.shoppingmall.domain.Image;
 import com.project.shoppingmall.domain.ImageType;
 import com.project.shoppingmall.domain.Product;
+import com.project.shoppingmall.dto.OrderInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
+@Slf4j
 @ActiveProfiles("dev")
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -155,25 +159,44 @@ public class ProductRepositoryTest {
     }
     
     @Test
-    public void testFindAllProductsWithThumnailByProductIds() {
-//        List<Product> testProductList = createTestProductList(5);
-//        List<Product> saveProducts = productRepository.saveAll(testProductList);
-//        List<Image> testImages = createTestThumbnailIamges(saveProducts);
-//        imageRepository.saveAll(testImages);
-//
-//        entityManager.flush();
-//        List<Long> productsIds = saveProducts.stream().map(p -> p.getId()).collect(Collectors.toList());
-//
-//        List<Product> products = productRepository.findAllProductsWithThumnailByProductIds(productsIds);
-//
-//        assertEquals(productsIds.size(), products.size());
-//
-//        products.forEach(p -> {
-//            assertTrue(productsIds.contains(p.getId()));
-//            assertEquals(1, p.getDetailImages().size());
-//            assertEquals(ImageType.THUMB_NAIL, p.getDetailImages().get(0).getType());
-//        });
+    public void testFindSoldoutProducts() {
+        List<Product> productList = createTestProductList(5);
+        productList.forEach(p -> p.setQuantity(0));
+        List<Product> products = productRepository.saveAll(productList);
+        List<Long> productIds = products.stream().map(Product::getId).collect(Collectors.toList());
+    
+        List<Product> soldOutProducts = productRepository.findSoldOutProducts(productIds);
+        
+        assertEquals(productIds.size(), soldOutProducts.size());
+        soldOutProducts.forEach(p -> {
+            assertTrue(p.getQuantity() <= 0);
+        });
     }
+    
+    @Test
+    public void testUpdateProductsQuantity() {
+        List<Product> productList = createTestProductList(5);
+        List<Product> products = productRepository.saveAll(productList);
+        entityManager.flush();
+    
+        List<Long> productIds = products.stream().map(Product::getId).collect(Collectors.toList());
+        
+        int count = 0;
+        for (Long productId : productIds) {
+            count += productRepository.minusProductQuantity(productId, 1000);
+        }
+        
+        entityManager.clear();
+        
+        assertEquals(products.size(), count);
+
+        List<Product> findProducts = productRepository.findAllById(productIds);
+
+        findProducts.forEach(p -> {
+            assertTrue(p.getQuantity() <= 0);
+        });
+    }
+    
     
     
     private Category createTestCategory() {
@@ -224,4 +247,6 @@ public class ProductRepositoryTest {
         }
         return list;
     }
+    
+    
 }

@@ -51,9 +51,9 @@
                                </td>
                                <td class="justify-content-center align-middle" th:text="${item.quantity}"></td>
                                <td class="justify-content-center align-middle" th:text="${item.quantity * item.price}"></td>
-                               <input type="hidden" name="itemPrice" th:value="${item.quantity * item.price}">
-                               <input type="hidden" name="quantity" th:value="${item.quantity}">
-                               <input type="hidden" name="productName" th:value="${item.productName}">
+                               <input type="hidden" th:if="${item.quantity > 0}" name="itemPrice" th:value="${item.quantity * item.price}">
+                               <input type="hidden" th:if="${item.quantity > 0}" name="quantity" th:value="${item.quantity}">
+                               <input type="hidden" th:if="${item.quantity > 0}" name="productName" th:value="${item.productName}">
                                <td class="justify-content-center align-middle">
                                    <input type="checkbox" name="prdId" th:value="${item.prdId}" value="" th:id="'chk_'+${item.prdId}"/>
                                </td>

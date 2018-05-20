@@ -65,7 +65,7 @@ public class ProductController {
             , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
             , @RequestParam(name="search_str", required = false) String searchStr, Model model) {
         
-        //TODO BestSeller LAZY 로딩 되도록 수정해야댐.
+        //TODO 썸네일 이미지 1:1 관계로 수정해야댐.
         // id 로 상품 조회하기
         Product product = productService.getProduct(id);
         
