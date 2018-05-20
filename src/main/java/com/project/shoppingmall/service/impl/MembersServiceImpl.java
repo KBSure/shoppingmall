@@ -9,17 +9,28 @@ import com.project.shoppingmall.repository.MembersRepository;
 import com.project.shoppingmall.repository.OrdersRepository;
 import com.project.shoppingmall.repository.RoleRepository;
 import com.project.shoppingmall.service.MembersService;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 //진행중
+
 @Service
+@Transactional(readOnly = true)
+@Slf4j
+@Getter
+@Setter
 public class MembersServiceImpl implements MembersService  {
     @Autowired
     MembersRepository membersRepository;
@@ -34,7 +45,6 @@ public class MembersServiceImpl implements MembersService  {
     OrdersRepository ordersRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Member> getMembers()
     {
         return membersRepository.findAll();
@@ -76,15 +86,18 @@ public class MembersServiceImpl implements MembersService  {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Member getUserByEmail(String email) {
         return membersRepository.findMembersByEmail(email);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Order> getOrderList(Member member){
-        List<Order> orders= ordersRepository.findAllByMember(member);
+    public Page<Order> getOrderList(Member member,int page,DeliveryState deliveryState){
+
+        Pageable pageable = PageRequest.of(page,10, new Sort(Sort.Direction.DESC,"id"));
+        //if(searchStr.`)
+        log.info("page : " + page + ", state : " + deliveryState);
+        Page<Order> orders = ordersRepository.findAllByMember(member,pageable);
+        //Page<Order> orders = ordersRepository.findAllByMemberAndDeliveryState(member,deliveryState,pageable);
         return orders;
     }
 

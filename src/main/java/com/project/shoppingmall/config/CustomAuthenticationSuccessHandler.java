@@ -1,18 +1,12 @@
 package com.project.shoppingmall.config;
 
-import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.MemberStat;
-import com.project.shoppingmall.dto.SigninPram;
 import com.project.shoppingmall.security.LoginMember;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +30,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         if(loginMember.getMemberStat().equals(MemberStat.DROPOUT)) {
             new SecurityContextLogoutHandler().logout(request,response,authentication);
             response.sendRedirect("/members/signin?error=1");
+            //throw new RuntimeException("탈퇴한 사용자입니다.");
             log.info("탈퇴한 사용자 입니다.");
+            return;
         }
         else{
 

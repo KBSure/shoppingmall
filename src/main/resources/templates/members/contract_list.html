@@ -52,8 +52,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:if="${list != null}" th:each="item : ${list}">
-                                    <td colspan="2"><a href="#"><img th:width="100px" th:src="@{'/image/'+${item.imageId}}" src="#" class="img-thumbnail"><span th:text="${item.productName}"></span>스티커이름</a></td>
+                                <tr th:if="${orders != null}" th:each="item :${orders}">
+                                    <td colspan="2"><a href="#"><img th:width="100px" th:src="@{'/image/'+${item.getOrderItems().get(0).getOrderImages().get(0).getId()}}" src="#" class="img-thumbnail"><span th:text="${item}"></span>스티커이름</a></td>
                                     <td class="align-middle">배송중</td>
                                     <td class="align-middle">6500</td>
                                     <td class="align-middle">2018-01-01</td>
