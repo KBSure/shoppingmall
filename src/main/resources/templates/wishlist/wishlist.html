@@ -34,7 +34,7 @@
                                </td>
                                <td align="left">
                                    <input type="hidden" name="prd_name" th:value="${wishItem.product.name}">
-                                   <span th:text="${wishItem.product.name}">product</span>
+                                   <a th:href="'/products/' + ${wishItem.product.id}"><span th:text="${wishItem.product.name}">product</span></a>
                                </td>
                                <td >
                                    <input type="hidden" name="prd_price" th:value="${wishItem.product.price}">
@@ -72,11 +72,6 @@
         var cartUrl = "/order/cart";
         var sendDataArray = new Array();
         $(document).ready(function () {
-            // console.log("test1");
-            // $("input[name=wish_item_id]").each(function (index) {
-            //     console.log("test2");
-            //     console.log(index + ": " + $(this).val());
-            // });
             $("#post_cart_btn").on("click", function () {
                 $("input[name=wish_item_id]").each(function (index) {
                     if(this.checked) {
