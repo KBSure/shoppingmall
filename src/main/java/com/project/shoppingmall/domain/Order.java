@@ -38,13 +38,25 @@ public class Order implements Serializable {
     @Column(name = "state")
     private DeliveryState deliveryState;
     
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "members_id")
     private Member member;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
-
+    
+    
+    public void setDelivery(Delivery delivery) {
+        if(this.delivery != null) {
+            this.delivery.getOrders().remove(this);
+        }
+        this.delivery = delivery;
+        delivery.getOrders().add(this);
+    }
 
     public void setMember(Member member) {
         if(this.member != null) {
@@ -60,4 +72,5 @@ public class Order implements Serializable {
         }
         orderItem.setOrder(this);
     }
+
 }

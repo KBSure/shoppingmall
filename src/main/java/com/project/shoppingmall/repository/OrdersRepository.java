@@ -6,9 +6,12 @@ import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-public interface OrdersRepository extends JpaQueryDslPredicateRepository<Order,Long>{
+import com.project.shoppingmall.repository.custom.OrdersRepositoryCustom;
+import java.util.List;
+public interface OrdersRepository extends JpaQueryDslPredicateRepository<Order,Long>, OrdersRepositoryCustom {
 
     Page<Order> findAllByMember(Member member, Pageable pageable);
     Page<Order> findAllByMemberAndDeliveryState(Member member, DeliveryState deliveryState,Pageable pageable);
+    List<Order> findAllByMember(Member member);
 
 }

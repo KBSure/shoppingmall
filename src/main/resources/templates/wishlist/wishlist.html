@@ -14,7 +14,8 @@
            </div>
            <br>
 
-           <form id = "wishlist_form">
+           <form id ="wish_list_form">
+
                <div class="row">
                    <table class="table table-striped text-center">
                        <thead>
@@ -25,19 +26,23 @@
                        </tr>
                        </thead>
                        <tbody id="test1">
-                           <tr th:each="wishlist, iterstat : ${wishItems}">
+                           <tr th:each="wishItem, iterstat : ${wishList}">
+                               <input type="hidden" name="prd_id" th:value="${wishItem.product.id}">
                                <td>
-                                   <img th:src="'/image/'+ ${wishlist.detailProduct.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
+                                   <input type="hidden" name="image_id" th:value="${wishItem.product.thumbImages[0].id}">
+                                   <img th:src="'/image/'+ ${wishItem.product.id}" src="/image/" alt="img1" class="img-thumbnail" height="100px" width="100px" align="right">
                                </td>
                                <td align="left">
-                                   <span th:text="${wishlist.detailProduct.name}">3</span>
+                                   <input type="hidden" name="prd_name" th:value="${wishItem.product.name}">
+                                   <a th:href="'/products/' + ${wishItem.product.id}"><span th:text="${wishItem.product.name}">product</span></a>
                                </td>
                                <td >
-                                   <span th:text="${wishlist.detailProduct.price} + '원'">3000원</span>
+                                   <input type="hidden" name="prd_price" th:value="${wishItem.product.price}">
+                                   <span th:text="${wishItem.product.price} + '원'">3000원</span>
                                </td>
                                <td>
                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" th:name="wishlist_id" th:value="${wishlist.id}">
+                                       <input class="form-check-input" type="checkbox" name="wish_item_id" th:value="${wishItem.id}">
                                        </label>
                                    </div>
                                </td>
@@ -47,9 +52,10 @@
                </div>
 
                <div class="row justify-content-end">
-                   <input id="post_cart_btn" class="btn btn-primary btn-sm" type="submit" value="장바구니에 담기"></input>
+
+                   <input id="post_cart_btn" class="btn btn-primary btn-sm" type="button" value="장바구니에 담기"></input>
                    &nbsp;&nbsp;&nbsp;
-                   <input id="delete_wishlist_btn" class="btn btn-secondary btn-sm" type="submit" value="선택 삭제"></input>
+                   <input id="delete_wish_list_btn" class="btn btn-secondary btn-sm" type="submit" value="선택 삭제"></input>
                </div>
                <br>
                <div class="row justify-content-center">
@@ -62,38 +68,58 @@
 </th:block>
 <th:block layout:fragment="footer_script">
     <script>
+        var cartApiUrl = "/api/order/cart";
+        var cartUrl = "/order/cart";
+        var sendDataArray = new Array();
         $(document).ready(function () {
-            // $.urlParam = function(page){
-            //     var results = new RegExp('[\?&]' + page + '=([^&#]*)').exec(window.location.href);
-            //     if (results==null){
-            //         return null;
-            //     }
-            //     else{
-            //         return results[1] || 0;
-            //     }
-            // }
-
-            // var parameter = url.slice(url.indexOf('?') + 1, url.length);
             $("#post_cart_btn").on("click", function () {
-               $("#wishlist_form").attr("action", "/api/order/cart");
-               $("#wishlist_form").attr("method", "post");
+                $("input[name=wish_item_id]").each(function (index) {
+                    if(this.checked) {
+                        var sendData = {
+                            prdId : $("input[name=prd_id]")[index].value,
+                            quantity: 1,
+                            productName: $("input[name=prd_name]")[index].value,
+                            price: $("input[name=prd_price]")[index].value,
+                            imageId: $("input[name=image_id]")[index].value
+                        };
+                        sendDataArray.push(sendData);
+                    }
+                })
+                sendJson(cartApiUrl, cartUrl, "장바구니로 이동하시겠습니까?", sendDataArray);
             });
-            $("#delete_wishlist_btn").on("click", function () {
+            $("#delete_wish_list_btn").on("click", function () {
                 $('<input>').attr({
                     type: 'hidden',
                     id: 'delete_method',
                     name: '_method',
                     value: "delete"
-                }).appendTo('#wishlist_form');
-                $("#wishlist_form").attr("action", "/wishlist");
-                $("#wishlist_form").attr("method", "post");
-
+                }).appendTo('#wish_list_form');
+                $("#wish_list_form").attr("action", "/wishlist");
+                $("#wish_list_form").attr("method", "post");
             });
             $("#get_product_btn").on("click", function () {
-                $("#wishlist_form").attr("action", "/products");
-                $("#wishlist_form").attr("method", "get");
+                $("#wish_list_form").attr("action", "/products");
+                $("#wish_list_form").attr("method", "get");
             });
         });
+
+        var sendJson = function(url, targetUrl, msg, sendData) {
+            $.ajax({
+                method: "POST",
+                url: url,
+                contentType: 'application/json',
+                data: JSON.stringify(sendData)
+            })
+                .done(function() {
+                    if(confirm(msg)){
+                        location.href = targetUrl;
+                    }
+                })
+                .fail(function (xhr) {
+                    console.log(xhr);
+                    alert("일시적인 장애가 발생하였습니다. 다시 시도해주세요.");
+                });
+        }
 
     </script>
 

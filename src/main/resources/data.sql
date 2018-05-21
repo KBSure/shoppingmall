@@ -106,9 +106,9 @@ insert into image (id, product_detail_id, mime_type, type, name, size) values (5
 INSERT INTO roles (id,name) VALUES (1,'ADMIN');
 INSERT INTO roles (id,name) VALUES (2,'USER');
 
-INSERT INTO member_status(id,state) VALUES(1,'NOMAL');
-INSERT INTO member_status(id,state) VALUES(2,'DROPOUT');
-INSERT INTO member_status(id,state) VALUES(3,'SUSPENSION');
+INSERT INTO member_status(id,status) VALUES(1,'NORMAL');
+INSERT INTO member_status(id,status) VALUES(2,'DROPOUT');
+INSERT INTO member_status(id,status) VALUES(3,'SUSPENSION');
 
 INSERT INTO members (id, email, password, name, phone, adr_zipcode, adr_location, adr_detail, reg_date,member_status_id) VALUES (1, 'test1@gmail.com', '{noop}12345','김신','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp,1);
 INSERT INTO members (id, email, password, name, phone, adr_zipcode, adr_location, adr_detail, reg_date,member_status_id) VALUES (2, 'test2@gmail.com', '{noop}12345','지은탁','010-1234-5678','123-12','삼성동','334-1 1101호',current_timestamp,1);
@@ -130,8 +130,28 @@ insert into cart_item(id, product_id, members_id, quantity) values (4, 2, 2, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (5, 3, 2, 3);
 insert into cart_item(id, product_id, members_id, quantity) values (6, 3, 3, 3);
 
--- insert into wish_list(id, members_id, product_id) values(1, 4, 1);
--- insert into wish_list(id, members_id, product_id) values(2, 3, 2);
--- insert into wish_list(id, members_id, product_id) values(3, 2, 1);
--- insert into wish_list(id, members_id, product_id) values(4, 2, 2);
--- insert into wish_list(id, members_id, product_id) values(5, 2, 3);
+INSERT INTO delivery(id,company_name,shipping_charge) VALUES (1,'대한통운',2500);
+
+INSERT INTO orders(id, adr_zipcode, adr_location, adr_detail, depositor, phone, reg_date, account, bank, receiver, message, invoice, state, members_id) VALUES (1,'123-12','삼성동','334-1 1101호','지은탁','010-1234-5678',current_timestamp,'12345-06-789','국민은행','지은탁','빠른 배송부탁드립니다.','123456789','SHIPPED',2);
+INSERT INTO orders(id, adr_zipcode, adr_location, adr_detail, depositor, phone, reg_date, account, bank, receiver, message, invoice, state, members_id) VALUES (2,'123-12','삼성동','334-1 1101호','지은탁','010-1234-5678',current_timestamp,'12345-06-789','국민은행','지은탁','빠른 배송부탁드립니다.','123456789','SHIPPED',2);
+INSERT INTO orders(id, adr_zipcode, adr_location, adr_detail, depositor, phone, reg_date, account, bank, receiver, message, invoice, state, members_id) VALUES (3,'123-12','삼성동','334-1 1101호','지은탁','010-1234-5678',current_timestamp,'12345-06-789','국민은행','지은탁','빠른 배송부탁드립니다.','123456789','SHIPPED',2);
+INSERT INTO orders(id, adr_zipcode, adr_location, adr_detail, depositor, phone, reg_date, account, bank, receiver, message, invoice, state, members_id) VALUES (4,'123-12','삼성동','334-1 1101호','지은탁','010-1234-5678',current_timestamp,'12345-06-789','국민은행','지은탁','빠른 배송부탁드립니다.','123456789','SHIPPED',2);
+INSERT INTO orders(id, adr_zipcode, adr_location, adr_detail, depositor, phone, reg_date, account, bank, receiver, message, invoice, state, members_id) VALUES (5,'123-12','삼성동','334-1 1101호','지은탁','010-1234-5678',current_timestamp,'12345-06-789','국민은행','지은탁','빠른 배송부탁드립니다.','123456789','SHIPPED',2);
+
+INSERT INTO order_item(id, start_date, quantity, product_price, product_name, orders_id, product_id) VALUES (1, current_timestamp, 1, 6900, 'Best STICKER', 1, 1);
+INSERT INTO order_item(id, start_date, quantity, product_price, product_name, orders_id, product_id) VALUES (2, current_timestamp, 1, 1500, '(구)HTMl5', 1, 2);
+INSERT INTO order_item(id, start_date, quantity, product_price, product_name, orders_id, product_id) VALUES (3, current_timestamp, 1, 1500, '(구)CSS3', 1, 3);
+INSERT INTO order_item(id, start_date, quantity, product_price, product_name, orders_id, product_id) VALUES (4, current_timestamp, 1, 6900, 'Best STICKER', 2, 1);
+INSERT INTO order_item(id, start_date, quantity, product_price, product_name, orders_id, product_id) VALUES (5, current_timestamp, 1, 6900, 'Best STICKER', 3, 1);
+
+insert into order_image (id, mime_type, type, name, size, order_item_id) values (1, 'image/png', 'THUMB_NAIL', '/thumb/best_sticker_th.png', 124361, 1);
+insert into order_image (id, mime_type, type, name, size, order_item_id) values (2, 'image/png', 'THUMB_NAIL', '/thumb/html5_th.png', 31241, 2);
+insert into order_image (id, mime_type, type, name, size, order_item_id) values (3, 'image/png', 'THUMB_NAIL', '/thumb/css3_th.png', 32137, 3);
+insert into order_image (id, mime_type, type, name, size, order_item_id) values (4, 'image/png', 'THUMB_NAIL', '/thumb/best_sticker_th.png', 124361, 4);
+insert into order_image (id, mime_type, type, name, size, order_item_id) values (5, 'image/png', 'THUMB_NAIL', '/thumb/best_sticker_th.png', 124361, 5);
+
+insert into wish_item(id, member_id, product_id) values(1, 4, 1);
+insert into wish_item(id, member_id, product_id) values(2, 3, 2);
+insert into wish_item(id, member_id, product_id) values(3, 2, 1);
+insert into wish_item(id, member_id, product_id) values(4, 2, 2);
+insert into wish_item(id, member_id, product_id) values(5, 2, 3);
