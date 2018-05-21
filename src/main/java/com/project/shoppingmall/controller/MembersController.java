@@ -1,15 +1,17 @@
 package com.project.shoppingmall.controller;
 
-import com.project.shoppingmall.domain.Address;
-import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Order;
+import com.google.common.collect.Lists;
+import com.project.shoppingmall.common.Pagination;
+import com.project.shoppingmall.domain.*;
 import com.project.shoppingmall.dto.MemberFormDTO;
+import com.project.shoppingmall.dto.OrderInfo;
 import com.project.shoppingmall.dto.PasswordFormDTO;
 import com.project.shoppingmall.dto.UpdateFormDTO;
 import com.project.shoppingmall.service.MembersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 //진행중
@@ -38,7 +41,6 @@ public class MembersController {
 		if(error == 1){
 			log.info("탈퇴정보 controller에 넘어옴.");
 			modelMap.addAttribute("error","drop");
-
 		}
 
 		String referer = request.getHeader(HttpHeaders.REFERER);
@@ -74,14 +76,35 @@ public class MembersController {
 
 	//@GetMapping
 	@GetMapping(path ="{id}")
-	public String contractList(@PathVariable long id, Principal principal,ModelMap modelMap) {
+	public String contractList(@PathVariable long id,
+							   @RequestParam(defaultValue = "1")int page,
+							   @RequestParam(name = "state",required = false,defaultValue="DEFAULT")String deliveryState,
+							   Principal principal,
+							   ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
-		//페이지 리스트 = 주문자ID,페이지정보,배송정보,날짜를 파라미터로 주문목록 리스트 가져오기
-		//페이져 초기화
-		//.attribute(페이지리스트)
-		//.attribute(페이져)
+
+		//페이지  = 주문자정보,페이지번호,배송상태정보
 		Member member = membersService.getUserByEmail(principal.getName());
-		List<Order> orders = membersService.getOrderList(member);
+		Page<Order> orders = membersService.getOrderList(member,page,DeliveryState.valueOf(deliveryState));
+		List<Order> orderList = orders.getContent();
+		List<OrderInfo> orderInfos = new ArrayList<>();
+
+		for(Order order: orderList){
+			OrderInfo orderInfo = new OrderInfo();
+			orderInfo.setProductName(order.getOrderItems().get(0).getProductName());
+			orderInfo.setPrice(order.getOrderItems().get(0).getProductPrice());
+			orderInfo.setDeliveryState(order.getDeliveryState());
+			orderInfo.setImageId(order.getOrderItems().get(0).getProduct().getId());
+			orderInfo.setRegDate(order.getRegDate());
+			orderInfos.add(orderInfo);
+		}
+
+
+		//페이져 초기화
+		Pagination pagination = new Pagination(orders.getTotalElements(),orders.getTotalPages(),page,5);
+
+		modelMap.addAttribute("orders",orderInfos);
+		modelMap.addAttribute("pagination",pagination);
 
 		return "members/contract_list";
 	}
@@ -111,13 +134,13 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}/password")
-	public String updatePasswdForm(@PathVariable long id,PasswordFormDTO passwordFormDTO, ModelMap modelMap) {
+	public String updatePasswordForm(@PathVariable long id,PasswordFormDTO passwordFormDTO, ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
 		return "members/update_password";
 	}
 
 	@PostMapping(path="/{id}/password")
-	public String updatePasswd(@PathVariable long id, @Valid PasswordFormDTO passwordFormDTO, BindingResult bindingResult, Principal principal) {
+	public String updatePassword(@PathVariable long id, @Valid PasswordFormDTO passwordFormDTO, BindingResult bindingResult, Principal principal) {
 
 		if(bindingResult.hasErrors()){
 			return "members/update_password";
@@ -149,12 +172,12 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/findpassword")
-	public String findPasswdForm() {
+	public String findPasswordForm() {
 		return "members/find_password";
 	}
 
 	@PostMapping(path="/findpassword")
-	public String findPasswd() {
+	public String findPassword() {
 		//form에서 이메일과 전화번호 정보 받아오기
 		//List<Member> = Ropository에서 사용자 이름과 전화번호로 password 받아오기
 		//if(사용자가 있음)

@@ -1,11 +1,13 @@
 package com.project.shoppingmall.dto;
 
+import com.project.shoppingmall.domain.DeliveryState;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,6 +23,8 @@ public class OrderInfo implements Serializable {
     private String productName;
     private int price;
     private Long imageId;
+    private DeliveryState deliveryState;
+    private LocalDateTime regDate;
     private String receiver;
     private String adrZipcode;
     private String adrLocation;

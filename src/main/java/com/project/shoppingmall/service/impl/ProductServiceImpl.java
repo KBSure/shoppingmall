@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<Product> getProducts(String searchStr, String prdCate, int page, String sortType) {
+    public Page<Product> getProducts(String searchStr, String prdCate, int page, String sortType) { // 카테고리, 현재페이지숫자,
         
         Sort sort = createSort(sortType);
         
@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public Product getProduct(Long id) {
+
         return productRepository.findById(id).get();
     }
     
