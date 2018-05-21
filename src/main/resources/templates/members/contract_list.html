@@ -53,10 +53,10 @@
                                 </thead>
                                 <tbody>
                                 <tr th:if="${orders != null}" th:each="item :${orders}">
-                                    <td colspan="2"><a href="#"><img th:width="100px" th:src="@{'/image/'+${item.getOrderItems().get(0).getOrderImages().get(0).getId()}}" src="#" class="img-thumbnail"><span th:text="${item}"></span>스티커이름</a></td>
-                                    <td class="align-middle">배송중</td>
-                                    <td class="align-middle">6500</td>
-                                    <td class="align-middle">2018-01-01</td>
+                                    <td colspan="2"><a href="#"><img th:width="100px" th:src="@{'/image/'+${item.imageId}}" src="#" class="img-thumbnail"><span th:text="${item.productName}"></span></a></td>
+                                    <td class="align-middle"><span th:text="${item.deliveryState}"></span></td>
+                                    <td class="align-middle"><span th:text="${item.price}"></span></td>
+                                    <td class="align-middle"><span th:text="${#temporals.format(item.regDate, 'yyyy/MM/dd')}"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -64,6 +64,19 @@
                     </form>
                 </div>
             </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li th:classappend="${pagination.hasPrev() ? '' : 'disabled'}" class="page-item">
+                        <a class="page-link" th:href="@{/members/{id}(id=${id},page=${pagination.startPage},state=${searchStr})}" href="#" tabindex="-1">&lt;</a>
+                    </li>
+                    <th:block th:each="i : ${#numbers.sequence(pagination.startPage, pagination.endPage) }">
+                        <li th:classappend="${i == page ? 'active' : ''}" class="page-item"><a class="page-link" th:text="${i}"  th:href="@{/members/{id}(id=${id},page=${pagination.startPage},state=${searchStr})}"  href="#">1</a></li>
+                    </th:block>
+                    <li th:classappend="${pagination.hasNext() == 1 ? '' : 'disabled'}" class="page-item">
+                        <a class="page-link" th:href="@{/members/{id}(id=${id},page=${pagination.startPage},state=${searchStr})}"  href="#">&gt;</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </main>
 </th:block>

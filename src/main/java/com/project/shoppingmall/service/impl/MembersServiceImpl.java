@@ -93,7 +93,7 @@ public class MembersServiceImpl implements MembersService  {
     @Override
     public Page<Order> getOrderList(Member member,int page,DeliveryState deliveryState){
 
-        Pageable pageable = PageRequest.of(page,10, new Sort(Sort.Direction.DESC,"id"));
+        Pageable pageable = PageRequest.of(page-1,10, new Sort(Sort.Direction.DESC,"id"));
         //if(searchStr.`)
         log.info("page : " + page + ", state : " + deliveryState);
         Page<Order> orders = ordersRepository.findAllByMember(member,pageable);

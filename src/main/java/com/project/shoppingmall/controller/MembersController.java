@@ -2,11 +2,9 @@ package com.project.shoppingmall.controller;
 
 import com.google.common.collect.Lists;
 import com.project.shoppingmall.common.Pagination;
-import com.project.shoppingmall.domain.Address;
-import com.project.shoppingmall.domain.DeliveryState;
-import com.project.shoppingmall.domain.Member;
-import com.project.shoppingmall.domain.Order;
+import com.project.shoppingmall.domain.*;
 import com.project.shoppingmall.dto.MemberFormDTO;
+import com.project.shoppingmall.dto.OrderInfo;
 import com.project.shoppingmall.dto.PasswordFormDTO;
 import com.project.shoppingmall.dto.UpdateFormDTO;
 import com.project.shoppingmall.service.MembersService;
@@ -88,17 +86,25 @@ public class MembersController {
 		//페이지  = 주문자정보,페이지번호,배송상태정보
 		Member member = membersService.getUserByEmail(principal.getName());
 		Page<Order> orders = membersService.getOrderList(member,page,DeliveryState.valueOf(deliveryState));
-		//리스트로 반환.
 		List<Order> orderList = orders.getContent();
-		log.info("사이즈 : " + orderList.size());
-		log.info("총 게시물 수 : " + orders.getTotalElements() + "," +orders.getSize());
+		List<OrderInfo> orderInfos = new ArrayList<>();
+
+		for(Order order: orderList){
+			OrderInfo orderInfo = new OrderInfo();
+			orderInfo.setProductName(order.getOrderItems().get(0).getProductName());
+			orderInfo.setPrice(order.getOrderItems().get(0).getProductPrice());
+			orderInfo.setDeliveryState(order.getDeliveryState());
+			orderInfo.setImageId(order.getOrderItems().get(0).getProduct().getId());
+			orderInfo.setRegDate(order.getRegDate());
+			orderInfos.add(orderInfo);
+		}
+
+
 		//페이져 초기화
 		Pagination pagination = new Pagination(orders.getTotalElements(),orders.getTotalPages(),page,5);
 
-
-
-		modelMap.addAttribute("orders",orders);
-		modelMap.addAttribute("pager",pagination);
+		modelMap.addAttribute("orders",orderInfos);
+		modelMap.addAttribute("pagination",pagination);
 
 		return "members/contract_list";
 	}
