@@ -2,6 +2,7 @@ package com.project.shoppingmall.controller.api;
 
 import com.project.shoppingmall.domain.Member;
 import com.project.shoppingmall.domain.Product;
+import com.project.shoppingmall.domain.WishItem;
 import com.project.shoppingmall.service.MembersService;
 import com.project.shoppingmall.service.ProductService;
 import com.project.shoppingmall.service.WishListService;
@@ -31,11 +32,17 @@ public class WishListApiController {
     @PostMapping
     public ResponseEntity<String> postWishList(@RequestParam(name = "prdId", required = true)List<Long> prdIdList, Principal principal){
         String wishListUrl = "/wishlist";
+    
+        if(principal == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 //        이미 wishlist에 있을 경우, 추가하지 않고, alert() 한다.
         List<Product> productList = productService.getProducts(prdIdList);
         Member member = membersService.getUserByEmail(principal.getName());
-
-//        wishListService.addWishlist(productList, member);
+    
+        WishItem wishItem = new WishItem();
+        wishItem.setMember(member);
+        wishListService.registWishlist(member, productList);
         return new ResponseEntity<>(wishListUrl, HttpStatus.OK);
     }
 }

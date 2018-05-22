@@ -10,6 +10,6 @@ import java.util.List;
 public interface WishListService {
 
     List<WishItem> getWishList(String email);
-//    List<Wishlist> addWishlist(List<Product> productList, Member member);
+    List<WishItem> registWishlist(Member member, List<Product> productList);
     void deleteWishList(List<Long> wishItemIdList);
 }

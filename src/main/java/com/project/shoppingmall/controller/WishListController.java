@@ -1,6 +1,7 @@
 package com.project.shoppingmall.controller;
 
 import com.project.shoppingmall.domain.WishItem;
+import com.project.shoppingmall.security.LoginMember;
 import com.project.shoppingmall.service.ProductService;
 import com.project.shoppingmall.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class WishListController {
     public String getWishList(@RequestParam(name = "prd_cate", required = false) String prdCate
             , @RequestParam(name="sort_type", required = false) String sortType, @RequestParam(defaultValue = "1") int page
             , @RequestParam(name="search_str", required = false) String searchStr, ModelMap modelmap, Principal principal){
-
+    
         List<WishItem> wishList = wishListService.getWishList(principal.getName());
 
         modelmap.addAttribute("wishList", wishList);
@@ -34,7 +35,7 @@ public class WishListController {
         modelmap.addAttribute("prdCate", prdCate);
         modelmap.addAttribute("sortType", sortType);
 
-        return "/wishlist/wishlist";
+        return "wishlist/wishlist";
     }
 
 

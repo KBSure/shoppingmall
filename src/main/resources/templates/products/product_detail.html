@@ -102,8 +102,8 @@
         /*<![CDATA[*/
         var cartApiUrl = /*[[@{/api/order/cart}]]*/ 'cart';
         var cartUrl = /*[[@{/order/cart}]]*/ 'cart';
-        var wishlistApiUrl = /*[[@{/api/order/wishlist}]]*/ 'wishlist';
-        var wishlistUrl = /*[[@{/order/wishlist}]]*/ 'wishlist';
+        var wishlistApiUrl = /*[[@{/api/wishlist}]]*/ 'wishlist';
+        var wishlistUrl = /*[[@{/wishlist}]]*/ 'wishlist';
         var productPrice = /*[[${product.price}]]*/ 1;
         var ordrUrl = /*[[@{/order/orderform}]]*/ 1;
         var productQuantity = /*[[${product.quantity}]]*/ 20;
@@ -179,7 +179,7 @@
             });
         }
 
-        var sendForm = function(url, isConfirm, msg) {
+        var sendForm = function(url, wishlistUrl, isConfirm, msg) {
 
             $.ajax({
                 method: "POST",
@@ -189,15 +189,20 @@
             .done(function() {
                 if(isConfirm) {
                     if(confirm(msg)){
-                        location.href = url;
+                        location.href = wishlistUrl;
                     }
                 }
                 else {
-                    location.href = url;
+                    location.href = wishlistUrl;
                 }
             })
             .fail(function (xhr) {
                 console.log(xhr);
+                if(xhr.status == 401) {
+                    alert("로그인 후 다시 시도해 주세요.");
+                    return;
+                }
+
                 alert("일시적인 장애가 발생하였습니다. 다시 시도해주세요.");
             });
         }

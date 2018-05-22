@@ -1,5 +1,7 @@
 package com.project.shoppingmall.service.impl;
 
+import com.project.shoppingmall.domain.Member;
+import com.project.shoppingmall.domain.Product;
 import com.project.shoppingmall.domain.WishItem;
 import com.project.shoppingmall.repository.WishItemRepository;
 import com.project.shoppingmall.service.WishListService;
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WishListServiceImpl implements WishListService {
@@ -21,23 +25,6 @@ public class WishListServiceImpl implements WishListService {
     public List<WishItem> getWishList(String email) {
         return wishItemRepository.findAllByMemberEmail(email);
     }
-//
-//    @Override
-//    @Transactional
-//    public List<Wishlist> addWishlist(List<Product> productList, Member member) {
-////        productList랑 member wishlist에 set해서 wishlist를 추가한다.
-//
-//        List<Wishlist> wishlistList = new ArrayList<>();
-//        for (Product product : productList){
-//            Wishlist wishlist = new Wishlist();
-////            wishlist.setDetailProduct(product);
-//            wishlist.setMember(member);
-//            wishlistList.add(wishlist);
-//        }
-//
-//        List<Wishlist> saveWishlistList = wishItemRepository.saveAll(wishlistList);
-//        return saveWishlistList;
-//    }
 
     @Override
     @Transactional
@@ -45,6 +32,20 @@ public class WishListServiceImpl implements WishListService {
         for (Long id : wishItemIdList) {
             wishItemRepository.deleteById(id);
         }
-        return;
+    }
+    
+    @Transactional
+    @Override
+    public List<WishItem> registWishlist(Member member, List<Product> productList) {
+        List<WishItem> wishItems = productList.stream().map(product -> makeWishItem(member, product)).collect(Collectors.toList());
+    
+        return wishItemRepository.saveAll(wishItems);
+    }
+    
+    private WishItem makeWishItem(Member member, Product product) {
+        WishItem wishItem = new WishItem();
+        wishItem.setMember(member);
+        wishItem.setProduct(product);
+        return wishItem;
     }
 }
