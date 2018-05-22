@@ -1,6 +1,5 @@
 package com.project.shoppingmall.controller;
 
-import com.google.common.collect.Lists;
 import com.project.shoppingmall.common.Pagination;
 import com.project.shoppingmall.domain.*;
 import com.project.shoppingmall.dto.MemberFormDTO;
@@ -13,18 +12,23 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //진행중
 @Slf4j
@@ -39,7 +43,6 @@ public class MembersController {
 	public String signinForm(HttpServletRequest request,@RequestParam(defaultValue = "0")int error,ModelMap modelMap) {
 
 		if(error == 1){
-			log.info("탈퇴정보 controller에 넘어옴.");
 			modelMap.addAttribute("error","drop");
 		}
 
@@ -188,23 +191,36 @@ public class MembersController {
 	}
 
 	@GetMapping(path="/{id}/dropout")
-	public String dropOutForm(@PathVariable long id,ModelMap modelMap) {
+	public String dropOutForm(@PathVariable long id,PasswordFormDTO passwordForm,ModelMap modelMap) {
 		modelMap.addAttribute("id",id);
 		return "members/dropout";
 	}
 
-	@DeleteMapping(path="/{id}")
-	public String dropOut(@PathVariable long id) {
-		//form에서 password가져오기
-		//Repository에서 Email로 Password 받아옴
-		//if(패스워드 != 쿼리 패스워드)
-		//bindingResult.addError
-		//return "비밀번호 오류"
-		//else
-		//사용자 상태 "DROPOUT으로 변경"
-		return "members";
+	@PostMapping(path="/{id}/dropout")
+	public String dropOut(@PathVariable long id,PasswordFormDTO passwordForm,BindingResult bindingResult,Principal principal) {
+	    Member member = membersService.getUserByEmail(principal.getName());
+		PasswordEncoder passwordEncoder = getCustomDelegatingPasswordEncoder("noop");
+
+		if(member.getPassword().contains("bcrypt")){
+			passwordEncoder = getCustomDelegatingPasswordEncoder("bcrypt");
+		}else if(member.getPassword().contains("scrypt")){
+			passwordEncoder = getCustomDelegatingPasswordEncoder("scrypt");
+		}
+	    passwordEncoder.encode(passwordForm.getPassword());
+	    if(!passwordEncoder.matches(passwordForm.getPassword(),member.getPassword())){
+	    	bindingResult.addError(new FieldError("passwordFormDTO","password","패스워드가 일치 하지 않습니다."));
+	    	return "members/dropout";
+		}
+		membersService.dropout(member);
+		return "redirect:/logout";
 	}
 
+	PasswordEncoder getCustomDelegatingPasswordEncoder(String idForEncode){
+		Map encoders = new HashMap<>();
+		encoders.put("bcrypt",new BCryptPasswordEncoder());
+		encoders.put("noop", NoOpPasswordEncoder.getInstance());
+		encoders.put("scrypt", new SCryptPasswordEncoder());
 
-
+		return new DelegatingPasswordEncoder(idForEncode,encoders);
+	}
 }

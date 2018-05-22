@@ -17,4 +17,5 @@ public interface MembersService {
     void updateMemberPassword(PasswordFormDTO passwordFormDTO);
     Member getUserByEmail(String email);
     Page<Order> getOrderList(Member member, int page, DeliveryState deliveryState);
+    void dropout(Member member);
 }

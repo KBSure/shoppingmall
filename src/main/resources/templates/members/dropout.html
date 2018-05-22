@@ -19,25 +19,22 @@
                 </nav>
                 <div class="col-md-8 order-md-1">
                     <h1 class="pt-5 py-2">회원탈퇴</h1>
-                    <form class="needs-validation" method="post" novalidate>
+                    <form method="post" th:action="@{/members/{id}/dropout(id=${id})}" th:object="${passwordFormDTO}">
                         <div class="row">
-                            <div class="col-md-12 mb-3 pt-5">
+                            <div class="col-md-12 mb-3">
                                 <label for="password">비밀번호 확인</label>
-                                <input type="password" class="form-control" id="password">
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
+                                <input type="password" class="form-control" id="password"  name="password" required>
+                                <small class="text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
                             </div>
+                        </div>
+                        <div class="text-center pt-5">
+                            <button type="submit" class="btn btn-secondary btn-lg">탈퇴하기</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="text-center pt-5">
-                <button type="button" class="btn btn-secondary btn-lg">탈퇴하기</button>
-            </div>
         </div>
     </main>
-
 </th:block>
 </html>
 

@@ -94,11 +94,17 @@ public class MembersServiceImpl implements MembersService  {
     public Page<Order> getOrderList(Member member,int page,DeliveryState deliveryState){
 
         Pageable pageable = PageRequest.of(page-1,10, new Sort(Sort.Direction.DESC,"id"));
-        //if(searchStr.`)
         log.info("page : " + page + ", state : " + deliveryState);
         Page<Order> orders = ordersRepository.findAllByMember(member,pageable);
         //Page<Order> orders = ordersRepository.findAllByMemberAndDeliveryState(member,deliveryState,pageable);
         return orders;
+    }
+
+    @Override
+    @Transactional
+    public void dropout(Member member){
+        MemberStatus memberStatus = memberStatusRepository.findMemberStatusByStatus(MemberStat.DROPOUT);
+        member.setMemberStatus(memberStatus);
     }
 
 }
